@@ -1,0 +1,13 @@
+
+/_*
+/.warchive*
+/build
+/builder
+
+-*
+*.log
+*.db
+*.tmp
+*.build
+node_modules
+package-lock.json
