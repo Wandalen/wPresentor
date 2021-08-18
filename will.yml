@@ -19,6 +19,11 @@ about:
     test: wtest .run proto/**
     docgen: wdocgen .build proto
 build:
+
+  sources.join:
+    steps:
+      - sources.join.full
+
   proto.export:
     criterion:
       content: proto
@@ -133,7 +138,7 @@ path:
       raw: compiled
       content: prime
   entry.proto.no.tests:
-    path: proto/wtools/abase/l3_proto/Include.s
+    path: proto/wtools/amid/ghi/presentor/entry/Presentor.s
     criterion:
       tests: no.tests
   entry.proto.only.tests:
@@ -141,7 +146,7 @@ path:
     criterion:
       tests: only.tests
   entry.out.raw.debug:
-    path: '{path::out.*=1}/proto/wtools/abase/l3_proto/Include.s'
+    path: '{path::out.*=1}/proto/wtools/amid/ghi/presentor/entry/Presentor.s'
     criterion:
       debug:
         - debug
@@ -157,8 +162,8 @@ path:
       raw: compiled
       content: prime
   npm.proto.entry:
-    - proto/wtools/abase/l3_proto/Include.s
-    - proto/node_modules/wPresentor
+    - proto/wtools/amid/ghi/presentor/entry/Presentor.s
+    - proto/node_modules/wpresentor
 reflector:
   reflect.proto:
     inherit: predefined.*
@@ -217,6 +222,37 @@ reflector:
       '**.test*': 1
       'path::proto': '{path::out.*=1}/Tests.test.s'
 step:
+
+  sources.join.full:
+    inherit : sources.join
+    entryPath : proto/wtools/amid/ghi/presentor/entry/Presentor.s
+    inPath :
+      filePath :
+        - proto/wtools/amid/ghi/presentor/entry/Presentor.s
+        - proto/node_modules/**
+        - proto/wtools/**/*.(s|js)
+        - node_modules/jquery/dist/jquery.js
+    modulesList :
+      - wTools
+      - wBlueprint
+      - wCopyable
+      - wCloner
+      - wTraverser
+      - wStringer
+      - wLooker
+      - wEqualer
+      - wSelector
+      - wReplicator
+      - wPathTools
+      - wPathBasic
+      - wStringsExtra
+      - wArraySorted
+      - wArraySparse
+      - wProto
+      - stxt
+    interpreter : browser
+    outPath : out/debug/Main.s
+
   proto.export:
     inherit: module.export
     export: 'path::export'
