@@ -5,12 +5,13 @@
 if( typeof module !== 'undefined' )
 {
 
-  require( '../../../wtools/abase/rbrowser/DomBase.js' );
-  require( '../../../wtools/abase/rbrowser/DomMid.js' );
+  // require( '../../../wtools/abase/rbrowser/DomBase.js' );
+  // require( '../../../wtools/abase/rbrowser/DomMid.js' );
 
   let _ = _global_.wTools;
 
   _.include( 'wTemplateTreeEnvironment' );
+  _.include( 'wDomBasic' );
 
 }
 
@@ -66,7 +67,7 @@ function form()
   self._formCon.tap( function()
   {
     self._formStage = 9;
-    self._formedCon.give();
+    self._formedCon.give( () => {} );
   });
 
   return self._formCon.split();
@@ -95,7 +96,7 @@ function _formDynamic()
 
     self._formAct();
 
-    self._formCon.give();
+    self._formCon.give( () => {} );
 
   });
 
@@ -111,7 +112,7 @@ function _formStatic()
 
   self._formAct();
 
-  self._formCon.give();
+  self._formCon.give( () => {} );
 
 }
 
@@ -129,7 +130,7 @@ function _formAct()
 
   /* */
 
-  _.assert( self.targetDom && self.targetDom.length > 0 );
+  // _.assert( self.targetDom && self.targetDom.length > 0 );
 
   if( self.targetIdentity )
   {
@@ -413,7 +414,7 @@ function visibleSet( value )
   .ifNoErrorGot( function()
   {
     if( self.visibleGet() === value )
-    return this.give();
+    return this.give( () => {} );
     // console.log( '_visibleSetAct',value );
     self._visibleSetAct( value );
   })
@@ -639,11 +640,11 @@ var Associates =
 var Restricts =
 {
 
-  _visibleCon : new _.Consequence().give(),
-  _openCon : new _.Consequence().give(),
+  _visibleCon : _.define.own( new _.Consequence().give( () => {} ) ),
+  _openCon : _.define.own( new _.Consequence().give( () => {} ) ),
 
   _formCon : null,
-  _formedCon : new _.Consequence(),
+  _formedCon : _.define.own( new _.Consequence() ),
 
   _formStage : 0,
 
@@ -725,7 +726,7 @@ var Proto =
 
   //
 
-  constructor : Self,
+  // constructor : Self,
   Composes : Composes,
   Associates : Associates,
   Restricts : Restricts,
