@@ -10,6 +10,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wConsequence' );
   _.include( 'wInstancing' );
   _.include( 'wEventHandler' );
+  _.include( 'wFilesHttp' );
   _.include( 'stxt' );
 
   module.exports = _;

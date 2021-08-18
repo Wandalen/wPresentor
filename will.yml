@@ -258,6 +258,19 @@ step:
       - wProcedure
       - wInstancing
       - wEventHandler
+      - wFilesBasic
+      - wUriBasic
+      - wWebUriBasic
+      - wRegexpObject
+      - wFieldsStack
+      - wVerbal
+      - wProcess
+      - wGdf
+      - wFilesHttp
+      - wIntrospectorBasic
+      - wLogger
+      - wColor256
+      - wColor
     interpreter : browser
     outPath : out/debug/Main.s
 

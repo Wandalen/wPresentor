@@ -130,7 +130,7 @@ function _formAct()
 
   /* */
 
-  _.assert( self.targetDom && self.targetDom.length > 0 );
+  // _.assert( self.targetDom && self.targetDom.length > 0 );
 
   if( self.targetIdentity )
   {

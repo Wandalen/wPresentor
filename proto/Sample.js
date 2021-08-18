@@ -40,7 +40,7 @@ function _formAct()
 
   Parent.prototype._formAct.call( self );
 
-  wHiPresentor.exec( _.fileProvider.fileRead({ filePath : '/Sample.edoc', sync : 0 }) );
+  wHiPresentor.exec( _.fileProvider.fileRead({ filePath : _.path.join( _.path.current(), 'Sample.edoc' ), sync : 0 }) );
 
   $( document.body ).removeClass( 'layout-not-ready ' );
 
