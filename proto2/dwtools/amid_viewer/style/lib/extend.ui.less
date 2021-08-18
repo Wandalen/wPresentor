@@ -1,0 +1,146 @@
+@charset "UTF-8";
+
+/* shadow */
+
+.shadow.white.white.white
+{
+  color: rgb( 245,245,245 );
+  text-shadow: 0px 0px 5px #000000;
+}
+
+.shadow.black.black.black
+{
+  color: rgb( 24,24,24 );
+  text-shadow: 0px 0px 5px #aaaaaa;
+}
+
+/* blue */
+
+.ui.blue.buttons .button, .ui.blue.button {
+  background-color: #3b83c0;
+}
+
+/* yellow */
+
+.ui.yellow.buttons .button,
+.ui.yellow.button {
+  background-color: #CDCD32;
+  color: #FFFFFF;
+}
+.ui.yellow.buttons .button:hover,
+.ui.yellow.button:hover,
+.ui.yellow.buttons .active.button,
+.ui.yellow.button.active {
+  background-color: #DBDB33;
+  color: #FFFFFF;
+}
+.ui.yellow.buttons .button:active,
+.ui.yellow.button:active {
+  background-color: #C1C124;
+  color: #FFFFFF;
+}
+.ui.menu .yellow.active.item,
+.ui.yellow.menu .active.item {
+  border-color: #C1C124 !important;
+  color: #C1C124 !important;
+}
+
+/* silver */
+
+i.ui.silver
+{
+  color: #aaaaaa;
+}
+
+/* table */
+
+.ui.table.smooth
+{
+
+  tbody tr:nth-child( 2n )
+  {
+    background: transparent !important;
+    td
+    {
+      background: rgba(0, 55, 55, 0.03) !important;
+    }
+    td:first-child
+    {
+      background: linear-gradient( to right, rgba(0, 55, 55, 0) 0%, rgba(0, 55, 55, 0) 5%, rgba(0, 55, 55, 0.03) 20% ) !important;
+    }
+    td:last-child
+    {
+      background: linear-gradient( to left, rgba(0, 55, 55, 0) 0%, rgba(0, 55, 55, 0) 5%, rgba(0, 55, 55, 0.03) 20% ) !important;
+    }
+
+  }
+
+  tbody td
+  {
+    padding-left: 2em;
+    padding-right: 2em;
+  }
+
+}
+
+/* checkbox */
+
+.ui.slider.switch
+{
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* slider */
+
+.noUi-base,
+.noUi-handle
+{
+  cursor: pointer;
+}
+
+/* dropwdown in menu */
+
+.menu .dropdown.item .menu
+{
+  &
+  {
+    height : auto !important;
+  }
+  .item
+  {
+    min-width : 0;
+  }
+}
+
+/* vocabulary */
+
+.vocabulary-head.vocabulary-head.vocabulary-head.vocabulary-head.vocabulary-head
+{
+
+  &
+  {
+    margin : 0;
+  }
+
+  & > .menu.menu.menu.menu.menu
+  {
+    top : 100% !important;
+    left : 0 !important;
+    border-radius: 0em !important;
+    width: 100%;
+    font-size: 0.75em;
+  }
+
+  &, & *
+  {
+    z-index : 100;
+  }
+
+  .icon
+  {
+    background-color: transparent !important;
+    z-index : 1000;
+  }
+
+}

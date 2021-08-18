@@ -1,0 +1,48 @@
+doctype html
+html( lang='en' )
+  head
+
+    meta( charset='utf-8' )
+    meta( name='apple-mobile-web-app-title' content='Organization of Distributed Teams' )
+    title Organization of Distributed Teams
+
+    // icons
+    link( href='favicon.ico', rel='shortcut icon' )
+    meta( content='bigicon.jpg', property='og:image' )
+
+    // predefined
+    meta( name='description' content='Organization of Distributed Teams',  )
+    //meta( name='viewport' content='width=device-width, height=device-height, initial-scale=1, maximum-scale=1' )
+    meta( name='viewport' content='width=device-width, height=device-height, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no, minimal-ui' )
+    meta( name='apple-mobile-web-app-status-bar-style' content='black-translucent' )
+
+    // style
+    //>-->//
+
+    includeFile.ifAll = 'style';
+    includeFile.optional = 1;
+    
+    includeFile( '/common*/**' );
+    includeFile( '/dwtools/**' );
+    includeFile( '/distributed/**' );
+
+    return '';
+    //<--<//
+    // style
+
+    // script
+    //>-->//
+
+    includeFile.ifAll = 'script';
+    includeFile.optional = 1;
+
+    includeFile( '/auto*/**' );
+    includeFile( '/common*/**' );
+    includeFile( '/dwtools/**' );
+    includeFile( '/distributed/**' );
+
+    return '';
+    //<--<//
+    // script
+
+  body.layout-not-ready.overview-body

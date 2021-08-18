@@ -1,0 +1,101 @@
+
+
+.landing-body
+
+
+  .landing-segment.landing-segment-first
+    .landing-segment-content
+
+      .text
+
+        .topic 
+          .secondary майстер-клас
+          .date 26-го грудня
+
+          .prime професійний фріланс
+            br
+            | як досягти успіху?
+
+        //- a.logo-idp( href="http://idp-hub.com/uk/mayster-klas-profesiyniy-frilans-yak-d-2/" )
+        //-   img( src="/file/freelancing/idp-2.png", alt="IDP" )
+
+      .logos.first
+        a( href="https://www.upwork.com/" )
+          img.logo( src="/file/freelancing/logo-upwork.png", alt="Upwork" )
+        a( href="https://www.fiverr.com/" )
+          img.logo( src="/file/freelancing/logo-fiverr.png", alt="Fiverr" )
+        a( href="https://www.freelancer.com/" )
+          img.logo( src="/file/freelancing/logo-freelancer.png", alt="Freelancer" )
+      .logos.second
+        a( href="https://www.toptal.com/" )
+          img.logo( src="/file/freelancing/logo-toptal.png", alt="Toptal" )
+        a( href="http://www.guru.com/" )
+          img.logo( src="/file/freelancing/logo-guru.png", alt="Guru" )
+        a( href="https://www.crossover.com/" )
+          img.logo( src="/file/freelancing/logo-crossover.png", alt="Crossover" )
+      .logos.third
+        a( href="http://www.chegg.com/" )
+          img.logo( src="/file/freelancing/logo-chegg.png", alt="Chegg" )
+        a( href="https://hubstaff.com/" )
+          img.logo( src="/file/freelancing/logo-hubstaff.png", alt="Hubstaff" )
+        a( href="https://www.peopleperhour.com/" )
+          img.logo( src="/file/freelancing/logo-pepperhour.png", alt="People per hour" )
+
+    include Bottom.jade
+
+  .landing-segment.landing-segment-second
+    .landing-segment-content
+
+      .text
+        .topic 
+          .secondary майстер-клас
+          .date 26-го грудня
+          .prime професійний фріланс
+            br
+            | як досягти успіху?
+            br
+        br
+        ul
+          li З якої платформи почати?
+          li Як звільнитися від ярма офісного працівника?
+          li Як продавати свої послуги на міжнародний ринок?
+          li Які переваги дає економіка XXI століття?
+          li Як отримати актуальні професійні навички?
+          li Як уникнути помилок та мінімізувати ризики фрілансу?
+          li Як залучити фрілансерів до вашої справи?
+
+    .pointer
+    a( href = 'https://www.meetup.com/profreelance/events/238586484/' )
+      .button-start Стати Фрілансером
+
+
+  .landing-segment.landing-segment-third
+    .landing-segment-content
+    
+      .speakers наші спікери
+
+      .left.side
+        img.face( src='/file/freelancing/fl5.jpg', alt="Костянтин" )
+        .first Костянтин В.
+        .second
+          | Розробник програмного забезпечення.
+        .third
+          | Фріланс допоміг йому знайти себе в інноваційних стартапах вільного світу.
+          | До фрілансу Костянтин працював у Samsung, де його таланти не знайшли застосування.
+          | Веде постійний пошук інженерних рішень, є активним учасником Open Source руху та уникає застосування в своїй практиці безперспективних або застарілих технологій.
+          | Користується платформами онлайн курсів переважно для розширення світогляду та поліпшення математичних навичок.
+
+      .right.side
+        img.face( src='/file/freelancing/fr5b.jpg', alt="Олена" )
+        .first Олена Ш.
+        .second
+          | Фінансист, аналітик, кандидат наук.
+        .third
+          | Фріланс допоміг їй знайти застосування своїм талантам на міжнародному ринку
+          | та зробив актуальним отримання знань та навичок XXI століття після захисту кандидатської роботи зразка XX століття.
+          | Олена продовжує навчатися, співпрацює із міжнародними фінансовими компаніями й займається йогою.
+          | До того як стати фрілансером Олена спробувала офісної роботи в Coral Travel.
+          | Олена любить подорожувати. Фріланс дозволив їй поєднати всі свої пристрасті.
+
+
+    include Bottom.jade

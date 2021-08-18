@@ -1,0 +1,108 @@
+@branch-color : rgb( 229, 229, 233 );
+@branch-darker-color : darken( @branch-color,10% );
+@branch-border-color : darken( @branch-color,15% );
+
+@text-color : #334444;
+@head-color : #F5F5F5;
+
+.wbook
+{
+
+  &
+  {
+    font-family : monospace;
+    padding : 0em;
+    color : @text-color;
+  }
+
+  & > .content
+  {
+    display : flex;
+    flex-direction : column;
+    // justify-content : space-around;
+    // flex-wrap : wrap;
+    // align-items : stretch;
+
+    top : 0;
+    height : 100%;
+    // padding-top : 35px;
+
+    background-color : #fffef7;
+    background-color : #ffffff;
+  }
+
+  & > .content > .head
+  {
+    width : 100%;
+    height : 35px;
+    top : 0;
+    z-index : 1;
+    flex : 0 0 35px;
+    // position : absolute;
+    background-color : @head-color;
+    border-bottom : 1px solid @branch-border-color;
+  }
+
+  & > .content > .content
+  {
+    flex : 1 1;
+    display : inline-flex;
+  }
+
+  & > .content > .wtree
+  {
+    flex : 0 0 auto;
+    font-size : 0.8em;
+  }
+
+  & > .content .wtree-terminal
+  {
+    padding-right : 1em;
+  }
+
+  & > .content > .content > .page
+  {
+    padding : 2em;
+    white-space : pre-wrap;
+    flex : 1 1 auto;
+    overflow : scroll;
+  }
+
+  h2
+  {
+    margin : 0.5em 0em 0.5em 0em;
+  }
+
+  p
+  {
+    margin : 0.1em;
+  }
+
+  code
+  {
+    padding : 0.5em;
+    display : block;
+    background: #fafafa;
+    border: 1px solid #d8d8d8;
+    border-radius: 3px;
+    font-family : "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+    font-weight : normal;
+    font-style : normal;
+    font-size : .9em;
+    color : #333;
+    white-space : pre-wrap;
+    direction : ltr;
+    -moz-tab-size : 2;
+    -o-tab-size : 2;
+    tab-size : 2;
+  }
+
+  // ::-webkit-scrollbar
+  // {
+  //   z-index : 1000;
+  //   width : 7px;
+  //   max-width : 7px;
+  //   max-height : 7px;
+  // }
+
+}

@@ -1,0 +1,8 @@
+
+.ui.vertical.menu
+  a.item.action-theme-dark
+    | Change Theme
+  a.item.action-about
+    | About
+  a.item.action-back
+    | Back

@@ -1,0 +1,55 @@
+@import "/dwtools/amid_viewer/style/lib/layout.less";
+
+.weditor
+{
+
+  &
+  {
+    overflow : auto;
+  }
+
+  & > .content
+  {
+    display : inline-block;
+    // display : flex;
+    // width : 100%;
+    // height : 100%;
+    position : relative;
+    background-color : rgb( 245,245,245 );
+    background-color : red;
+
+    font-family : Courier, 'New Courier', monospace;
+    white-space : pre;
+    overflow : hidden;
+
+    font-size : 0.85em;
+  }
+
+  & > .content > .text
+  {
+    margin : 0 0 0 4.5em;
+    padding : 0.5em;
+    background-color : rgb( 230,230,230 );
+    z-index : 1;
+    float : left;
+    overflow: hidden;
+  }
+
+  & > .content > .numbers
+  {
+    padding : 0.5em 0;
+    margin : 0 0 0 0.5em;
+    position : absolute;
+    width : 4em;
+    background-color : rgb( 250,250,230 );
+    text-align : right;
+    float : left;
+    overflow: hidden;
+  }
+
+  & > .content span.weditor-highligted
+  {
+    background-color : rgb( 250,180,130 );
+  }
+
+}
