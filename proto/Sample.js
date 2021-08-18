@@ -1,4 +1,5 @@
-( function _App_s_( ) {
+( function _App_s_()
+{
 
 'use strict';
 
@@ -23,9 +24,7 @@ function init( o )
   if( o )
   self.copy( o );
 
-  debugger;
-
-  _.timeReady( function()
+  _.process.ready( function()
   {
     self.form();
   });
@@ -41,7 +40,7 @@ function _formAct()
 
   Parent.prototype._formAct.call( self );
 
-  wHiPresentor.exec( _.fileProvider.fileRead({ filePath : '/Sample.edoc', sync : 0 }) );
+  wHiPresentor.exec( _.fileProvider.fileRead({ filePath : _.path.join( _.path.current(), 'Sample.edoc' ), sync : 0 }) );
 
   $( document.body ).removeClass( 'layout-not-ready ' );
 
@@ -89,7 +88,7 @@ var Proto =
 
   //
 
-  constructor : Self,
+  // constructor : Self,
   Composes : Composes,
   Aggregates : Aggregates,
   Associates : Associates,
@@ -115,4 +114,4 @@ wEventHandler.mixin( Self );
 _global_[ Self.name ] = Self;
 _global_.application = new Self();
 
-})( );
+})();

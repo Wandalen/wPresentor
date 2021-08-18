@@ -11,9 +11,9 @@
     }
   ],
   "license": "MIT",
-  "main": "proto/wtools/amid/ghi/presentor/PresentorData.s",
+  "main": "proto/wtools/amid/ghi/presentor/entry/Presentor.s",
   "files": [
-    "proto/wtools/amath",
+    "proto/wtools/amid",
     "proto/node_modules/Tools",
     "out"
   ],
@@ -29,15 +29,18 @@
     "url": "https://github.com/Wandalen/wPresentor/issues"
   },
   "dependencies": {
-    "wTools": "delta",
-    "wProto": "0.4.5",
-    "winstancing": "0.3.12",
-    "wEventHandler": "0.4.4",
-    "wdombasic": "delta",
-    "wCopyable": "0.4.6",
-    "wConsequence": "0.4.3",
-    "wcloner": "0.3.9",
-    "jquery": "3.6.0"
+    "jquery": "3.6.0",
+    "wTools": "",
+    "wtemplatetreeenvironment": "",
+    "wConsequence": "",
+    "wCopyable": "",
+    "wEventHandler": "",
+    "wProto": "",
+    "wTools": "",
+    "wcloner": "",
+    "wdombasic": "",
+    "winstancing": "",
+    "stxt": ""
   },
   "devDependencies": {
     "wTesting": "delta",
