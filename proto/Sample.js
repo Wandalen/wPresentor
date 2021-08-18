@@ -1,4 +1,5 @@
-( function _App_s_( ) {
+( function _App_s_()
+{
 
 'use strict';
 
@@ -22,8 +23,6 @@ function init( o )
 
   if( o )
   self.copy( o );
-
-  debugger;
 
   _.timeReady( function()
   {
@@ -115,4 +114,4 @@ wEventHandler.mixin( Self );
 _global_[ Self.name ] = Self;
 _global_.application = new Self();
 
-})( );
+})();
