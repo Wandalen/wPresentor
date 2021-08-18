@@ -30,7 +30,8 @@
   },
   "dependencies": {
     "jquery": "3.6.0",
-    "wTools": "delta",
+    "wTools": "",
+    "wtemplatetreeenvironment": "",
     "wConsequence": "",
     "wCopyable": "",
     "wEventHandler": "",

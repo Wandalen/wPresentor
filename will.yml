@@ -250,6 +250,14 @@ step:
       - wArraySparse
       - wProto
       - stxt
+      - wDomBasic
+      - wTemplateTreeEnvironment
+      - wTemplateTreeResolver
+      - wResolver
+      - wConsequence
+      - wProcedure
+      - wInstancing
+      - wEventHandler
     interpreter : browser
     outPath : out/debug/Main.s
 
