@@ -1,8 +1,7 @@
 {
   "name": "wpresentor",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "engine": "node >= 10.0.0",
-  "enabled": 0,
   "description": "Presentation on your page.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "contributors": [
@@ -30,21 +29,21 @@
     "url": "https://github.com/Wandalen/wPresentor/issues"
   },
   "dependencies": {
-    "jquery": "",
-    "wConsequence": "0.4.3",
-    "wCopyable": "0.4.6",
-    "wEventHandler": "0.4.4",
+    "wTools": "delta",
     "wProto": "0.4.5",
-    "wTools": "",
+    "winstancing": "0.3.12",
+    "wEventHandler": "0.4.4",
+    "wdombasic": "delta",
+    "wCopyable": "0.4.6",
+    "wConsequence": "0.4.3",
     "wcloner": "0.3.9",
-    "wdombasic": "",
-    "winstancing": "0.3.12"
+    "jquery": "3.6.0"
   },
   "devDependencies": {
-    "morgan": "",
-    "express": "",
-    "serve-index": "",
-    "wTesting": ""
+    "wTesting": "delta",
+    "serve-index": "1.9.1",
+    "morgan": "1.10.0",
+    "express": "4.17.1"
   },
   "keywords": [
     "wTools",
