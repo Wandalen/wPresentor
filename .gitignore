@@ -1,13 +1,22 @@
 
+!/.github
+!/.circleci
+!/.*
+
 /_*
-/.warchive*
 /build
 /builder
+/binding
+/target
+/node_modules
+/.module
+/package-lock.json
 
 -*
+.module
+.warchive*
 *.log
 *.db
 *.tmp
 *.build
-node_modules
-package-lock.json
+
