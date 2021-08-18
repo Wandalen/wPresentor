@@ -24,7 +24,7 @@ function init( o )
   if( o )
   self.copy( o );
 
-  _.timeReady( function()
+  _.process.ready( function()
   {
     self.form();
   });
@@ -88,7 +88,7 @@ var Proto =
 
   //
 
-  constructor : Self,
+  // constructor : Self,
   Composes : Composes,
   Aggregates : Aggregates,
   Associates : Associates,
