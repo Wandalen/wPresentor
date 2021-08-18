@@ -2,7 +2,6 @@
   "name": "wpresentor",
   "version": "0.3.0",
   "engine": "node >= 10.0.0",
-  "enabled": 0,
   "description": "Presentation on your page.",
   "author": "Kostiantyn Wandalen <wanalen@01.school>",
   "contributors": [
