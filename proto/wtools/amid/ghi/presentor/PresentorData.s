@@ -1,4 +1,5 @@
-( function _StxtParser_s_( ) {
+( function _StxtParser_s_()
+{
 
 'use strict';
 
@@ -753,7 +754,7 @@ function nodeExportStr( o )
 
 nodeExportStr.defaults =
 {
-  ... _.mapBut( _.stxt.nodeExportStr.defaults, [ 'parser' ] ),
+  ... _.mapBut_( null, _.stxt.nodeExportStr.defaults, [ 'parser' ] ),
 }
 
 //

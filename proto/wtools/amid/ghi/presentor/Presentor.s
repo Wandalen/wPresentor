@@ -1,4 +1,5 @@
-( function _Presentor_s_( ) {
+( function _Presentor_s_()
+{
 
 'use strict';
 
