@@ -174,6 +174,67 @@ function ownIdentity( dom, identity )
 
 }
 
+//
+
+let eventName = ( function eventName()
+{
+  let _eventMap = null;
+
+  return function( name )
+  {
+
+    if( _.arrayIs( name ) )
+    {
+      let result = [ ];
+
+      for( let n = 0 ; n < name.length ; n++ )
+      result[ n ] = this.eventName( name[ n ] );
+
+      return result;
+    }
+    else if( !_.strIs( name ) )
+    throw _.err( 'eventName :', 'expect string or array as argument' );
+
+    let touchSupported = ( 'ontouchstart' in window ) || ( 'onmsgesturechange' in window );
+    if( !_eventMap )
+    {
+      _eventMap = Object.create( null );
+      if( touchSupported )
+      {
+        _eventMap[ 'mousedown' ] = 'touchstart';
+        _eventMap[ 'mouseup' ] = 'touchend';
+        _eventMap[ 'mousemove' ] = 'touchmove';
+        _eventMap[ 'mouseenter' ] = 'touchenter';
+        _eventMap[ 'mouseleave' ] = 'touchleave';
+        _eventMap[ 'dblclick' ] = 'taphold';
+
+        if( 'ontouch' in window )
+        _eventMap[ 'click' ] = 'touch';
+        else if( 'onclick' in window )
+        _eventMap[ 'click' ] = 'touchend';
+        else
+        _eventMap[ 'click' ] = 'click';
+
+      }
+      else
+      {
+        _eventMap[ 'mousedown' ] = 'mousedown';
+        _eventMap[ 'mouseup' ] = 'mouseup';
+        _eventMap[ 'mousemove' ] = 'mousemove';
+        _eventMap[ 'mouseenter' ] = 'mouseenter';
+        _eventMap[ 'mouseleave' ] = 'mouseleave';
+        _eventMap[ 'dblclick' ] = 'dblclick';
+        _eventMap[ 'click' ] = 'click';
+      }
+    }
+
+    if( _eventMap[ name ] )return _eventMap[ name ];
+    else return name;
+
+  }
+
+})();
+
 // --
 // declare
 // --
@@ -190,6 +251,7 @@ let Extension =
   findAll,
   append,
   ownIdentity,
+  eventName,
 
   _ : Restricts,
 

@@ -182,7 +182,7 @@ function _domForm()
   });
 
   self.ellipsisDom
-  .on( _.eventName( 'click' ), function( e )
+  .on( _.dom.eventName( 'click' ), function( e )
   {
     self.menuVisible();
   });
@@ -191,7 +191,7 @@ function _domForm()
 
   // self.contentDom.find( '.action-theme-dark' )
   // self.contentDom = _.dom.findAll( self.contentDom, '.action-theme-dark' )
-  // .on( _.eventName( 'click' ), function( e )
+  // .on( _.dom.eventName( 'click' ), function( e )
   // {
   //   let menu = self.menuDom.find( '.menu' );
   //   if( menu.hasClass( 'inverted' ) )
@@ -209,7 +209,7 @@ function _domForm()
   // /* */
   //
   // self.contentDom.find( '.action-back' )
-  // .on( _.eventName( 'click' ), function( e )
+  // .on( _.dom.eventName( 'click' ), function( e )
   // {
   //   self.menuVisible( 0 );
   // });
