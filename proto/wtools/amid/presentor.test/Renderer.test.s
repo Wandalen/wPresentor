@@ -47,7 +47,7 @@ function trivial( test )
   var parser = _.stxt.Parser({ dataStr });
   parser.form();
 
-  const renderer = _.ghi.HiPresentor( parser );
+  const renderer = _.presentor.wRenderer( parser );
 
   /* */
 
@@ -67,7 +67,7 @@ function _pageElementRender( test )
   var parser = _.stxt.Parser({ dataStr });
   parser.form();
 
-  const renderer = _.ghi.HiPresentor( parser );
+  const renderer = _.presentor.wRenderer( parser );
   const node0 = parser.document.nodes[ 0 ];
 
   /* */
@@ -96,7 +96,7 @@ function _pageElementRender( test )
 const Proto =
 {
 
-  name : 'Tools.ghi.Renderer',
+  name : 'Tools.presentor.Renderer',
   silencing : 1,
   enabled : 1,
 

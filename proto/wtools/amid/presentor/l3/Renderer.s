@@ -225,14 +225,17 @@ function _pageElementRender( element,page )
   let self = this;
   let html;
 
-  if( _.objectIs( element ) ) /* */
+  if( _.objectIs( element ) )
   {
     if( element.kind === 'List' )
-    html = self._pageListMake
-    ({
-      list : element,
-      page,
-    });
+    {
+      debugger;
+      html = self._pageListMake
+      ({
+        list : element,
+        page,
+      });
+    }
     else if( element.kind === 'Link' )
     {
       html = $( '<a>' );
@@ -537,7 +540,7 @@ function _pageListElementMake( o )
 {
   let self = this;
 
-  _.routineOptions( _pageListElementMake,o );
+  _.routine.options( _pageListElementMake,o );
 
   let html = $( '<li>' );
   let htmlElement = self._pageElementRender( o.element.element,o.page );
