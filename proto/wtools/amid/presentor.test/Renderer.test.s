@@ -56,7 +56,7 @@ function trivial( test )
 
 //
 
-function _pageElementRender( test )
+function _pageElmentExportHtml( test )
 {
   const a = test.assetFor( 'basic' );
   a.reflect();
@@ -74,8 +74,14 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Line' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<p><span>txt</span>txt</p>' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<p><span>
+txt
+</span></p>
+`;
+  test.identical( got, exp );
 
   /* */
 
@@ -87,8 +93,13 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
   test.identical( node.kind, 'LineEmpty' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<p></p>' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<p>
+</p>
+`;
+  test.identical( got, exp );
 
   /* */
 
@@ -100,8 +111,14 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<ul><li>txt</li></ul>' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<ul><li>
+txt
+</li></ul>
+`;
+  test.identical( got, exp );
 
   /* */
 
@@ -114,8 +131,17 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<ul><li>txt<ul>abc</ul></li></ul>' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<ul><li>
+txt
+  <ul>
+  abc
+  </ul>
+</li></ul>
+`;
+  test.identical( got, exp );
 
   /* */
 
@@ -127,8 +153,14 @@ https://site.dom
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Link' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<a href="https://site.dom">https://site.dom</a>' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<a href="https://site.dom">
+https://site.dom
+</a>
+`;
+  test.identical( got, exp );
 
   /* */
 
@@ -140,8 +172,12 @@ https://site.dom
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Link' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, ' <img src="file.png" level="1" background-image="1"> ' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<img src="file.png" level="1" background-image="1">
+`;
+  test.identical( got, exp );
 
   /* */
 
@@ -153,8 +189,12 @@ https://site.dom
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Link' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, ' <img src="file.png" level="1"> ' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<img src="file.png" level="1">
+`;
+  test.identical( got, exp );
 }
 
 // --
@@ -181,7 +221,7 @@ const Proto =
   tests :
   {
     // trivial,
-    _pageElementRender,
+    _pageElmentExportHtml,
   },
 
 }
