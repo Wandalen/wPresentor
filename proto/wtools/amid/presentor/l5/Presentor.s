@@ -7,7 +7,8 @@
 let _ = _global_.wTools;
 // let Parent = wGhiAbstractModule;
 let Parent = null;
-let Self = function wHiPresentor( o )
+let Self = wPresentor;
+function wPresentor( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
@@ -29,7 +30,6 @@ function init( o )
   _.assert( !!self.renderer );
   _.assert( self.renderer._formed === 1 );
 
-  debugger;
   return self.form();
 }
 //
@@ -65,9 +65,9 @@ function init( o )
 //   let self = new Self({ renderer : _.presentor.Renderer({ structure : data }) });
 //
 //   if( data !== undefined )
-//   self.rawData = data;
+//   self.dataStr = data;
 //
-//   _.assert( _.strIs( self.rawData ) );
+//   _.assert( _.strIs( self.dataStr ) );
 //
 //   self.structure = self.renderer.structure;
 //
@@ -76,17 +76,18 @@ function init( o )
 
 //
 
-function _formAct()
+function form()
 {
   let self = this;
 
   // Parent.prototype._formAct.call( self );
 
-  if( data !== undefined )
-  self.rawData = data;
+  if( self.renderer.structure.dataStr !== undefined )
+  self.dataStr = self.renderer.structure.dataStr;
 
-  _.assert( _.strIs( self.rawData ) );
+  _.assert( _.strIs( self.dataStr ) );
 
+  debugger;
   self.structure = self.renderer.structure;
 
   _.assert( self.targetDom.length === 1 );
@@ -410,7 +411,7 @@ let Composes =
   targetIdentity : '.wpresentor',
   // terminalCssClass : 'terminal',
 
-  rawData : null,
+  dataStr : null,
   structure : null,
   // data : null,
 
@@ -484,7 +485,7 @@ let Proto =
   // exec,
   // _exec,
 
-  _formAct,
+  form,
 
   menuVisible,
   menuIsVisible,
