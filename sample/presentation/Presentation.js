@@ -4,7 +4,6 @@
 
   const presentor = _.presentor.Presentor({ dataPath : _.path.resolve( 'Courses.stxt' ) });
   await presentor.form();
-  debugger;
 
   // const response = await fetch( _.path.join( _.path.current(), 'Courses.stxt' ) );
   // const dataStr = await response.text();

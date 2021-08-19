@@ -87,6 +87,19 @@ function findAll( srcDom, selector )
 
 //
 
+function append( dstDom, insDom )
+{
+  _.assert( arguments.length === 2 );
+
+  dstDom = _.dom.findSingle( dstDom );
+  insDom = _.dom.findAll( insDom );
+  insDom.forEach( ( insDom ) => dstDom.appendChild( insDom ) );
+
+  return dstDom;
+}
+
+//
+
 function ownIdentity( dom, identity )
 {
 
@@ -120,7 +133,8 @@ function ownIdentity( dom, identity )
     return result;
   }
 
-  identity = _.strIsolateEndOrAll( identity, ' ' )[ 2 ];
+  identity = _.str.isolateRightOrAll( identity, ' ' )[ 2 ];
+  // identity = _.strIsolateEndOrAll( identity, ' ' )[ 2 ];
 
   _.assert( identity.indexOf( ' ' ) === -1 );
 
@@ -131,8 +145,6 @@ function ownIdentity( dom, identity )
     preservingDelimeters : 1,
     preservingEmpty : 0,
   });
-
-  debugger;
 
   for( let i = 1 ; i < identity.length ; i+=2 )
   {
@@ -176,6 +188,7 @@ let Extension =
   is,
   findSingle,
   findAll,
+  append,
   ownIdentity,
 
   _ : Restricts,

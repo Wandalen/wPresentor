@@ -130,9 +130,9 @@ function _domForm()
   // self.menuDom.html( viewPresentor() );
 
   self.subContentDom = self._formConentElementDom( self.subContentDomSelector );
-  self.pageHeadDom = self._formConentElementDom( self.pageHeadDomSelector ).appendTo( self.subContentDom );
-  self.genContentDom = self._formConentElementDom( self.genContentDomSelector ).appendTo( self.subContentDom );
-  self.pageNumberDom = self._formConentElementDom( self.pageNumberDomSelector ).appendTo( self.subContentDom );
+  self.pageHeadDom = _.dom.append( self.subContentDom, self._formConentElementDom( self.pageHeadDomSelector ) );
+  self.genContentDom = _.dom.append( self.subContentDom, self._formConentElementDom( self.genContentDomSelector ) );
+  self.pageNumberDom = _.dom.append( self.subContentDom, self._formConentElementDom( self.pageNumberDomSelector ) );
 
   // self.ellipsisDom = self.contentDom.find( self.ellipsisDomSelector );
   self.ellipsisDom = _.dom.findAll( self.contentDom, self.ellipsisDomSelector );
@@ -262,7 +262,7 @@ function _formConentElementDom( selector )
 
   _.assert( arguments.length === 1 );
   _.assert( _.strIs( selector ) );
-  _.assert( self.contentDom.length > 0 );
+  // _.assert( self.contentDom.length > 0 );
 
   if( !result.length )
   {
@@ -564,33 +564,26 @@ let Associates =
 
   targetDom : '.wpresentor',
 
-  // pageDom : null,
-  // headDom : null,
-
-  contentDomSelector : '{{targetDom}} > .content',
+  contentDomSelector : '.wpresentor',
   contentDom : null,
 
-  menuDomSelector : '{{contentDomSelector}} > .presentor-menu',
+  menuDomSelector : '.wpresentor > .presentor-menu',
   menuDom : null,
 
-  subContentDomSelector : '{{contentDomSelector}} > .sub-content',
+  subContentDomSelector : '.wpresentor > .sub-content',
   subContentDom : null,
 
-  genContentDomSelector : '{{contentDomSelector}} > .gen-content',
+  genContentDomSelector : '.wpresentor > .gen-content',
   genContentDom : null,
 
-  pageHeadDomSelector : '{{subContentDomSelector}} > .page-head',
+  pageHeadDomSelector : '.wpresentor > .sub-content > .page-head',
   pageHeadDom : null,
 
-  pageNumberDomSelector : '{{subContentDomSelector}} > .page-number',
+  pageNumberDomSelector : '.wpresentor > .sub-content > .page-number',
   pageNumberDom : null,
 
-  ellipsisDomSelector : '{{subContentDomSelector}} > .presentor-ellipsis',
+  ellipsisDomSelector : '.wpresentor > .sub-content > .presentor-ellipsis',
   ellipsisDom : null,
-
-  // treeDomSelector : '{{targetDom}} > .content > .wtree',
-  // pageDomSelector : '{{targetDom}} > .content > .page',
-  // headDomSelector : '{{targetDom}} > .content > .head',
 
 }
 
