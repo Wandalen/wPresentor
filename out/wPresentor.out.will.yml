@@ -3,8 +3,8 @@ root:
   - wPresentor.out
 consistency:
   ../will.yml: &ref_0
-    hash: dbe497266b0569d59115f8df4a0137bc
-    size: 7663
+    hash: 3f2a5c6be2d1938be647b515f9b3bd19
+    size: 7769
 module:
   wPresentor.out:
     about:
@@ -178,11 +178,12 @@ module:
           - ../proto/wtools/amid/presentor/l1
           - ../proto/wtools/amid/presentor/l1/Namespace.s
           - ../proto/wtools/amid/presentor/l3
-          - ../proto/wtools/amid/presentor/l3/Renderer.s
+          - ../proto/wtools/amid/presentor/l3/Html.s
+          - ../proto/wtools/amid/presentor/l5
+          - ../proto/wtools/amid/presentor/l5/Renderer.s
           - ../proto/wtools/amid/presentor.test
           - ../proto/wtools/amid/presentor.test/Renderer.test.s
           - ../proto/wtools/amid/presentor.test/_assets
-          - ../proto/wtools/amid/presentor.test/_assets/Courses.stxt
           - ../proto/wtools/amid/presentor.test/_assets/basic
           - ../proto/wtools/amid/presentor.test/_assets/basic/Courses.stxt
     submodule:
@@ -208,6 +209,12 @@ module:
           development: 1
       wTesting:
         path: 'npm:///wTesting'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
+      browser-sync:
+        path: 'npm:///browser-sync#2.27.5'
         autoExporting: 0
         enabled: 0
         criterion:
@@ -1012,6 +1019,12 @@ module:
         enabled: 0
         criterion:
           development: 1
+      browser-sync:
+        path: 'npm:///browser-sync#2.27.5'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
     reflector:
       reflect.proto.debug.raw:
         src:
@@ -1598,5 +1611,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: dbe497266b0569d59115f8df4a0137bc
-        size: 7663
+        hash: 3f2a5c6be2d1938be647b515f9b3bd19
+        size: 7769
