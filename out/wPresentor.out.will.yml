@@ -149,9 +149,7 @@ module:
           export: 1
         path:
           - ../proto
-          - ../proto/Sample.edoc
-          - ../proto/Sample.html
-          - ../proto/Sample.js
+          - ../proto/3rd
           - ../proto/node_modules
           - ../proto/node_modules/Tools
           - ../proto/node_modules/wpresentor
@@ -176,6 +174,7 @@ module:
           - ../proto/wtools/amid/presentor/include/Base.s
           - ../proto/wtools/amid/presentor/include/Mid.s
           - ../proto/wtools/amid/presentor/l1
+          - ../proto/wtools/amid/presentor/l1/mousetrap.min.js
           - ../proto/wtools/amid/presentor/l1/Namespace.s
           - ../proto/wtools/amid/presentor/l3
           - ../proto/wtools/amid/presentor/l3/Dom.s
