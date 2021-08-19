@@ -4,9 +4,6 @@
 'use strict';
 
 let _ = _global_.wTools;
-_.include( 'wProto' ); /* qqq : for Dmytro : remove later */
-// _.ghi = _.ghi || Object.create( null );
-
 let Parent = null;
 let Self = function wRenderer( o )
 {
