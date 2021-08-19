@@ -3,22 +3,31 @@
 
 'use strict';
 
-let $ = jQuery;
+// let $ = jQuery;
 let _ = _global_.wTools;
-let Parent = wGhiAbstractModule;
+// let Parent = wGhiAbstractModule;
+let Parent = null;
 let Self = function wHiPresentor( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
 
-Self.shortName = 'HiPresentor';
+Self.shortName = 'Presentor';
 
 //
 
 function init( o )
 {
   let self = this;
-  Parent.prototype.init.call( self, o );
+
+  _.workpiece.initFields( self );
+  Object.preventExtensions( self );
+
+  if( o )
+  self.copy( o );
+
+  _.assert( !!self.renderer );
+  _.assert( self.renderer._formed === 1 );
 }
 
 //
@@ -50,14 +59,14 @@ function exec( data )
 function _exec( data )
 {
   let proto = this;
-  let self = new Self({ targetDom : _.domTotalPanelMake().targetDom });
+  let self = new Self({ renderer : _.presentor.Renderer( structure : data ) });
 
   if( data !== undefined )
   self.rawData = data;
 
   _.assert( _.strIs( self.rawData ) );
 
-  self.data = new _.StxtParser({ dataStr : self.rawData });
+  self.structure = self.renderer.structure;
 
   return self.form();
 }
@@ -91,6 +100,7 @@ function _formAct()
   self.ellipsisDom = self.contentDom.find( self.ellipsisDomSelector );
   if( !self.ellipsisDom.length )
   {
+    _.assert( false, 'not implemented' );
     self.ellipsisDom = $( '<i>' ).appendTo( self.contentDom );
     _.domOwnIdentity( self.ellipsisDom,self.ellipsisDomSelector );
     self.ellipsisDom.addClass( 'ellipsis horizontal icon' );
@@ -219,8 +229,8 @@ function pageWind( offset )
 
   if( pageIndex < 0 )
   pageIndex = 0;
-  else if( pageIndex >= self.data.page.length )
-  pageIndex = self.data.page.length-1;
+  else if( pageIndex >= self.structure.nodes.length )
+  pageIndex = self.structure.nodes.length-1;
 
   self.pageRender( pageIndex );
 
@@ -265,7 +275,7 @@ function pageLast()
 {
   let self = this;
 
-  self.pageRender( self.data.page.length-1 );
+  self.pageRender( self.structure.nodes.length-1 );
 
   return self;
 }
@@ -330,7 +340,7 @@ function pagesByHead( head )
 
   head = self.pageHeadNameChop( head );
 
-  let result = _.entityFilter( self.data.page,function( e )
+  let result = _.entityFilter( self.structure.nodes,function( e )
   {
     // console.log( self.pageHeadNameChop( e.head ) );
     if( self.pageHeadNameChop( e.head ) === head )
@@ -390,7 +400,8 @@ let Composes =
   // terminalCssClass : 'terminal',
 
   rawData : null,
-  data : null,
+  structure : null,
+  // data : null,
 
   pageIndex : 0,
   pageIndexCurrent : -1,
