@@ -59,7 +59,7 @@ function exec( data )
 function _exec( data )
 {
   let proto = this;
-  let self = new Self({ renderer : _.presentor.Renderer( structure : data ) });
+  let self = new Self({ renderer : _.presentor.Renderer({ structure : data }) });
 
   if( data !== undefined )
   self.rawData = data;
@@ -484,7 +484,7 @@ let Proto =
   pageFirst,
   pageLast,
   pageClear,
-  pageShowByCurrentAnchor,
+  // pageShowByCurrentAnchor,
 
   pageHeadNameChop,
   pagesByHead,
@@ -509,8 +509,8 @@ _.classDeclare
   parent : Parent,
 });
 
-_.Instancing.mixin( Self );
-_.EventHandler.mixin( Self );
+// _.Instancing.mixin( Self );
+// _.EventHandler.mixin( Self );
 
 //
 

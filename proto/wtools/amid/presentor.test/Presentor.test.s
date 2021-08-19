@@ -40,6 +40,7 @@ function onSuiteEnd()
 
 function trivial( test )
 {
+  debugger;
   test.true( true );
 }
 
