@@ -28,48 +28,50 @@ function init( o )
 
   _.assert( !!self.renderer );
   _.assert( self.renderer._formed === 1 );
-}
-
-//
-
-function exec( data )
-{
-  let proto = this;
-
-  return _.process.ready( function()
-  {
-    if( !_.strIs( data ) && data !== undefined )
-    {
-      data = _.Consequence.From( data );
-      data.finally( function( err,data )
-      {
-        if( err )
-        throw self.reportError( _.errLogOnce( err ) );
-        return proto._exec( data );
-      });
-      return data;
-    }
-    return proto._exec( data );
-  });
-
-}
-
-//
-
-function _exec( data )
-{
-  let proto = this;
-  let self = new Self({ renderer : _.presentor.Renderer({ structure : data }) });
-
-  if( data !== undefined )
-  self.rawData = data;
-
-  _.assert( _.strIs( self.rawData ) );
-
-  self.structure = self.renderer.structure;
 
   return self.form();
 }
+//
+// //
+//
+// function exec( data )
+// {
+//   let proto = this;
+//
+//   return _.process.ready( function()
+//   {
+//     if( !_.strIs( data ) && data !== undefined )
+//     {
+//       data = _.Consequence.From( data );
+//       data.finally( function( err,data )
+//       {
+//         if( err )
+//         throw self.reportError( _.errLogOnce( err ) );
+//         return proto._exec( data );
+//       });
+//       return data;
+//     }
+//     return proto._exec( data );
+//   });
+//
+// }
+//
+// //
+//
+// function _exec( data )
+// {
+//   let proto = this;
+//   let self = new Self({ renderer : _.presentor.Renderer({ structure : data }) });
+//
+//   if( data !== undefined )
+//   self.rawData = data;
+//
+//   _.assert( _.strIs( self.rawData ) );
+//
+//   self.structure = self.renderer.structure;
+//
+//   return self.form();
+// }
 
 //
 
@@ -77,7 +79,14 @@ function _formAct()
 {
   let self = this;
 
-  Parent.prototype._formAct.call( self );
+  // Parent.prototype._formAct.call( self );
+
+  if( data !== undefined )
+  self.rawData = data;
+
+  _.assert( _.strIs( self.rawData ) );
+
+  self.structure = self.renderer.structure;
 
   _.assert( self.targetDom.length === 1 );
 
@@ -456,8 +465,8 @@ let Restricts =
 
 let Statics =
 {
-  exec,
-  _exec,
+  // exec,
+  // _exec,
 
 }
 
@@ -470,8 +479,8 @@ let Proto =
 
   init,
 
-  exec,
-  _exec,
+  // exec,
+  // _exec,
 
   _formAct,
 
