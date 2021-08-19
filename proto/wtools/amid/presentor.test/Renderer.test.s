@@ -44,10 +44,7 @@ function trivial( test )
   a.reflect();
 
   var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
-  var parser = _.stxt.Parser({ dataStr });
-  parser.form();
-
-  const renderer = _.presentor.Renderer({ structure : parser });
+  var renderer = _.presentor.Renderer({ structure : dataStr });
 
   /* */
 
@@ -70,7 +67,6 @@ function _pageElementRender( test )
   /* */
 
   test.case = 'LineEmpty';
-  debugger;
   var element = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( element.kind, 'LineEmpty' );
   var got = renderer._pageElementRender( element );
@@ -81,6 +77,7 @@ function _pageElementRender( test )
   test.case = 'List';
   var element = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
   var got = renderer._pageElementRender( element );
+  test.identical( got, '<ul><li><p><a href="https://www.edx.org/"<span> edX </span></a>edX</p></li><li><p><a href="https://www.coursera.org/"<span> Coursera </span></a>Coursera</p></li></ul>' );
   test.identical( got, '<p></p>' );
 
 }
@@ -92,7 +89,7 @@ function _pageElementRender( test )
 const Proto =
 {
 
-  name : 'Tools.ghi.Renderer',
+  name : 'Tools.presentor.Renderer',
   silencing : 1,
   enabled : 1,
 

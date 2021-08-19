@@ -242,20 +242,24 @@ function _pageElementRender( element, page )
   let self = this;
   let html;
 
-  if( _.objectIs( element ) ) /* */
+  if( _.objectIs( element ) )
   {
     if( element.kind === 'List' )
-    html = self._pageListMake
-    ({
-      list : element,
-      page,
-    });
+    {
+      html = self._pageListMake
+      ({
+        list : element,
+        page,
+      });
+    }
     else if( element.kind === 'Link' )
     {
-      html = $( '<a>' );
-      html.attr( 'href', element.ref );
+      html = [ '<a>' ];
+      if( element.ref )
+      html[ 0 ] = `<a href="${ element.ref }"`;
       let htmlElement = self._pageElementRender( element.nodes, page );
-      html.append( htmlElement );
+      html.push( htmlElement );
+      html.push( '</a>' );
     }
     else if( element.kind === 'Line' || element.kind === 'LineEmpty' )
     {
@@ -315,8 +319,8 @@ function _pageElementRender( element, page )
     else if( element.kind === 'Span' )
     {
 
-      html = $( '<span>' );
-      html.text( element.text );
+      html = [ '<span>' ];
+      html.push( element.text );
 
       if( element.properties )
       {
@@ -327,6 +331,8 @@ function _pageElementRender( element, page )
           html.css( 'font-size', em );
         }
       }
+
+      html.push( '</span>' );
 
     }
     else debugger;
@@ -467,6 +473,8 @@ function _pageListMake( o )
     if( level === newLevel )
     return;
 
+    _.assert( 'not implemented' );
+
     while( level < newLevel )
     {
       list = [ '<ul>' ];
@@ -556,13 +564,10 @@ function _pageListElementMake( o )
 
   _.routine.options( _pageListElementMake, o );
 
-  let html = $( '<li>' );
-  let htmlElement = self._pageElementRender( o.element.element, o.page );
-
-  if( _.strIs( htmlElement ) )
-  html.text( htmlElement )
-  else
-  html.append( htmlElement );
+  let html = [ '<li>' ];
+  let htmlElement = self._pageElementRender( o.element.nodes, o.page );
+  html.push( htmlElement );
+  html.push( '</li>' );
 
   return html;
 }
@@ -573,7 +578,32 @@ _pageListElementMake.defaults =
   key : null,
   list : null,
   page : null,
-}
+};
+
+// function _pageListElementMake( o )
+// {
+//   let self = this;
+//
+//   _.routineOptions( _pageListElementMake,o );
+//
+//   let html = $( '<li>' );
+//   let htmlElement = self._pageElementRender( o.element.element,o.page );
+//
+//   if( _.strIs( htmlElement ) )
+//   html.text( htmlElement )
+//   else
+//   html.append( htmlElement );
+//
+//   return html;
+// }
+//
+// _pageListElementMake.defaults =
+// {
+//   element : null,
+//   key : null,
+//   list : null,
+//   page : null,
+// }
 
 //
 
