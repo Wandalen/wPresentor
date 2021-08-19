@@ -32,7 +32,7 @@ function init( o )
 
   return self.form();
 }
-//
+
 // //
 //
 // function exec( data )
@@ -528,7 +528,7 @@ _.Copyable.mixin( Self );
 
 //
 
-_global_[ Self.name ] = _.presentor[ Self.shortName ] = Self;
+_.presentor[ Self.shortName ] = Self;
 
 // Self.exec();
 
