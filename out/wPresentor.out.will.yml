@@ -3,8 +3,8 @@ root:
   - wPresentor.out
 consistency:
   ../will.yml: &ref_0
-    hash: 3f2a5c6be2d1938be647b515f9b3bd19
-    size: 7769
+    hash: e7b267ade43d09218b7d1ed9ac49120e
+    size: 7784
 module:
   wPresentor.out:
     about:
@@ -180,8 +180,10 @@ module:
           - ../proto/wtools/amid/presentor/l3
           - ../proto/wtools/amid/presentor/l3/Html.s
           - ../proto/wtools/amid/presentor/l5
+          - ../proto/wtools/amid/presentor/l5/Presentor.s
           - ../proto/wtools/amid/presentor/l5/Renderer.s
           - ../proto/wtools/amid/presentor.test
+          - ../proto/wtools/amid/presentor.test/Presentor.test.s
           - ../proto/wtools/amid/presentor.test/Renderer.test.s
           - ../proto/wtools/amid/presentor.test/_assets
           - ../proto/wtools/amid/presentor.test/_assets/basic
@@ -195,12 +197,6 @@ module:
         path: 'npm:///wblueprint'
         autoExporting: 0
         enabled: 0
-      Self:
-        path: 'hd://..'
-        autoExporting: 0
-        enabled: 0
-        criterion:
-          development: 1
       wequaler:
         path: 'npm:///wequaler'
         autoExporting: 0
@@ -209,6 +205,12 @@ module:
           development: 1
       wTesting:
         path: 'npm:///wTesting'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
+      eslint:
+        path: 'npm:///eslint!7.1.0'
         autoExporting: 0
         enabled: 0
         criterion:
@@ -1001,12 +1003,6 @@ module:
         path: 'npm:///wblueprint'
         autoExporting: 0
         enabled: 0
-      Self:
-        path: 'hd://.'
-        autoExporting: 0
-        enabled: 0
-        criterion:
-          development: 1
       wequaler:
         path: 'npm:///wequaler'
         autoExporting: 0
@@ -1015,6 +1011,12 @@ module:
           development: 1
       wTesting:
         path: 'npm:///wTesting'
+        autoExporting: 0
+        enabled: 0
+        criterion:
+          development: 1
+      eslint:
+        path: 'npm:///eslint!7.1.0'
         autoExporting: 0
         enabled: 0
         criterion:
@@ -1611,5 +1613,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 3f2a5c6be2d1938be647b515f9b3bd19
-        size: 7769
+        hash: e7b267ade43d09218b7d1ed9ac49120e
+        size: 7784
