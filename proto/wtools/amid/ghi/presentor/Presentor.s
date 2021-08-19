@@ -137,7 +137,7 @@ function exec( data )
 {
   let proto = this;
 
-  return _.time.ready( function()
+  return _.process.ready( function()
   {
     if( !_.strIs( data ) && data !== undefined )
     {
