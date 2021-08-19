@@ -5,25 +5,29 @@
 if( typeof module !== 'undefined' )
 {
 
-  // require( '../../../wtools/abase/rbrowser/DomBase.js' );
-  // require( '../../../wtools/abase/rbrowser/DomMid.js' );
+  const _ = _global_.wTools;
 
-  let _ = _global_.wTools;
+  _.include( 'wDomBaseLayer1' );
+  _.include( 'wDomBaseLayer3' );
+  _.include( 'wDomBaseLayer5' );
 
   _.include( 'wTemplateTreeEnvironment' );
-  _.include( 'wDomBasic' );
+  _.include( 'wConsequence' );
 
 }
 
 var $ = jQuery;
-let _ = _global_.wTools;
-let Parent = null;
-let Self = function wGhiAbstractModule( o )
+const _ = _global_.wTools;
+
+_.assert( _.routineIs( _.Consequence ) );
+
+const Parent = null;
+const Self = function wGhiAbstractModule( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
 
-Self.nameShort = 'AbstractModule';
+Self.shortName = 'AbstractModule';
 
 //
 
@@ -41,8 +45,8 @@ function init( o )
   self.copy( o );
 
   _.assert( arguments.length === 0 || arguments.length === 1 );
-  _.assert( self._visibleCon.messagesGet().length === 1 );
-  _.assert( self._openCon.messagesGet().length === 1 );
+  _.assert( self._visibleCon.resourcesGet().length === 1 );
+  _.assert( self._openCon.resourcesGet().length === 1 );
 
   self._inited = 1;
 
@@ -67,7 +71,7 @@ function form()
   self._formCon.tap( function()
   {
     self._formStage = 9;
-    self._formedCon.give( () => {} );
+    self._formedCon.take( null );
   });
 
   return self._formCon.split();
@@ -88,15 +92,18 @@ function _formDynamic()
     showing : 0,
 
   })
-  .ready.got( function( err,target )
+  .ready.give( function( err,target )
   {
 
     if( err )
     throw _.errLogOnce( err );
 
+    self.targetDom = target.filter( _.domOwnIdentity( self.targetDom ) );
+    _.assert( self.targetDom.length === 1 );
+
     self._formAct();
 
-    self._formCon.give( () => {} );
+    self._formCon.take( null );
 
   });
 
@@ -112,7 +119,7 @@ function _formStatic()
 
   self._formAct();
 
-  self._formCon.give( () => {} );
+  self._formCon.take( null );
 
 }
 
@@ -122,7 +129,7 @@ function _formAct()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   /* */
 
@@ -130,7 +137,7 @@ function _formAct()
 
   /* */
 
-  // _.assert( self.targetDom && self.targetDom.length > 0 );
+  _.assert( self.targetDom && self.targetDom.length > 0 );
 
   if( self.targetIdentity )
   {
@@ -197,8 +204,8 @@ function _formContentDom()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
-  _.assert( self.contentDomSelector );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  _.assert( _.strIs( self.contentDomSelector ) );
 
   self.contentDom = self.targetDom.find( self.contentDomSelector );
   if( !self.contentDom.length )
@@ -216,9 +223,9 @@ function _formContent2Dom()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
-  _.assert( self.content2DomSelector );
-  _.assert( self.contentDom.length );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
+  _.assert( _.strIs( self.content2DomSelector ) );
+  _.assert( self.contentDom.length > 0 );
 
   self.content2Dom = self.targetDom.find( self.content2DomSelector );
   if( !self.content2Dom.length )
@@ -239,7 +246,7 @@ function _formConentElementDom( selector )
 
   _.assert( arguments.length === 1 );
   _.assert( _.strIs( selector ) );
-  _.assert( self.contentDom.length );
+  _.assert( self.contentDom.length > 0 );
 
   if( !result.length )
   {
@@ -259,7 +266,7 @@ function _formConent2ElementDom( selector )
 
   _.assert( arguments.length === 1 );
   _.assert( _.strIs( selector ) );
-  _.assert( self.content2Dom.length );
+  _.assert( self.content2Dom.length > 0 );
 
   if( !result.length )
   {
@@ -328,7 +335,7 @@ function accept()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   if( !self._formCon )
   return;
@@ -345,7 +352,7 @@ function _acceptAct()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
 }
 
@@ -355,7 +362,7 @@ function cancel()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
   if( !self._formCon )
   return;
@@ -372,7 +379,7 @@ function _cancelAct()
 {
   var self = this;
 
-  _.assert( arguments.length === 0 );
+  _.assert( arguments.length === 0, 'Expects no arguments' );
 
 }
 
@@ -403,23 +410,23 @@ function visibleSet( value )
   self._hiding = value ? 0 : 1;
 
   return self._visibleCon
-  .andThen([ self.form() ])
-  .ifNoErrorThen( function()
+  .andKeep([ self.form() ])
+  .ifNoErrorThen( function( arg )
   {
     value = self._visibleSetBegin( value );
     self._showing = value ? 1 : 0;
     self._hiding = value ? 0 : 1;
   })
-  .andThen([ value ? null : self.openSet( false ) ])
-  .ifNoErrorGot( function()
+  .andKeep([ value ? null : self.openSet( false ) ])
+  .thenGive( function()
   {
     if( self.visibleGet() === value )
-    return this.give( () => {} );
+    return this.take( null );
     // console.log( '_visibleSetAct',value );
     self._visibleSetAct( value );
   })
   .split()
-  .ifNoErrorThen( function()
+  .ifNoErrorThen( function( arg )
   {
     // console.log( 'visibleSet','done' );
     self._showing = 0;
@@ -494,24 +501,24 @@ function openSet( value )
   // console.log( 'openSet',value );
 
   return self._openCon
-  .andThen([ self.form() ])
-  .ifNoErrorThen( function()
+  .andKeep([ self.form() ])
+  .ifNoErrorThen( function( arg )
   {
     value = self._openSetBegin( value );
     self._openning = value ? 1 : 0;
     self._closing = value ? 0 : 1;
   })
-  .andThen([ value ? self.visibleSet( true ) : null ])
-  .ifNoErrorGot( function()
+  .andKeep([ value ? self.visibleSet( true ) : null ])
+  .thenGive( function()
   {
     self._openSetAnimation( value );
   })
   .split()
-  .ifNoErrorThen( function()
+  .ifNoErrorThen( function( arg )
   {
     return self._openSetAct( value );
   })
-  .ifNoErrorThen( function()
+  .ifNoErrorThen( function( arg )
   {
     self._openning = 0;
     self._closing = 0;
@@ -565,7 +572,7 @@ function centerSet( src )
   var self = this;
 
   _.assert( arguments.length === 1 );
-  _.assert( _.arrayLike( src ) );
+  _.assert( _.longIs( src ) );
 
   self.targetDom.css
   ({
@@ -603,7 +610,7 @@ function handleStrFrom( src )
 }
 
 // --
-// relationship
+// relations
 // --
 
 var Composes =
@@ -640,8 +647,8 @@ var Associates =
 var Restricts =
 {
 
-  _visibleCon : _.define.own( new _.Consequence().give( () => {} ) ),
-  _openCon : _.define.own( new _.Consequence().give( () => {} ) ),
+  _visibleCon : _.define.own( new _.Consequence().take( null ) ),
+  _openCon : _.define.own( new _.Consequence().take( null ) ),
 
   _formCon : null,
   _formedCon : _.define.own( new _.Consequence() ),
@@ -668,7 +675,7 @@ var Statics =
 // proto
 // --
 
-var Proto =
+const Proto =
 {
 
   init : init,
@@ -716,7 +723,6 @@ var Proto =
   _openSetAnimation : _openSetAnimation,
   _openSetAct : _openSetAct,
 
-
   // etc
 
   centerSet : centerSet,
@@ -726,7 +732,7 @@ var Proto =
 
   //
 
-  // constructor : Self,
+  /* constructor * : * Self, */
   Composes : Composes,
   Associates : Associates,
   Restricts : Restricts,
@@ -747,7 +753,7 @@ _.Copyable.mixin( Self );
 
 //
 
-// _.accessor( Self.prototype,
+// _.accessor.declare( Self.prototype,
 // {
 //   visible : 'visible',
 //   open : 'open',
@@ -756,7 +762,7 @@ _.Copyable.mixin( Self );
 //
 
 _.ghi = _.ghi || Object.create( null );
-_global_[ Self.name ] = _.ghi[ Self.nameShort ] = Self;
+_global_[ Self.name ] = _.ghi[ Self.shortName ] = Self;
 if( typeof module !== 'undefined' )
 module[ 'exports' ] = Self;
 
