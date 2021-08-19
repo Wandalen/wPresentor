@@ -21,6 +21,7 @@ Self.shortName = 'HiPresentor';
 function init( o )
 {
   let self = this;
+  self.data = o; /* qqq : for Dmytro : bad */
   // Parent.prototype.init.call( self,o ); /* qqq : for Dmytro : investigate */
 }
 
@@ -147,17 +148,24 @@ function pageRender( pageIndex )
 
   /* */
 
-  let page = self.data.page[ self.pageIndex ];
+  // let page = self.data.page[ self.pageIndex ];
+  let page = self.data.document.nodes[ _.numberIs( pageIndex ) ? pageIndex : self.pageIndex ];
 
   if( !page )
   return self.errorReport( 'Page', pageIndex, 'not found' );
 
-  for( let k = 0 ; k < page.elements.length ; k++ )
+  for( let k = 0 ; k < page.nodes.length ; k++ )
   {
-    let element = page.elements[ k ];
+    let element = page.nodes[ k ];
     let htmlElement = self._pageElementRender( element, page );
     self.genContentDom.append( htmlElement );
   }
+  // for( let k = 0 ; k < page.elements.length ; k++ )
+  // {
+  //   let element = page.elements[ k ];
+  //   let htmlElement = self._pageElementRender( element, page );
+  //   self.genContentDom.append( htmlElement );
+  // }
 
   self.pageHeadDom.empty();
   self.pageHeadDom.append( self._pageElementRender( page.head ) );

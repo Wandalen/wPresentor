@@ -46,10 +46,13 @@ function trivial( test )
   var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
   var parser = _.stxt.Parser({ dataStr });
   parser.form();
-  debugger;
 
-  var node = parser.document.nodes[ 0 ].head;
+  const renderer = _.ghi.HiPresentor( parser );
 
+  /* */
+
+  test.case = 'trivial';
+  var got = renderer.pageRender( 0 );
   test.true( true );
 }
 
