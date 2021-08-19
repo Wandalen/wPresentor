@@ -79,19 +79,69 @@ txt
 
   /* */
 
-  test.case = 'List';
+  test.case = 'LineEmpty';
   var data =
 `
 - txt
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
+  test.identical( node.kind, 'LineEmpty' );
+  var got = renderer._pageElementRender( node );
+  test.identical( got, '<p></p>' );
+
+  /* */
+
+  test.case = 'List - one layer';
+  var data =
+`
+- txt
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
   var got = renderer._pageElementRender( node );
   test.identical( got, '<ul><li>txt</li></ul>' );
 
   /* */
 
+  test.case = 'List - two layers';
+  var data =
+`
+- txt
+-- abc
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'List' );
+  var got = renderer._pageElementRender( node );
+  test.identical( got, '<ul><li>txt<ul>abc</ul></li></ul>' );
+
+  /* */
+
+  test.case = 'Link';
+  var data =
+`
+https://site.dom
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Link' );
+  var got = renderer._pageElementRender( node );
+  test.identical( got, '<a href="https://site.dom">https://site.dom</a>' );
+
+  /* */
+
+  test.case = 'Link';
+  var data =
+`
+https://site.dom
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Link' );
+  var got = renderer._pageElementRender( node );
+  test.identical( got, '<a href="https://site.dom">https://site.dom</ul>' );
 }
 
 // --
