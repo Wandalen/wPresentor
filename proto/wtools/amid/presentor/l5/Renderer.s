@@ -254,6 +254,7 @@ function _pageElmentExportHtml( srcElement, srcPage )
       html = _.html.A.make();
       if( srcElement.ref )
       html.attrs.href = srcElement.ref;
+      html.text = srcElement.text;
     }
     else if( srcElement.kind === 'Line' || srcElement.kind === 'LineEmpty' )
     {
