@@ -19,12 +19,30 @@ let vectorizeNone = _.routineDefaults( null, _.vectorizeNone, { vectorizingConta
 // declare
 // --
 
+let HtmlNode = _.blueprint.define
+({
+  kind : 'Node',
+  text : null,
+  attributes : null,
+})
+
+
+let HtmlUl = _.blueprint.define
+({
+  extension : _.define.extension( HtmlNode ),
+  kind : 'ul',
+  nodes : null,
+})
+
 let Restricts =
 {
 }
 
 let Extension =
 {
+
+  HtmlNode,
+  HtmlUl,
 
   _ : Restricts,
 

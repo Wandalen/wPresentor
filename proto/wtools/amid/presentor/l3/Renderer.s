@@ -174,17 +174,17 @@ function pageRender( pageIndex )
   {
     let element = page.nodes[ k ];
     let htmlElement = self._pageElementRender( element, page );
-    self.genContentDom.append( htmlElement );
+    self.genContentDom.nodes.push( htmlElement );
   }
   // for( let k = 0 ; k < page.elements.length ; k++ )
   // {
   //   let element = page.elements[ k ];
   //   let htmlElement = self._pageElementRender( element, page );
-  //   self.genContentDom.append( htmlElement );
+  //   self.genContentDom.nodes.push( htmlElement );
   // }
 
   self.pageHeadDom.empty();
-  self.pageHeadDom.append( self._pageElementRender( page.head ) );
+  self.pageHeadDom.nodes.push( self._pageElementRender( page.head ) );
   self.pageHeadDom.attr( 'level', page.level );
 
   self.pageNumberDom.text( ( pageIndex + 1 ) + ' / ' + self.structure.document.nodes.length );
@@ -246,7 +246,7 @@ function _pageElementRender( element, page )
   {
     if( element.kind === 'List' )
     {
-      html = self._pageListMake
+      html = self._pageListRender
       ({
         list : element,
         page,
@@ -275,13 +275,13 @@ function _pageElementRender( element, page )
       if( element.sentiment === 'strong' )
       html.addClass( 'strong' );
       let htmlElement = self._pageElementRender( element.nodes, page );
-      html.append( htmlElement );
+      html.nodes.push( htmlElement );
     }
     else if( element.kind === 'Directive' )
     {
+
       if( element.map.image )
       {
-
         if( element.map.size === 'widest' )
         {
           html = $( '<img>' );
@@ -295,20 +295,19 @@ function _pageElementRender( element, page )
           html.attr( 'level', element.level );
           html.attr( 'src', element.map.image );
         }
-
       }
       else debugger;
 
-      if( element.map.height )
-      {
-        html.css( 'max-height', self.vminFor( element.map.height ) );
-        html.css( 'width', 'auto' );
-      }
-      if( element.map.width )
-      {
-        html.css( 'max-width', self.vminFor( element.map.width ) );
-        html.css( 'height', 'auto' );
-      }
+      // if( element.map.height )
+      // {
+      //   html.css( 'max-height', self.vminFor( element.map.height ) );
+      //   html.css( 'width', 'auto' );
+      // }
+      // if( element.map.width )
+      // {
+      //   html.css( 'max-width', self.vminFor( element.map.width ) );
+      //   html.css( 'height', 'auto' );
+      // }
 
       if( element.map.halign )
       html.attr( 'halign', element.map.halign );
@@ -324,12 +323,12 @@ function _pageElementRender( element, page )
 
       if( element.properties )
       {
-        if( element.properties.size )
-        {
-          let em = self.emFor( element.properties.size );
-          html.css( 'line-height', em );
-          html.css( 'font-size', em );
-        }
+        // if( element.properties.size )
+        // {
+        //   let em = self.emFor( element.properties.size );
+        //   html.css( 'line-height', em );
+        //   html.css( 'font-size', em );
+        // }
       }
 
       html.push( '</span>' );
@@ -337,93 +336,6 @@ function _pageElementRender( element, page )
     }
     else debugger;
 
-
-    //
-    // if( element.kind === 'List' )
-    // html = self._pageListMake
-    // ({
-    //   list : element,
-    //   page,
-    // });
-    // else if( element.kind === 'Link' )
-    // {
-    //   html = $( '<a>' );
-    //   html.attr( 'href', element.ref );
-    //   let htmlElement = self._pageElementRender( element.elements, page );
-    //   html.append( htmlElement );
-    // }
-    // else if( element.kind === 'Line' )
-    // {
-    //   html = $( '<p>' );
-    //   let htmlElement = self._pageElementRender( element.elements, page );
-    //   html.append( htmlElement );
-    // }
-    // else if( element.kind === 'Sentiment' )
-    // {
-    //   html = $( '<span>' );
-    //   if( element.sentiment === 'strong' )
-    //   html.addClass( 'strong' );
-    //   let htmlElement = self._pageElementRender( element.element, page );
-    //   html.append( htmlElement );
-    // }
-    // else if( element.kind === 'Directive' )
-    // {
-    //   if( element.map.image )
-    //   {
-    //
-    //     if( element.map.size === 'widest' )
-    //     {
-    //       html = $( '<img>' );
-    //       html.attr( 'level', element.level );
-    //       html.attr( 'src', element.map.image );
-    //       html.attr( 'background-image', 1 );
-    //     }
-    //     else
-    //     {
-    //       html = $( '<img>' );
-    //       html.attr( 'level', element.level );
-    //       html.attr( 'src', element.map.image );
-    //     }
-    //
-    //   }
-    //   else debugger;
-    //
-    //   if( element.map.height )
-    //   {
-    //     html.css( 'max-height', self.vminFor( element.map.height ) );
-    //     html.css( 'width', 'auto' );
-    //   }
-    //   if( element.map.width )
-    //   {
-    //     html.css( 'max-width', self.vminFor( element.map.width ) );
-    //     html.css( 'height', 'auto' );
-    //   }
-    //
-    //   if( element.map.halign )
-    //   html.attr( 'halign', element.map.halign );
-    //   if( element.map.valign )
-    //   html.attr( 'valign', element.map.valign );
-    //
-    // }
-    // else if( element.kind === 'Span' )
-    // {
-    //
-    //   html = $( '<span>' );
-    //   html.text( element.text );
-    //
-    //   if( element.properties )
-    //   {
-    //     if( element.properties.size )
-    //     {
-    //       let em = self.emFor( element.properties.size );
-    //       html.css( 'line-height', em );
-    //       html.css( 'font-size', em );
-    //     }
-    //   }
-    //
-    // }
-    // else debugger;
-    //
   }
   else if( _.arrayIs( element ) ) /* */
   {
@@ -439,70 +351,245 @@ function _pageElementRender( element, page )
   return html.join( '' );
 }
 
+// //
+//
+// function _pageElementMake( element, page )
+// {
+//   let self = this;
+//   let html;
+//
+//   if( _.objectIs( element ) ) /* */
+//   {
+//
+//     if( element.kind === 'List' )
+//     html = self._pageListRender
+//     ({
+//       list : element,
+//       page,
+//     });
+//     else if( element.kind === 'Link' )
+//     {
+//       html = $( '<a>' );
+//       html.attr( 'href', element.ref );
+//       let htmlElement = self._pageElementMake( element.elements, page );
+//       html.nodes.push( htmlElement );
+//     }
+//     else if( element.kind === 'Line' )
+//     {
+//       html = $( '<p>' );
+//       let htmlElement = self._pageElementMake( element.elements, page );
+//       html.nodes.push( htmlElement );
+//     }
+//     else if( element.kind === 'Sentiment' )
+//     {
+//       html = $( '<span>' );
+//       if( element.sentiment === 'strong' )
+//       html.addClass( 'strong' );
+//       let htmlElement = self._pageElementMake( element.element, page );
+//       html.nodes.push( htmlElement );
+//     }
+//     else if( element.kind === 'Directive' )
+//     {
+//       if( element.map.image )
+//       {
+//
+//         if( element.map.size === 'widest' )
+//         {
+//           html = $( '<img>' );
+//           html.attr( 'level', element.level );
+//           html.attr( 'src', element.map.image );
+//           html.attr( 'background-image', 1 );
+//         }
+//         else
+//         {
+//           html = $( '<img>' );
+//           html.attr( 'level', element.level );
+//           html.attr( 'src', element.map.image );
+//         }
+//
+//       }
+//       else debugger;
+//
+//       if( element.map.height )
+//       {
+//         html.css( 'max-height', self.vminFor( element.map.height ) );
+//         html.css( 'width', 'auto' );
+//       }
+//       if( element.map.width )
+//       {
+//         html.css( 'max-width', self.vminFor( element.map.width ) );
+//         html.css( 'height', 'auto' );
+//       }
+//
+//       if( element.map.halign )
+//       html.attr( 'halign', element.map.halign );
+//       if( element.map.valign )
+//       html.attr( 'valign', element.map.valign );
+//
+//     }
+//     else if( element.kind === 'Span' )
+//     {
+//
+//       html = $( '<span>' );
+//       html.text( element.text );
+//
+//       if( element.properties )
+//       {
+//         if( element.properties.size )
+//         {
+//           let em = self.emFor( element.properties.size );
+//           html.css( 'line-height', em );
+//           html.css( 'font-size', em );
+//         }
+//       }
+//
+//     }
+//     else debugger;
+//
+//   }
+//   else if( _.arrayIs( element ) ) /* */
+//   {
+//     let result = [];
+//
+//     for( let i = 0 ; i < element.length ; i++ )
+//     {
+//       result.push( self._pageElementMake( element[ i ], page ) );
+//     }
+//
+//     return result;
+//   }
+//   else throw _.err( '_pageElementMake : unknown type : ' + _.entity.strType( element ) ); /* */
+//
+//   return html;
+// }
+
+// //
+//
+// function _pageListRender( o )
+// {
+//   let self = this;
+//
+//   _.routine.options( _pageListRender, o );
+//
+//   /* */
+//
+//   let list = [ '<ul>' ];
+//   let level = 1;
+//
+//   for( let k = 0 ; k < o.srcNode.nodes.length ; k++ )
+//   {
+//     let element = o.srcNode.nodes[ k ];
+//
+//     levelSet( element.level );
+//
+//     o.element = element;
+//     o.key = k;
+//     list.push( self._pageListElementMake( o ) );
+//   }
+//
+//   list.push( '</ul>' );
+//   return list;
+//
+//   /* */
+//
+//   function levelSet( newLevel )
+//   {
+//     if( level === newLevel )
+//     return;
+//
+//     _.assert( 'not implemented' );
+//
+//     while( level < newLevel )
+//     {
+//       list = [ '<ul>' ];
+//       lists[ lists.length-1 ].nodes.push( list );
+//       lists.push( list );
+//       level += 1;
+//     }
+//
+//     while( level > newLevel )
+//     {
+//       lists.pop();
+//       list = lists[ lists.length-1 ];
+//       level -= 1;
+//     }
+//
+//   }
+//
+// }
+//
+// _pageListRender.defaults =
+// {
+//   srcNode : null,
+//   srcPage : null,
+// }
+
 //
 
-function _pageListMake( o )
+function _pageListRender( o )
 {
   let self = this;
 
-  _.routine.options( _pageListMake, o );
+  _.routine.options( _pageListRender, o );
+  o = _.mapExtend( null, o );
 
   /* */
 
-  let list = [ '<ul>' ];
+  let dstList = _.presentor.HtmlUl.make();
+  let dstLists = [ dstList ];
   let level = 1;
 
-  for( let k = 0 ; k < o.list.nodes.length ; k++ )
+  for( let k = 0 ; k < o.srcNode.elements.length ; k++ )
   {
-    let element = o.list.nodes[ k ];
-
+    let element = o.srcNode.elements[ k ];
     levelSet( element.level );
-
     o.element = element;
     o.key = k;
-    list.push( self._pageListElementMake( o ) );
+    dstList.nodes.push( self._pageListElementMake( o ) );
   }
 
-  list.push( '</ul>' );
-  return list;
+  return dstLists[ 0 ];
 
   /* */
 
   function levelSet( newLevel )
   {
+
     if( level === newLevel )
     return;
 
-    _.assert( 'not implemented' );
-
     while( level < newLevel )
     {
-      list = [ '<ul>' ];
-      lists[ lists.length-1 ].append( list );
-      lists.push( list );
+      let dstList = _.presentor.HtmlUl.make();
+      dstLists[ dstLists.length-1 ].nodes.push( dstList );
+      dstLists.push( dstList );
       level += 1;
     }
 
     while( level > newLevel )
     {
-      lists.pop();
-      list = lists[ lists.length-1 ];
+      dstLists.pop();
+      dstList = dstLists[ dstLists.length-1 ];
       level -= 1;
     }
+
   }
+
 }
 
-_pageListMake.defaults =
+_pageListRender.defaults =
 {
-  list : null,
-  page : null,
-};
+  srcNode : null,
+  srcPage : null,
+}
 
-// function _pageListMake( o )
+// //
+//
+// function _pageListRender( o )
 // {
 //   let self = this;
 //
-//   _.routine.options( _pageListMake, o );
+//   _.routine.options( _pageListRender, o );
 //   o = _.mapExtend( null, o );
 //
 //   /* */
@@ -516,7 +603,7 @@ _pageListMake.defaults =
 //     while( level < newLevel )
 //     {
 //       list = $( '<ul>' );
-//       lists[ lists.length-1 ].append( list );
+//       lists[ lists.length-1 ].nodes.push( list );
 //       lists.push( list );
 //       level += 1;
 //     }
@@ -536,21 +623,21 @@ _pageListMake.defaults =
 //   let lists = [ list ];
 //   let level = 1;
 //
-//   for( let k = 0 ; k < o.list.elements.length ; k++ )
+//   for( let k = 0 ; k < o.srcNode.elements.length ; k++ )
 //   {
-//     let element = o.list.elements[ k ];
+//     let element = o.srcNode.elements[ k ];
 //
 //     levelSet( element.level );
 //
 //     o.element = element;
 //     o.key = k;
-//     list.append( self._pageListElementMake( o ) );
+//     list.nodes.push( self._pageListElementMake( o ) );
 //   }
 //
 //   return lists[ 0 ];
 // }
 //
-// _pageListMake.defaults =
+// _pageListRender.defaults =
 // {
 //   list : null,
 //   page : null,
@@ -565,7 +652,7 @@ function _pageListElementMake( o )
   _.routine.options( _pageListElementMake, o );
 
   let html = [ '<li>' ];
-  let htmlElement = self._pageElementRender( o.element.nodes, o.page );
+  let htmlElement = self._pageElementRender( o.element.nodes, o.srcPage );
   html.push( htmlElement );
   html.push( '</li>' );
 
@@ -584,15 +671,15 @@ _pageListElementMake.defaults =
 // {
 //   let self = this;
 //
-//   _.routineOptions( _pageListElementMake,o );
+//   _.routine.options( _pageListElementMake, o );
 //
 //   let html = $( '<li>' );
-//   let htmlElement = self._pageElementRender( o.element.element,o.page );
+//   let htmlElement = self._pageElementRender( o.element.element, o.srcPage );
 //
 //   if( _.strIs( htmlElement ) )
 //   html.text( htmlElement )
 //   else
-//   html.append( htmlElement );
+//   html.nodes.push( htmlElement );
 //
 //   return html;
 // }
@@ -722,7 +809,7 @@ let Proto =
   pagesByHead,
 
   _pageElementRender,
-  _pageListMake,
+  _pageListRender,
   _pageListElementMake,
 
   errorReport,
