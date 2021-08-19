@@ -170,11 +170,12 @@ module:
           - ../proto/wtools/amid/presentor
           - ../proto/wtools/amid/presentor/entry
           - ../proto/wtools/amid/presentor/entry/Presentor.s
+          - ../proto/wtools/amid/presentor/ext
+          - ../proto/wtools/amid/presentor/ext/mousetrap.min.js
           - ../proto/wtools/amid/presentor/include
           - ../proto/wtools/amid/presentor/include/Base.s
           - ../proto/wtools/amid/presentor/include/Mid.s
           - ../proto/wtools/amid/presentor/l1
-          - ../proto/wtools/amid/presentor/l1/mousetrap.min.js
           - ../proto/wtools/amid/presentor/l1/Namespace.s
           - ../proto/wtools/amid/presentor/l3
           - ../proto/wtools/amid/presentor/l3/Dom.s
