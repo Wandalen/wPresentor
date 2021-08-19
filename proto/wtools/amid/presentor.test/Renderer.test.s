@@ -18,6 +18,7 @@ const _ = _global_.wTools;
 
 function trivial( test )
 {
+  debugger;
   test.true( true );
 }
 
