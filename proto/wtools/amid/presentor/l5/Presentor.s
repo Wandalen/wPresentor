@@ -92,7 +92,7 @@ function form()
   // Parent.prototype._formAct.call( self );
 
   if( !self.dataStr && self.dataPath )
-  ready.then( () => self.fetch( dataPath ) );
+  ready.then( () => self._fetch( self.dataPath ) );
 
   ready.then( () =>
   {
@@ -100,7 +100,7 @@ function form()
 
     _.assert( _.strIs( self.dataStr ) );
     self.renderer = _.presentor.Renderer({ structure : self.dataStr });
-    self.domForm();
+    self._domForm();
 
     self._formed = 3;
     self.formReady.take( null );
@@ -111,40 +111,39 @@ function form()
 
 //
 
-function domForm()
+function _domForm()
 {
   let self = this;
 
   /* form doms */
 
-  _.assert( self.targetDom.length === 1 );
+  self.targetDom = _.dom.findSingle( self.targetDom );
+  self.contentDom = self.targetDom;
 
-  debugger;
-
-  return;
-
+  // debugger;
   // self._formContentDom();
   // self.contentDom[ 0 ].setAttribute( 'tabindex', '0' );
-
   // _.domWheelOn( self.contentDom, _.routineJoin( self, _.time.rarely_functor( 1000, self.handleWheel ) ) ); /* !!! add off */
 
-  self.menuDom = self._formConentElementDom( self.menuDomSelector );
-  self.menuDom.css({ 'display' : 'none' });
-  self.menuDom.html( viewPresentor() );
+  // self.menuDom = self._formConentElementDom( self.menuDomSelector );
+  // self.menuDom.css({ 'display' : 'none' });
+  // self.menuDom.html( viewPresentor() );
 
   self.subContentDom = self._formConentElementDom( self.subContentDomSelector );
   self.pageHeadDom = self._formConentElementDom( self.pageHeadDomSelector ).appendTo( self.subContentDom );
   self.genContentDom = self._formConentElementDom( self.genContentDomSelector ).appendTo( self.subContentDom );
   self.pageNumberDom = self._formConentElementDom( self.pageNumberDomSelector ).appendTo( self.subContentDom );
 
-  self.ellipsisDom = self.contentDom.find( self.ellipsisDomSelector );
-  if( !self.ellipsisDom.length )
-  {
-    _.assert( false, 'not implemented' );
-    self.ellipsisDom = $( '<i>' ).appendTo( self.contentDom );
-    _.domOwnIdentity( self.ellipsisDom,self.ellipsisDomSelector );
-    self.ellipsisDom.addClass( 'ellipsis horizontal icon' );
-  }
+  // self.ellipsisDom = self.contentDom.find( self.ellipsisDomSelector );
+  self.ellipsisDom = _.dom.findAll( self.contentDom, self.ellipsisDomSelector );
+
+  // if( !self.ellipsisDom.length )
+  // {
+  //   _.assert( false, 'not implemented' );
+  //   self.ellipsisDom = $( '<i>' ).appendTo( self.contentDom );
+  //   _.dom.ownIdentity( self.ellipsisDom, self.ellipsisDomSelector );
+  //   self.ellipsisDom.addClass( 'ellipsis horizontal icon' );
+  // }
 
   Mousetrap.bind( [ 'mod+g' ], function()
   {
@@ -190,58 +189,59 @@ function domForm()
 
   /* */
 
-  self.contentDom.find( '.action-theme-dark' )
-  .on( _.eventName( 'click' ), function( e )
-  {
-    let menu = self.menuDom.find( '.menu' );
-    if( menu.hasClass( 'inverted' ) )
-    {
-      menu.removeClass( 'inverted' );
-      self.contentDom.removeClass( 'theme-dark' );
-    }
-    else
-    {
-      menu.addClass( 'inverted' );
-      self.contentDom.addClass( 'theme-dark' );
-    }
-  });
-
-  /* */
-
-  self.contentDom.find( '.action-back' )
-  .on( _.eventName( 'click' ), function( e )
-  {
-    self.menuVisible( 0 );
-  });
+  // self.contentDom.find( '.action-theme-dark' )
+  // self.contentDom = _.dom.findAll( self.contentDom, '.action-theme-dark' )
+  // .on( _.eventName( 'click' ), function( e )
+  // {
+  //   let menu = self.menuDom.find( '.menu' );
+  //   if( menu.hasClass( 'inverted' ) )
+  //   {
+  //     menu.removeClass( 'inverted' );
+  //     self.contentDom.removeClass( 'theme-dark' );
+  //   }
+  //   else
+  //   {
+  //     menu.addClass( 'inverted' );
+  //     self.contentDom.addClass( 'theme-dark' );
+  //   }
+  // });
+  //
+  // /* */
+  //
+  // self.contentDom.find( '.action-back' )
+  // .on( _.eventName( 'click' ), function( e )
+  // {
+  //   self.menuVisible( 0 );
+  // });
 
   /* */
 
   _global_.addEventListener( 'hashchange', function( e )
   {
-    // debugger;
+    debugger;
     self.pageShowByCurrentAnchor();
   });
 
   /* */
 
-  if( self.usingAnchorOnMake )
-  self.pageShowByCurrentAnchor();
-  else
-  self.pageRender();
+  // if( self.usingAnchorOnMake )
+  // self.pageShowByCurrentAnchor();
+  // else
+  // self.pageShow();
 
+  debugger;
 }
 
 //
 
-async function fetch( dataPath )
+async function _fetch( dataPath )
 {
   let self = this;
-  debugger;
-  const response = await fetch( dataPath );
+  const response = await fetch( self.dataPath );
   self.dataStr = await response.text();
   // const renderer = _.presentor.Renderer({ structure : dataStr });
   //
-  // const page0 = renderer.pageRender( 0 );
+  // const page0 = renderer.pageShow( 0 );
   // for( let i = 0 ; i < page0.length ; i++ )
   // page0[ i ] = _.html.exportToString( page0[ i ] );
   //
@@ -250,6 +250,31 @@ async function fetch( dataPath )
   // document.body.innerHTML = data;
   // console.log( data );
 
+}
+
+//
+
+function _formConentElementDom( selector )
+{
+  let self = this;
+  // let result = self.contentDom.find( selector );
+  let result = _.dom.findAll( self.contentDom, selector )
+
+  _.assert( arguments.length === 1 );
+  _.assert( _.strIs( selector ) );
+  _.assert( self.contentDom.length > 0 );
+
+  if( !result.length )
+  {
+    result = document.createElement( 'div' );
+    self.contentDom.appendChild( result );
+    // result = $( '<div>' ).appendTo( self.contentDom );
+    // debugger;
+    _.dom.ownIdentity( result, selector );
+    // debugger;
+  }
+
+  return result;
 }
 
 //
@@ -294,7 +319,7 @@ function pageWind( offset )
   else if( pageIndex >= self.structure.nodes.length )
   pageIndex = self.structure.nodes.length-1;
 
-  self.pageRender( pageIndex );
+  self.pageShow( pageIndex );
 
 }
 
@@ -326,7 +351,7 @@ function pageFirst()
 {
   let self = this;
 
-  self.pageRender( 0 );
+  self.pageShow( 0 );
 
   return self;
 }
@@ -337,7 +362,7 @@ function pageLast()
 {
   let self = this;
 
-  self.pageRender( self.structure.nodes.length-1 );
+  self.pageShow( self.structure.nodes.length-1 );
 
   return self;
 }
@@ -354,7 +379,57 @@ function pageClear()
 
 //
 
-function pageRenderByCurrentAnchor()
+function pageShow( pageIndex )
+{
+  let self = this;
+
+  if( _.numberIs( pageIndex ) )
+  self.pageIndex = pageIndex;
+
+  if( self.pageIndex === self.pageIndexCurrent )
+  return;
+
+  self.pageIndexCurrent = self.pageIndex;
+
+  self.pageClear();
+
+  _.assert( pageIndex === undefined || _.numberIs( pageIndex ) );
+  _.assert( arguments.length === 0 || arguments.length === 1 );
+
+  /* */
+
+  // let page = self.data.page[ self.pageIndex ];
+  //
+  // if( !page )
+  // return self.reportError( 'Page', pageIndex, 'not found' );
+  //
+  // for( let k = 0 ; k < page.elements.length ; k++ )
+  // {
+  //   let element = page.elements[ k ];
+  //   let htmlElement = self._pageElementMake( element,page );
+  //   self.genContentDom.append( htmlElement );
+  // }
+
+  self.pageHeadDom.empty();
+  self.pageHeadDom.append( self._pageElementMake( page.head ) );
+  self.pageHeadDom.attr( 'level',page.level );
+
+  self.pageNumberDom.text( ( self.pageIndexCurrent + 1 ) + ' / ' + self.data.page.length );
+
+  let a = _.process.anchor();
+
+  _.process.anchor
+  ({
+    extend : { page : self.pageIndexCurrent + 1 },
+    del : { head : 1 },
+    replacing : a.head ? 1 : 0,
+  });
+
+}
+
+//
+
+function pageShowByCurrentAnchor()
 {
   let self = this;
 
@@ -367,13 +442,13 @@ function pageRenderByCurrentAnchor()
     let page = self.pagesByHead( a.head )[ 0 ];
     if( page )
     {
-      self.pageRender( page.number );
+      self.pageShow( page.number );
       return
     }
   }
 
   let page = a.page !== undefined ? a.page-1 : 0;
-  self.pageRender( page );
+  self.pageShow( page );
 
 }
 
@@ -546,8 +621,9 @@ let Proto =
   // _exec,
 
   form,
-  domForm,
-  fetch,
+  _domForm,
+  _fetch,
+  _formConentElementDom,
 
   menuVisible,
   menuIsVisible,
@@ -558,7 +634,9 @@ let Proto =
   pageFirst,
   pageLast,
   pageClear,
-  // pageShowByCurrentAnchor,
+
+  pageShow,
+  pageShowByCurrentAnchor,
 
   pageHeadNameChop,
   pagesByHead,

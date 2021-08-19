@@ -9,6 +9,7 @@ if( typeof module !== 'undefined' )
   _.include( 'wProto' );
   _.include( 'wCopyable' );
   _.include( 'wConsequence' );
+  _.include( 'stxt' );
 
   module.exports = _;
 }
