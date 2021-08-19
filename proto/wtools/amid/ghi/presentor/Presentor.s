@@ -420,12 +420,12 @@ function pageRender( pageIndex )
   for( let k = 0 ; k < page.elements.length ; k++ )
   {
     let element = page.elements[ k ];
-    let htmlElement = self._pageElementRender( element,page );
+    let htmlElement = self._pageElmentExportHtml( element,page );
     self.genContentDom.append( htmlElement );
   }
 
   self.pageHeadDom.empty();
-  self.pageHeadDom.append( self._pageElementRender( page.head ) );
+  self.pageHeadDom.append( self._pageElmentExportHtml( page.head ) );
   self.pageHeadDom.attr( 'level',page.level );
 
   self.pageNumberDom.text( ( self.pageIndexCurrent + 1 ) + ' / ' + self.data.page.length );
@@ -503,7 +503,7 @@ function pagesByHead( head )
 
 //
 
-function _pageElementRender( element,page )
+function _pageElmentExportHtml( element,page )
 {
   let self = this;
   let html;
@@ -521,13 +521,13 @@ function _pageElementRender( element,page )
     {
       html = $( '<a>' );
       html.attr( 'href',element.ref );
-      let htmlElement = self._pageElementRender( element.elements,page );
+      let htmlElement = self._pageElmentExportHtml( element.elements,page );
       html.append( htmlElement );
     }
     else if( element.kind === 'Line' )
     {
       html = $( '<p>' );
-      let htmlElement = self._pageElementRender( element.elements,page );
+      let htmlElement = self._pageElmentExportHtml( element.elements,page );
       html.append( htmlElement );
     }
     else if( element.kind === 'Sentiment' )
@@ -535,7 +535,7 @@ function _pageElementRender( element,page )
       html = $( '<span>' );
       if( element.sentiment === 'strong' )
       html.addClass( 'strong' );
-      let htmlElement = self._pageElementRender( element.element,page );
+      let htmlElement = self._pageElmentExportHtml( element.element,page );
       html.append( htmlElement );
     }
     else if( element.kind === 'Directive' )
@@ -603,12 +603,12 @@ function _pageElementRender( element,page )
 
     for( let i = 0 ; i < element.length ; i++ )
     {
-      result.push( self._pageElementRender( element[ i ],page ) );
+      result.push( self._pageElmentExportHtml( element[ i ],page ) );
     }
 
     return result;
   }
-  else throw _.err( '_pageElementRender : unknown type : ' + _.entity.strType( element ) ); /* */
+  else throw _.err( '_pageElmentExportHtml : unknown type : ' + _.entity.strType( element ) ); /* */
 
   return html;
 }
@@ -682,7 +682,7 @@ function _pageListElementMake( o )
   _.routineOptions( _pageListElementMake,o );
 
   let html = $( '<li>' );
-  let htmlElement = self._pageElementRender( o.element.element,o.page );
+  let htmlElement = self._pageElmentExportHtml( o.element.element,o.page );
 
   if( _.strIs( htmlElement ) )
   html.text( htmlElement )
@@ -870,7 +870,7 @@ let Proto =
   pageHeadNameChop,
   pagesByHead,
 
-  _pageElementRender,
+  _pageElmentExportHtml,
   _pageListMake,
   _pageListElementMake,
 

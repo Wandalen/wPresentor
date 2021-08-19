@@ -61,9 +61,6 @@ function _pageElmentExportHtml( test )
   const a = test.assetFor( 'basic' );
   a.reflect();
 
-  var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
-  var renderer = _.presentor.Renderer({ structure : dataStr });
-
   /* */
 
   test.case = 'Line';
@@ -114,9 +111,9 @@ txt
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
   var exp =
 `
-<ul><li>
+<ul><li><p><span>
 txt
-</li></ul>
+</span></p></li></ul>
 `;
   test.identical( got, exp );
 
