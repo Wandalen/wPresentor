@@ -73,11 +73,9 @@ txt
   test.identical( node.kind, 'Line' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
   var exp =
-`
-<p><span>
+`<p><span>
 txt
-</span></p>
-`;
+</span></p>`;
   test.identical( got, exp );
 
   /* */
@@ -91,11 +89,7 @@ txt
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
   test.identical( node.kind, 'LineEmpty' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`
-<p>
-</p>
-`;
+  var exp = `<p></p>`;
   test.identical( got, exp );
 
   /* */
@@ -110,11 +104,9 @@ txt
   test.identical( node.kind, 'List' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
   var exp =
-`
-<ul><li><p><span>
+`<ul><li><p><span>
 txt
-</span></p></li></ul>
-`;
+</span></p></li></ul>`;
   test.identical( got, exp );
 
   /* */
@@ -130,33 +122,12 @@ txt
   test.identical( node.kind, 'List' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
   var exp =
-`
-<ul><li>
+`<ul><li><p><span>
 txt
-  <ul>
-  abc
-  </ul>
-</li></ul>
-`;
-  test.identical( got, exp );
-
-  /* */
-
-  test.case = 'Link';
-  var data =
-`
-https://site.dom
-`;
-  var renderer = _.presentor.Renderer({ structure : data });
-  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
-  test.identical( node.kind, 'Link' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`
-<a href="https://site.dom">
-https://site.dom
-</a>
-`;
+</span></p></li>
+<ul><li><p><span>
+abc
+</span></p></li></ul></ul>`;
   test.identical( got, exp );
 
   /* */
@@ -164,16 +135,13 @@ https://site.dom
   test.case = 'Directive - image';
   var data =
 `
-~ bimage:/file.png
+~ image:/file.png
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
-  test.identical( node.kind, 'Link' );
+  test.identical( node.kind, 'Directive' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`
-<img src="file.png" level="1" background-image="1">
-`;
+  var exp = `<img level="1" src="/file.png">`;
   test.identical( got, exp );
 
   /* */
@@ -185,12 +153,9 @@ https://site.dom
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
-  test.identical( node.kind, 'Link' );
+  test.identical( node.kind, 'Directive' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`
-<img src="file.png" level="1">
-`;
+  var exp = `<img level="2" src="/file.png">`;
   test.identical( got, exp );
 }
 
