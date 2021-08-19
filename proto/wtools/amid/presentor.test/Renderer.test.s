@@ -72,10 +72,7 @@ txt
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Line' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`<p><span>
-txt
-</span></p>`;
+  var exp = `<p><span>txt</span></p>`;
   test.identical( got, exp );
 
   /* */
@@ -103,10 +100,7 @@ txt
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`<ul><li><p><span>
-txt
-</span></p></li></ul>`;
+  var exp = `<ul><li><p><span>txt</span></p></li></ul>`;
   test.identical( got, exp );
 
   /* */

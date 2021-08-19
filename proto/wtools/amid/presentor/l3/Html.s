@@ -46,7 +46,7 @@ function exportToString( src, o )
   if( src.kind === 'img' )
   result = `<${src.kind}${attrsConvert(src.attrs)}>`;
   else
-  result = `<${src.kind}>${content}</${src.kind}>`;
+  result = `<${src.kind}>${src.text||''}${content}</${src.kind}>`;
   return result;
 
   /* */
@@ -74,6 +74,7 @@ let AbstractBranch = _.blueprint.define
 ({
   kind : 'AbstractBranch',
   nodes : _.define.shallow( [] ),
+  text : '',
 })
 
 let Ul = _.blueprint.define
@@ -92,6 +93,12 @@ let P = _.blueprint.define
 ({
   extension : _.define.extension( AbstractBranch ),
   kind : 'p',
+})
+
+let Span = _.blueprint.define
+({
+  extension : _.define.extension( AbstractBranch ),
+  kind : 'span',
 })
 
 let A = _.blueprint.define
@@ -121,6 +128,7 @@ let Extension =
   Ul,
   Li,
   P,
+  Span,
   A,
   Img,
 
