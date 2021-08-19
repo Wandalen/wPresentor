@@ -5,10 +5,10 @@
 
 if( typeof module !== 'undefined' )
 {
-  const _ = require( '../../../node_modules/Tools' );
+  const _ = require( 'Tools' );
   _.include( 'wTesting' );
   _.include( 'stxt' );
-  require( '../presentor/Renderer.s' );
+  require( '../presentor/include/Mid.s' );
 }
 
 const _ = _global_.wTools;

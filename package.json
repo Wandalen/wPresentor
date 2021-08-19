@@ -11,7 +11,7 @@
     }
   ],
   "license": "MIT",
-  "main": "proto/wtools/amid/ghi/presentor/entry/Presentor.s",
+  "main": "proto/node_modules/wpresentor",
   "files": [
     "proto/wtools/amid",
     "proto/node_modules/Tools",
