@@ -11,6 +11,9 @@ if( typeof module !== 'undefined' )
   _.include( 'wConsequence' );
   _.include( 'stxt' );
 
+  debugger;
+  require( '../ext/mousetrap.min.js' );
+
   module.exports = _;
 }
 
