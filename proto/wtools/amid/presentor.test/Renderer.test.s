@@ -132,16 +132,29 @@ https://site.dom
 
   /* */
 
-  test.case = 'Link';
+  test.case = 'Directive - image';
   var data =
 `
-https://site.dom
+~ bimage:/file.png
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Link' );
   var got = renderer._pageElementRender( node );
-  test.identical( got, '<a href="https://site.dom">https://site.dom</ul>' );
+  test.identical( got, ' <img src="file.png" level="1" background-image="1"> ' );
+
+  /* */
+
+  test.case = 'Directive - image';
+  var data =
+`
+~~ image:/file.png
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Link' );
+  var got = renderer._pageElementRender( node );
+  test.identical( got, ' <img src="file.png" level="1"> ' );
 }
 
 // --
