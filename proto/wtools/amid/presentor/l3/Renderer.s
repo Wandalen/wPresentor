@@ -497,7 +497,7 @@ _pageListMake.defaults =
 // {
 //   let self = this;
 //
-//   _.routineOptions( _pageListMake,o );
+//   _.routine.options( _pageListMake,o );
 //   o = _.mapExtend( null,o );
 //
 //   /* */
@@ -557,7 +557,7 @@ function _pageListElementMake( o )
 {
   let self = this;
 
-  _.routineOptions( _pageListElementMake,o );
+  _.routine.options( _pageListElementMake,o );
 
   let html = $( '<li>' );
   let htmlElement = self._pageElementRender( o.element.element,o.page );
