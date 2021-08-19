@@ -1,3 +1,4 @@
+const path = require( 'path' );
 
 /*
  |--------------------------------------------------------------------------
@@ -12,6 +13,7 @@
  |
  |
  */
+
 module.exports = {
     "ui": {
         "port": 3001
@@ -21,12 +23,19 @@ module.exports = {
         "change"
     ],
     "watch": false,
+    "cwd": __dirname,
     "ignore": [],
     "single": false,
     "watchOptions": {
         "ignoreInitial": true
     },
-    "server": false,
+    "server": {
+        baseDir : __dirname,
+        index : "Presentor.html",
+        routes : {
+            "/stxt.js" : path.join( __dirname, "../node_modules/stxt/out/stxt.browser.debug/Main.js" )
+        }
+    },
     "proxy": false,
     "port": 3000,
     "middleware": false,

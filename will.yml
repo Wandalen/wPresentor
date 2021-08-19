@@ -366,3 +366,8 @@ submodule:
     enabled: 0
     criterion:
       development: 1
+  browser-sync:
+    path: 'npm:///browser-sync#2.27.5'
+    enabled: 0
+    criterion:
+      development: 1

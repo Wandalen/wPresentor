@@ -19,6 +19,7 @@
   ],
   "scripts": {
     "test": "wtest .run 'proto/**'",
+    "sample": "browser-sync start -c sample/bs-config.js",
     "docgen": "wdocgen proto"
   },
   "repository": {
@@ -36,7 +37,6 @@
     "wCopyable": "",
     "wEventHandler": "",
     "wProto": "",
-    "wTools": "",
     "wcloner": "",
     "wdombasic": "",
     "winstancing": "",
@@ -46,7 +46,8 @@
     "wTesting": "delta",
     "serve-index": "1.9.1",
     "morgan": "1.10.0",
-    "express": "4.17.1"
+    "express": "4.17.1",
+    "browser-sync": "2.27.5"
   },
   "keywords": [
     "wTools",
