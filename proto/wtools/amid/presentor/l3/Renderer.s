@@ -3,18 +3,17 @@
 
 'use strict';
 
-// let $ = jQuery;
 let _ = _global_.wTools;
 _.include( 'wProto' ); /* qqq : for Dmytro : remove later */
-_.ghi = _.ghi || Object.create( null );
+// _.ghi = _.ghi || Object.create( null );
 
 let Parent = null;
-let Self = function wHiPresentor( o )
+let Self = function wRenderer( o )
 {
   return _.workpiece.construct( Self, this, arguments );
 }
 
-Self.shortName = 'HiPresentor';
+Self.shortName = 'Renderer';
 
 //
 
@@ -606,7 +605,7 @@ let Composes =
   // targetIdentity : '.wpresentor',
   // terminalCssClass : 'terminal',
 
-  rawData : null,
+  // rawData : null,
   data : null,
 
   // pageIndex : 0,
@@ -624,8 +623,8 @@ let Aggregates =
 let Associates =
 {
 
-  targetDom : '.wpresentor',
-
+  // targetDom : '.wpresentor',
+  //
   // contentDomSelector : '{{targetDom}} > .content',
   // contentDom : null,
   //
@@ -706,7 +705,9 @@ _.classDeclare
 //
 
 // _.ghi = _.ghi || Object.create( null );
-_global_[ Self.name ] = _.ghi[ Self.shortName ] = Self;
+// _global_[ Self.name ] = _.ghi[ Self.shortName ] = Self;
+
+_.presentor[ Self.name ] = Self;
 
 // Self.exec();
 

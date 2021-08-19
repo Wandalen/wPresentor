@@ -18,6 +18,7 @@ about:
   npm.scripts:
     test: wtest .run proto/**
     docgen: wdocgen .build proto
+
 build:
 
   sources.join:
