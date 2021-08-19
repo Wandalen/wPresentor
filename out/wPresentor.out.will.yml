@@ -3,8 +3,8 @@ root:
   - wPresentor.out
 consistency:
   ../will.yml: &ref_0
-    hash: f73c386abfc187698cd5b9e1aa7e3e89
-    size: 6483
+    hash: dbe497266b0569d59115f8df4a0137bc
+    size: 7663
 module:
   wPresentor.out:
     about:
@@ -103,7 +103,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: ../proto/wtools/abase/l3_proto/Include.s
+        path: ../proto/wtools/amid/ghi/presentor/entry/Presentor.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -113,13 +113,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/proto/wtools/abase/l3_proto/Include.s'
+        path: '{path::out.*=1}/proto/wtools/amid/ghi/presentor/entry/Presentor.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/proto/wtools/abase/l3_proto/Include.s'
+        path: '{path::out.*=1}/proto/wtools/amid/ghi/presentor/entry/Presentor.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -134,8 +134,8 @@ module:
         path: '{path::out.*=}/source/Index.s'
       npm.proto.entry:
         path:
-          - ../proto/wtools/abase/l3_proto/Include.s
-          - ../proto/node_modules/wPresentor
+          - ../proto/wtools/amid/ghi/presentor/entry/Presentor.s
+          - ../proto/node_modules/wpresentor
       exported.dir.proto.export:
         criterion:
           generated: 1
@@ -152,16 +152,39 @@ module:
           - ../proto/Sample.edoc
           - ../proto/Sample.html
           - ../proto/Sample.js
-          - ../proto/dwtools
-          - ../proto/dwtools/Tools.s
-          - ../proto/dwtools/amid
-          - ../proto/dwtools/amid/ghi
-          - ../proto/dwtools/amid/ghi/Abstract.js
-          - ../proto/dwtools/amid/ghi/presentor
-          - ../proto/dwtools/amid/ghi/presentor/Presentor.js
-          - ../proto/dwtools/amid/ghi/presentor/Presentor.less
-          - ../proto/dwtools/amid/ghi/presentor/Presentor.s
-          - ../proto/dwtools/amid/ghi/presentor/PresentorData.s
+          - ../proto/node_modules
+          - ../proto/node_modules/Tools
+          - ../proto/node_modules/wpresentor
+          - ../proto/wtools
+          - ../proto/wtools/amid
+          - ../proto/wtools/amid/ghi
+          - ../proto/wtools/amid/ghi/Abstract.js
+          - ../proto/wtools/amid/ghi/presentor
+          - ../proto/wtools/amid/ghi/presentor/Presentor.js
+          - ../proto/wtools/amid/ghi/presentor/Presentor.less
+          - ../proto/wtools/amid/ghi/presentor/Presentor.s
+          - ../proto/wtools/amid/ghi/presentor/PresentorData.s
+          - ../proto/wtools/amid/ghi/presentor/entry
+          - ../proto/wtools/amid/ghi/presentor/entry/Presentor.s
+          - ../proto/wtools/amid/ghi/presentor/include
+          - ../proto/wtools/amid/ghi/presentor/include/Base.s
+          - ../proto/wtools/amid/ghi/presentor/include/Mid.s
+          - ../proto/wtools/amid/presentor
+          - ../proto/wtools/amid/presentor/entry
+          - ../proto/wtools/amid/presentor/entry/Presentor.s
+          - ../proto/wtools/amid/presentor/include
+          - ../proto/wtools/amid/presentor/include/Base.s
+          - ../proto/wtools/amid/presentor/include/Mid.s
+          - ../proto/wtools/amid/presentor/l1
+          - ../proto/wtools/amid/presentor/l1/Namespace.s
+          - ../proto/wtools/amid/presentor/l3
+          - ../proto/wtools/amid/presentor/l3/Renderer.s
+          - ../proto/wtools/amid/presentor.test
+          - ../proto/wtools/amid/presentor.test/Renderer.test.s
+          - ../proto/wtools/amid/presentor.test/_assets
+          - ../proto/wtools/amid/presentor.test/_assets/Courses.stxt
+          - ../proto/wtools/amid/presentor.test/_assets/basic
+          - ../proto/wtools/amid/presentor.test/_assets/basic/Courses.stxt
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -346,6 +369,57 @@ module:
           content: proto
           export: 1
     step:
+      sources.join.full:
+        opts:
+          entryPath: proto/node_modules/wpresentor
+          inPath:
+            filePath:
+              - proto/wtools/amid/presentor/entry/Presentor.s
+              - proto/node_modules/**
+              - proto/wtools/amid/presentor/**/*.(s|js)
+          modulesList:
+            - wTools
+            - wBlueprint
+            - wCopyable
+            - wCloner
+            - wTraverser
+            - wStringer
+            - wLooker
+            - wEqualer
+            - wSelector
+            - wReplicator
+            - wPathTools
+            - wPathBasic
+            - wStringsExtra
+            - wArraySorted
+            - wArraySparse
+            - wProto
+            - stxt
+            - wDomBasic
+            - wTemplateTreeEnvironment
+            - wTemplateTreeResolver
+            - wResolver
+            - wConsequence
+            - wProcedure
+            - wInstancing
+            - wEventHandler
+            - wFilesBasic
+            - wUriBasic
+            - wWebUriBasic
+            - wRegexpObject
+            - wFieldsStack
+            - wVerbal
+            - wProcess
+            - wGdf
+            - wFilesHttp
+            - wIntrospectorBasic
+            - wLogger
+            - wColor256
+            - wColor
+          interpreter: browser
+          outPath: out/presentor.browser.debug/Main.js
+        inherit:
+          - sources.join
       proto.export:
         opts:
           export: 'path::export'
@@ -697,6 +771,9 @@ module:
         inherit:
           - files.transpile
     build:
+      sources.join:
+        steps:
+          - sources.join.full
       proto.export:
         steps:
           - 'step::proto.export'
@@ -875,7 +952,7 @@ module:
       entry.proto.no.tests:
         criterion:
           tests: no.tests
-        path: proto/wtools/abase/l3_proto/Include.s
+        path: proto/wtools/amid/ghi/presentor/entry/Presentor.s
       entry.proto.only.tests:
         criterion:
           tests: only.tests
@@ -885,13 +962,13 @@ module:
           debug: debug
           raw: raw
           content: prime
-        path: '{path::out.*=1}/proto/wtools/abase/l3_proto/Include.s'
+        path: '{path::out.*=1}/proto/wtools/amid/ghi/presentor/entry/Presentor.s'
       entry.out.raw.debug.release:
         criterion:
           debug: release
           raw: raw
           content: prime
-        path: '{path::out.*=1}/proto/wtools/abase/l3_proto/Include.s'
+        path: '{path::out.*=1}/proto/wtools/amid/ghi/presentor/entry/Presentor.s'
       entry.out.compiled.debug.debug:
         criterion:
           debug: debug
@@ -906,8 +983,8 @@ module:
         path: '{path::out.*=}/source/Index.s'
       npm.proto.entry:
         path:
-          - proto/wtools/abase/l3_proto/Include.s
-          - proto/node_modules/wPresentor
+          - proto/wtools/amid/ghi/presentor/entry/Presentor.s
+          - proto/node_modules/wpresentor
     submodule:
       wTools:
         path: 'npm:///wTools'
@@ -1041,6 +1118,57 @@ module:
         inherit:
           - predefined.*
     step:
+      sources.join.full:
+        opts:
+          entryPath: proto/node_modules/wpresentor
+          inPath:
+            filePath:
+              - proto/wtools/amid/presentor/entry/Presentor.s
+              - proto/node_modules/**
+              - proto/wtools/amid/presentor/**/*.(s|js)
+          modulesList:
+            - wTools
+            - wBlueprint
+            - wCopyable
+            - wCloner
+            - wTraverser
+            - wStringer
+            - wLooker
+            - wEqualer
+            - wSelector
+            - wReplicator
+            - wPathTools
+            - wPathBasic
+            - wStringsExtra
+            - wArraySorted
+            - wArraySparse
+            - wProto
+            - stxt
+            - wDomBasic
+            - wTemplateTreeEnvironment
+            - wTemplateTreeResolver
+            - wResolver
+            - wConsequence
+            - wProcedure
+            - wInstancing
+            - wEventHandler
+            - wFilesBasic
+            - wUriBasic
+            - wWebUriBasic
+            - wRegexpObject
+            - wFieldsStack
+            - wVerbal
+            - wProcess
+            - wGdf
+            - wFilesHttp
+            - wIntrospectorBasic
+            - wLogger
+            - wColor256
+            - wColor
+          interpreter: browser
+          outPath: out/presentor.browser.debug/Main.js
+        inherit:
+          - sources.join
       proto.export:
         opts:
           export: 'path::export'
@@ -1392,6 +1520,9 @@ module:
         inherit:
           - files.transpile
     build:
+      sources.join:
+        steps:
+          - sources.join.full
       proto.export:
         steps:
           - 'step::proto.export'
@@ -1467,5 +1598,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: f73c386abfc187698cd5b9e1aa7e3e89
-        size: 6483
+        hash: dbe497266b0569d59115f8df4a0137bc
+        size: 7663

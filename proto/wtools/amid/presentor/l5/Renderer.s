@@ -165,27 +165,28 @@ function pageRender( pageIndex )
   /* */
 
   debugger;
-  let page = self.structure.document.nodes[ pageIndex ];
+  let srcPage = self.structure.document.nodes[ pageIndex ];
 
-  if( !page )
+  if( !srcPage )
   return self.errorReport( 'Page', pageIndex, 'not found' );
 
-  for( let k = 0 ; k < page.nodes.length ; k++ )
+  for( let k = 0 ; k < srcPage.nodes.length ; k++ )
   {
-    let element = page.nodes[ k ];
-    let htmlElement = self._pageElementRender( element, page );
-    self.genContentDom.nodes.push( htmlElement );
+    let srcElement = srcPage.nodes[ k ];
+    let dstElement = self._pageElmentExportHtml( srcElement, srcPage );
+    self.genContentDom.nodes.push( dstElement );
   }
-  // for( let k = 0 ; k < page.elements.length ; k++ )
+
+  // for( let k = 0 ; k < srcPage.nodes.length ; k++ )
   // {
-  //   let element = page.elements[ k ];
-  //   let htmlElement = self._pageElementRender( element, page );
-  //   self.genContentDom.nodes.push( htmlElement );
+  //   let srcElement = srcPage.nodes[ k ];
+  //   let dstElement = self._pageElmentExportHtml( srcElement, srcPage );
+  //   self.genContentDom.nodes.push( dstElement );
   // }
 
   self.pageHeadDom.empty();
-  self.pageHeadDom.nodes.push( self._pageElementRender( page.head ) );
-  self.pageHeadDom.attr( 'level', page.level );
+  self.pageHeadDom.nodes.push( self._pageElmentExportHtml( srcPage.head ) );
+  self.pageHeadDom.attr( 'level', srcPage.level );
 
   self.pageNumberDom.text( ( pageIndex + 1 ) + ' / ' + self.structure.document.nodes.length );
 
@@ -193,7 +194,7 @@ function pageRender( pageIndex )
   //
   // _.process.anchor
   // ({
-  //   extend : { page : self.pageIndexCurrent + 1 },
+  //   extend : { srcPage : self.pageIndexCurrent + 1 },
   //   del : { head : 1 },
   //   replacing : a.head ? 1 : 0,
   // });
@@ -237,95 +238,92 @@ function pagesByHead( head )
 
 //
 
-function _pageElementRender( element, page )
+function _pageElmentExportHtml( srcElement, srcPage )
 {
   let self = this;
   let html;
 
-  if( _.objectIs( element ) )
+  if( _.objectIs( srcElement ) )
   {
-    if( element.kind === 'List' )
+    if( srcElement.kind === 'List' )
     {
       html = self._pageListRender
       ({
-        list : element,
-        page,
+        srcList : srcElement,
+        srcPage : srcPage,
       });
     }
-    else if( element.kind === 'Link' )
+    else if( srcElement.kind === 'Link' )
     {
       html = [ '<a>' ];
-      if( element.ref )
-      html[ 0 ] = `<a href="${ element.ref }"`;
-      let htmlElement = self._pageElementRender( element.nodes, page );
-      html.push( htmlElement );
+      if( srcElement.ref )
+      html[ 0 ] = `<a href="${ srcElement.ref }"`;
+      let dstElement = self._pageElmentExportHtml( srcElement.nodes, srcPage );
+      html.push( dstElement );
       html.push( '</a>' );
     }
-    else if( element.kind === 'Line' || element.kind === 'LineEmpty' )
+    else if( srcElement.kind === 'Line' || srcElement.kind === 'LineEmpty' )
     {
-      html = [ '<p>' ];
-      let htmlElement = self._pageElementRender( element.nodes, page );
-      html.push( htmlElement );
-      html.push( element.text );
-      html.push( '</p>' );
+      html = _.html.P.make();
+      html.nodes.push( self._pageElmentExportHtml( srcElement.nodes, srcPage ) );
     }
-    else if( element.kind === 'Sentiment' )
+    else if( srcElement.kind === 'Sentiment' )
     {
       html = $( '<span>' );
-      if( element.sentiment === 'strong' )
+      if( srcElement.sentiment === 'strong' )
       html.addClass( 'strong' );
-      let htmlElement = self._pageElementRender( element.nodes, page );
-      html.nodes.push( htmlElement );
+      let dstElement = self._pageElmentExportHtml( srcElement.nodes, srcPage );
+      html.nodes.push( dstElement );
     }
-    else if( element.kind === 'Directive' )
+    else if( srcElement.kind === 'Directive' )
     {
 
-      if( element.map.image )
+      if( srcElement.map.image )
       {
-        if( element.map.size === 'widest' )
+        if( srcElement.map.size === 'widest' )
         {
           html = $( '<img>' );
-          html.attr( 'level', element.level );
-          html.attr( 'src', element.map.image );
+          html.attr( 'level', srcElement.level );
+          html.attr( 'src', srcElement.map.image );
           html.attr( 'background-image', 1 );
         }
         else
         {
           html = $( '<img>' );
-          html.attr( 'level', element.level );
-          html.attr( 'src', element.map.image );
+          html.attr( 'level', srcElement.level );
+          html.attr( 'src', srcElement.map.image );
         }
       }
       else debugger;
 
-      // if( element.map.height )
+      // if( srcElement.map.height )
       // {
-      //   html.css( 'max-height', self.vminFor( element.map.height ) );
+      //   html.css( 'max-height', self.vminFor( srcElement.map.height ) );
       //   html.css( 'width', 'auto' );
       // }
-      // if( element.map.width )
+      // if( srcElement.map.width )
       // {
-      //   html.css( 'max-width', self.vminFor( element.map.width ) );
+      //   html.css( 'max-width', self.vminFor( srcElement.map.width ) );
       //   html.css( 'height', 'auto' );
       // }
 
-      if( element.map.halign )
-      html.attr( 'halign', element.map.halign );
-      if( element.map.valign )
-      html.attr( 'valign', element.map.valign );
+      if( srcElement.map.halign )
+      html.attr( 'halign', srcElement.map.halign );
+      if( srcElement.map.valign )
+      html.attr( 'valign', srcElement.map.valign );
 
     }
-    else if( element.kind === 'Span' )
+    else if( srcElement.kind === 'Span' )
     {
 
       html = [ '<span>' ];
-      html.push( element.text );
+      html.push( srcElement.text );
 
-      if( element.properties )
+      if( srcElement.properties )
       {
-        // if( element.properties.size )
+        // if( srcElement.properties.size )
         // {
-        //   let em = self.emFor( element.properties.size );
+        //   let em = self.emFor( srcElement.properties.size );
         //   html.css( 'line-height', em );
         //   html.css( 'font-size', em );
         // }
@@ -337,107 +335,109 @@ function _pageElementRender( element, page )
     else debugger;
 
   }
-  else if( _.arrayIs( element ) ) /* */
+  else if( _.arrayIs( srcElement ) ) /* */
   {
     let result = [];
 
-    for( let i = 0 ; i < element.length ; i++ )
-    result.push( self._pageElementRender( element[ i ], page ) );
+    for( let i = 0 ; i < srcElement.length ; i++ )
+    result.push( self._pageElmentExportHtml( srcElement[ i ], srcPage ) );
 
     return result;
   }
-  else throw _.err( '_pageElementRender : unknown type : ' + _.entity.strType( element ) ); /* */
+  else throw _.err( '_pageElmentExportHtml : unknown type : ' + _.entity.strType( srcElement ) ); /* */
 
-  return html.join( '' );
+  // debugger;
+  // return html.join( '' );
+  return html;
 }
 
 // //
 //
-// function _pageElementMake( element, page )
+// function _pageElementMake( srcElement, srcPage )
 // {
 //   let self = this;
 //   let html;
 //
-//   if( _.objectIs( element ) ) /* */
+//   if( _.objectIs( srcElement ) ) /* */
 //   {
 //
-//     if( element.kind === 'List' )
+//     if( srcElement.kind === 'List' )
 //     html = self._pageListRender
 //     ({
-//       list : element,
-//       page,
+//       list : srcElement,
+//       srcPage,
 //     });
-//     else if( element.kind === 'Link' )
+//     else if( srcElement.kind === 'Link' )
 //     {
 //       html = $( '<a>' );
-//       html.attr( 'href', element.ref );
-//       let htmlElement = self._pageElementMake( element.elements, page );
-//       html.nodes.push( htmlElement );
+//       html.attr( 'href', srcElement.ref );
+//       let dstElement = self._pageElementMake( srcElement.nodes, srcPage );
+//       html.nodes.push( dstElement );
 //     }
-//     else if( element.kind === 'Line' )
+//     else if( srcElement.kind === 'Line' )
 //     {
 //       html = $( '<p>' );
-//       let htmlElement = self._pageElementMake( element.elements, page );
-//       html.nodes.push( htmlElement );
+//       let dstElement = self._pageElementMake( srcElement.nodes, srcPage );
+//       html.nodes.push( dstElement );
 //     }
-//     else if( element.kind === 'Sentiment' )
+//     else if( srcElement.kind === 'Sentiment' )
 //     {
 //       html = $( '<span>' );
-//       if( element.sentiment === 'strong' )
+//       if( srcElement.sentiment === 'strong' )
 //       html.addClass( 'strong' );
-//       let htmlElement = self._pageElementMake( element.element, page );
-//       html.nodes.push( htmlElement );
+//       let dstElement = self._pageElementMake( srcElement.srcElement, srcPage );
+//       html.nodes.push( dstElement );
 //     }
-//     else if( element.kind === 'Directive' )
+//     else if( srcElement.kind === 'Directive' )
 //     {
-//       if( element.map.image )
+//       if( srcElement.map.image )
 //       {
 //
-//         if( element.map.size === 'widest' )
+//         if( srcElement.map.size === 'widest' )
 //         {
 //           html = $( '<img>' );
-//           html.attr( 'level', element.level );
-//           html.attr( 'src', element.map.image );
+//           html.attr( 'level', srcElement.level );
+//           html.attr( 'src', srcElement.map.image );
 //           html.attr( 'background-image', 1 );
 //         }
 //         else
 //         {
 //           html = $( '<img>' );
-//           html.attr( 'level', element.level );
-//           html.attr( 'src', element.map.image );
+//           html.attr( 'level', srcElement.level );
+//           html.attr( 'src', srcElement.map.image );
 //         }
 //
 //       }
 //       else debugger;
 //
-//       if( element.map.height )
+//       if( srcElement.map.height )
 //       {
-//         html.css( 'max-height', self.vminFor( element.map.height ) );
+//         html.css( 'max-height', self.vminFor( srcElement.map.height ) );
 //         html.css( 'width', 'auto' );
 //       }
-//       if( element.map.width )
+//       if( srcElement.map.width )
 //       {
-//         html.css( 'max-width', self.vminFor( element.map.width ) );
+//         html.css( 'max-width', self.vminFor( srcElement.map.width ) );
 //         html.css( 'height', 'auto' );
 //       }
 //
-//       if( element.map.halign )
-//       html.attr( 'halign', element.map.halign );
-//       if( element.map.valign )
-//       html.attr( 'valign', element.map.valign );
+//       if( srcElement.map.halign )
+//       html.attr( 'halign', srcElement.map.halign );
+//       if( srcElement.map.valign )
+//       html.attr( 'valign', srcElement.map.valign );
 //
 //     }
-//     else if( element.kind === 'Span' )
+//     else if( srcElement.kind === 'Span' )
 //     {
 //
 //       html = $( '<span>' );
-//       html.text( element.text );
+//       html.text( srcElement.text );
 //
-//       if( element.properties )
+//       if( srcElement.properties )
 //       {
-//         if( element.properties.size )
+//         if( srcElement.properties.size )
 //         {
-//           let em = self.emFor( element.properties.size );
+//           let em = self.emFor( srcElement.properties.size );
 //           html.css( 'line-height', em );
 //           html.css( 'font-size', em );
 //         }
@@ -447,18 +447,18 @@ function _pageElementRender( element, page )
 //     else debugger;
 //
 //   }
-//   else if( _.arrayIs( element ) ) /* */
+//   else if( _.arrayIs( srcElement ) ) /* */
 //   {
 //     let result = [];
 //
-//     for( let i = 0 ; i < element.length ; i++ )
+//     for( let i = 0 ; i < srcElement.length ; i++ )
 //     {
-//       result.push( self._pageElementMake( element[ i ], page ) );
+//       result.push( self._pageElementMake( srcElement[ i ], srcPage ) );
 //     }
 //
 //     return result;
 //   }
-//   else throw _.err( '_pageElementMake : unknown type : ' + _.entity.strType( element ) ); /* */
+//   else throw _.err( '_pageElementMake : unknown type : ' + _.entity.strType( srcElement ) ); /* */
 //
 //   return html;
 // }
@@ -476,13 +476,13 @@ function _pageElementRender( element, page )
 //   let list = [ '<ul>' ];
 //   let level = 1;
 //
-//   for( let k = 0 ; k < o.srcNode.nodes.length ; k++ )
+//   for( let k = 0 ; k < o.srcList.nodes.length ; k++ )
 //   {
-//     let element = o.srcNode.nodes[ k ];
+//     let srcElement = o.srcList.nodes[ k ];
 //
-//     levelSet( element.level );
+//     levelSet( srcElement.level );
 //
-//     o.element = element;
+//     o.srcElement = srcElement;
 //     o.key = k;
 //     list.push( self._pageListElementMake( o ) );
 //   }
@@ -520,7 +520,7 @@ function _pageElementRender( element, page )
 //
 // _pageListRender.defaults =
 // {
-//   srcNode : null,
+//   srcList : null,
 //   srcPage : null,
 // }
 
@@ -535,15 +535,15 @@ function _pageListRender( o )
 
   /* */
 
-  let dstList = _.presentor.HtmlUl.make();
+  let dstList = _.html.Ul.make();
   let dstLists = [ dstList ];
   let level = 1;
 
-  for( let k = 0 ; k < o.srcNode.elements.length ; k++ )
+  for( let k = 0 ; k < o.srcList.nodes.length ; k++ )
   {
-    let element = o.srcNode.elements[ k ];
-    levelSet( element.level );
-    o.element = element;
+    let srcItem = o.srcList.nodes[ k ];
+    levelSet( srcItem.level );
+    o.srcItem = srcItem;
     o.key = k;
     dstList.nodes.push( self._pageListElementMake( o ) );
   }
@@ -560,7 +560,7 @@ function _pageListRender( o )
 
     while( level < newLevel )
     {
-      let dstList = _.presentor.HtmlUl.make();
+      let dstList = _.html.Ul.make();
       dstLists[ dstLists.length-1 ].nodes.push( dstList );
       dstLists.push( dstList );
       level += 1;
@@ -579,7 +579,7 @@ function _pageListRender( o )
 
 _pageListRender.defaults =
 {
-  srcNode : null,
+  srcList : null,
   srcPage : null,
 }
 
@@ -623,13 +623,13 @@ _pageListRender.defaults =
 //   let lists = [ list ];
 //   let level = 1;
 //
-//   for( let k = 0 ; k < o.srcNode.elements.length ; k++ )
+//   for( let k = 0 ; k < o.srcList.nodes.length ; k++ )
 //   {
-//     let element = o.srcNode.elements[ k ];
+//     let srcElement = o.srcList.nodes[ k ];
 //
-//     levelSet( element.level );
+//     levelSet( srcElement.level );
 //
-//     o.element = element;
+//     o.srcElement = srcElement;
 //     o.key = k;
 //     list.nodes.push( self._pageListElementMake( o ) );
 //   }
@@ -640,7 +640,7 @@ _pageListRender.defaults =
 // _pageListRender.defaults =
 // {
 //   list : null,
-//   page : null,
+//   srcPage : null,
 // }
 
 //
@@ -651,20 +651,20 @@ function _pageListElementMake( o )
 
   _.routine.options( _pageListElementMake, o );
 
-  let html = [ '<li>' ];
-  let htmlElement = self._pageElementRender( o.element.nodes, o.srcPage );
-  html.push( htmlElement );
-  html.push( '</li>' );
+  let html = _.html.Li.make();
+  html.nodes.push( self._pageElmentExportHtml( o.srcItem.nodes, o.srcPage ) );
+  // html.push( dstElement );
+  // html.push( '</li>' );
 
   return html;
 }
 
 _pageListElementMake.defaults =
 {
-  element : null,
+  srcItem : null,
   key : null,
-  list : null,
-  page : null,
+  srcList : null,
+  srcPage : null,
 };
 
 // function _pageListElementMake( o )
@@ -674,22 +674,22 @@ _pageListElementMake.defaults =
 //   _.routine.options( _pageListElementMake, o );
 //
 //   let html = $( '<li>' );
-//   let htmlElement = self._pageElementRender( o.element.element, o.srcPage );
+//   let dstElement = self._pageElmentExportHtml( o.srcElement.srcElement, o.srcPage );
 //
-//   if( _.strIs( htmlElement ) )
-//   html.text( htmlElement )
+//   if( _.strIs( dstElement ) )
+//   html.text( dstElement )
 //   else
-//   html.nodes.push( htmlElement );
+//   html.nodes.push( dstElement );
 //
 //   return html;
 // }
 //
 // _pageListElementMake.defaults =
 // {
-//   element : null,
+//   srcElement : null,
 //   key : null,
 //   list : null,
-//   page : null,
+//   srcPage : null,
 // }
 
 //
@@ -771,10 +771,10 @@ let Associates =
   // genContentDomSelector : '{{contentDomSelector}} > .gen-content',
   // genContentDom : null,
   //
-  // pageHeadDomSelector : '{{subContentDomSelector}} > .page-head',
+  // pageHeadDomSelector : '{{subContentDomSelector}} > .srcPage-head',
   // pageHeadDom : null,
   //
-  // pageNumberDomSelector : '{{subContentDomSelector}} > .page-number',
+  // pageNumberDomSelector : '{{subContentDomSelector}} > .srcPage-number',
   // pageNumberDom : null,
   //
   // ellipsisDomSelector : '{{subContentDomSelector}} > .presentor-ellipsis',
@@ -808,7 +808,7 @@ let Proto =
   pageHeadNameChop,
   pagesByHead,
 
-  _pageElementRender,
+  _pageElmentExportHtml,
   _pageListRender,
   _pageListElementMake,
 

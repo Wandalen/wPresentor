@@ -56,13 +56,10 @@ function trivial( test )
 
 //
 
-function _pageElementRender( test )
+function _pageElmentExportHtml( test )
 {
   const a = test.assetFor( 'basic' );
   a.reflect();
-
-  // var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
-  // var renderer = _.presentor.Renderer({ structure : dataStr });
 
   /* */
 
@@ -73,9 +70,15 @@ txt
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
-  test.identical( node.kind, 'LineEmpty' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<p>txt</p>' );
+  test.identical( node.kind, 'Line' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<p><span>
+txt
+</span></p>
+`
+  test.equivalent( got, exp );
 
   /* */
 
@@ -85,10 +88,18 @@ txt
 - txt
 `;
   var renderer = _.presentor.Renderer({ structure : data });
-  var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
-  var got = renderer._pageElementRender( node );
-  test.identical( got, '<ul><li>txt</li></ul>' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`
+<ul><li><p><span>
+txt
+</span></p></li></ul>
+`
+  test.equivalent( got, exp );
+
+  /* */
 
 }
 
@@ -116,7 +127,7 @@ const Proto =
   tests :
   {
     // trivial,
-    _pageElementRender,
+    _pageElmentExportHtml,
   },
 
 }
@@ -128,4 +139,3 @@ if( typeof module !== 'undefined' && !module.parent )
 wTester.test( Self.name );
 
 })();
-
