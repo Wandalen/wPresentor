@@ -67,19 +67,32 @@ function _pageElementRender( test )
   /* */
 
   test.case = 'LineEmpty';
-  var element = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
-  test.identical( element.kind, 'LineEmpty' );
-  var got = renderer._pageElementRender( element );
+  var data =
+`
+==
+
+- txt
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'LineEmpty' );
+  var got = renderer._pageElementRender( node );
   test.identical( got, '<p></p>' );
 
   /* */
 
-  // test.case = 'List';
-  // var renderer = _.presentor.Renderer({ structure : dataStr });
-  // var element = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
-  // var got = renderer._pageElementRender( element );
-  // test.identical( got, '<ul><li><p><a href="https://www.edx.org/"<span> edX </span></a>edX</p></li><li><p><a href="https://www.coursera.org/"<span> Coursera </span></a>Coursera</p></li></ul>' );
-  // test.identical( got, '<p></p>' );
+  test.case = 'List';
+  var data =
+`
+==
+
+- txt
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
+  test.identical( node.kind, 'List' );
+  var got = renderer._pageElementRender( node );
+  test.identical( got, '<ul><li>txt</li></ul>' );
 
 }
 
@@ -106,7 +119,7 @@ const Proto =
 
   tests :
   {
-    trivial,
+    // trivial,
     _pageElementRender,
   },
 
