@@ -21,7 +21,7 @@ const __ = _globals_.testing.wTools;
 function onSuiteBegin()
 {
   let context = this;
-  context.suiteTempPath = __.path.tempOpen( _.path.join( __dirname, '../..'  ), 'presentor' );
+  context.suiteTempPath = __.path.tempOpen( _.path.join( __dirname, '../..'  ), 'renderer' );
   context.assetsOriginalPath = __.path.join( __dirname, '_assets' );
 }
 
@@ -30,7 +30,7 @@ function onSuiteBegin()
 function onSuiteEnd()
 {
   let context = this;
-  _.assert( _.strHas( context.suiteTempPath, '/presentor' ) )
+  _.assert( _.strHas( context.suiteTempPath, '/renderer' ) )
   __.path.tempClose( context.suiteTempPath );
 }
 
