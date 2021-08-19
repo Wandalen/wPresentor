@@ -287,7 +287,7 @@ function _formAct()
   if( self.usingAnchorOnMake )
   self.pageShowByCurrentAnchor();
   else
-  self.pageShow();
+  self.pageRender();
 
 }
 
@@ -333,7 +333,7 @@ function pageWind( offset )
   else if( pageIndex >= self.data.page.length )
   pageIndex = self.data.page.length-1;
 
-  self.pageShow( pageIndex );
+  self.pageRender( pageIndex );
 
 }
 
@@ -365,7 +365,7 @@ function pageFirst()
 {
   let self = this;
 
-  self.pageShow( 0 );
+  self.pageRender( 0 );
 
   return self;
 }
@@ -376,7 +376,7 @@ function pageLast()
 {
   let self = this;
 
-  self.pageShow( self.data.page.length-1 );
+  self.pageRender( self.data.page.length-1 );
 
   return self;
 }
@@ -393,7 +393,7 @@ function pageClear()
 
 //
 
-function pageShow( pageIndex )
+function pageRender( pageIndex )
 {
   let self = this;
 
@@ -420,12 +420,12 @@ function pageShow( pageIndex )
   for( let k = 0 ; k < page.elements.length ; k++ )
   {
     let element = page.elements[ k ];
-    let htmlElement = self._pageElementMake( element,page );
+    let htmlElement = self._pageElementRender( element,page );
     self.genContentDom.append( htmlElement );
   }
 
   self.pageHeadDom.empty();
-  self.pageHeadDom.append( self._pageElementMake( page.head ) );
+  self.pageHeadDom.append( self._pageElementRender( page.head ) );
   self.pageHeadDom.attr( 'level',page.level );
 
   self.pageNumberDom.text( ( self.pageIndexCurrent + 1 ) + ' / ' + self.data.page.length );
@@ -443,7 +443,7 @@ function pageShow( pageIndex )
 
 //
 
-function pageShowByCurrentAnchor()
+function pageRenderByCurrentAnchor()
 {
   let self = this;
 
@@ -456,13 +456,13 @@ function pageShowByCurrentAnchor()
     let page = self.pagesByHead( a.head )[ 0 ];
     if( page )
     {
-      self.pageShow( page.number );
+      self.pageRender( page.number );
       return
     }
   }
 
   let page = a.page !== undefined ? a.page-1 : 0;
-  self.pageShow( page );
+  self.pageRender( page );
 
 }
 
@@ -503,7 +503,7 @@ function pagesByHead( head )
 
 //
 
-function _pageElementMake( element,page )
+function _pageElementRender( element,page )
 {
   let self = this;
   let html;
@@ -521,13 +521,13 @@ function _pageElementMake( element,page )
     {
       html = $( '<a>' );
       html.attr( 'href',element.ref );
-      let htmlElement = self._pageElementMake( element.elements,page );
+      let htmlElement = self._pageElementRender( element.elements,page );
       html.append( htmlElement );
     }
     else if( element.kind === 'Line' )
     {
       html = $( '<p>' );
-      let htmlElement = self._pageElementMake( element.elements,page );
+      let htmlElement = self._pageElementRender( element.elements,page );
       html.append( htmlElement );
     }
     else if( element.kind === 'Sentiment' )
@@ -535,7 +535,7 @@ function _pageElementMake( element,page )
       html = $( '<span>' );
       if( element.sentiment === 'strong' )
       html.addClass( 'strong' );
-      let htmlElement = self._pageElementMake( element.element,page );
+      let htmlElement = self._pageElementRender( element.element,page );
       html.append( htmlElement );
     }
     else if( element.kind === 'Directive' )
@@ -603,12 +603,12 @@ function _pageElementMake( element,page )
 
     for( let i = 0 ; i < element.length ; i++ )
     {
-      result.push( self._pageElementMake( element[ i ],page ) );
+      result.push( self._pageElementRender( element[ i ],page ) );
     }
 
     return result;
   }
-  else throw _.err( '_pageElementMake : unknown type : ' + _.entity.strType( element ) ); /* */
+  else throw _.err( '_pageElementRender : unknown type : ' + _.entity.strType( element ) ); /* */
 
   return html;
 }
@@ -682,7 +682,7 @@ function _pageListElementMake( o )
   _.routineOptions( _pageListElementMake,o );
 
   let html = $( '<li>' );
-  let htmlElement = self._pageElementMake( o.element.element,o.page );
+  let htmlElement = self._pageElementRender( o.element.element,o.page );
 
   if( _.strIs( htmlElement ) )
   html.text( htmlElement )
@@ -864,13 +864,13 @@ let Proto =
   pageFirst,
   pageLast,
   pageClear,
-  pageShow,
+  pageRender,
   pageShowByCurrentAnchor,
 
   pageHeadNameChop,
   pagesByHead,
 
-  _pageElementMake,
+  _pageElementRender,
   _pageListMake,
   _pageListElementMake,
 
