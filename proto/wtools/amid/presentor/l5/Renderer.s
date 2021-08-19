@@ -166,12 +166,15 @@ function pageRender( pageIndex )
   if( !srcPage )
   return self.errorReport( 'Page', pageIndex, 'not found' );
 
+  const result = [];
   for( let k = 0 ; k < srcPage.nodes.length ; k++ )
   {
     let srcElement = srcPage.nodes[ k ];
     let dstElement = self._pageElmentExportHtml( srcElement, srcPage );
-    self.genContentDom.nodes.push( dstElement );
+    result.push( dstElement );
+    // self.genContentDom.nodes.push( dstElement );
   }
+  return result;
 
   // for( let k = 0 ; k < srcPage.nodes.length ; k++ )
   // {
