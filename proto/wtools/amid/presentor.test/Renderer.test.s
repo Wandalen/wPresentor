@@ -77,7 +77,6 @@ function _pageElementRender( test )
   test.identical( element.kind, 'LineEmpty' );
   var got = renderer._pageElementRender( element );
   test.identical( got, '<p></p>' );
-  test.true( true );
 
   /* */
 
@@ -85,8 +84,7 @@ function _pageElementRender( test )
   var element = node0.nodes[ 1 ];
   test.identical( element.kind, 'List' );
   var got = renderer._pageElementRender( element );
-  test.identical( got, '<p></p>' );
-  test.true( true );
+  test.identical( got, '<ul><li><p><a href="https://www.edx.org/"<span> edX </span></a>edX</p></li><li><p><a href="https://www.coursera.org/"<span> Coursera </span></a>Coursera</p></li></ul>' );
 }
 
 // --
