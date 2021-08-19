@@ -72,17 +72,26 @@ txt
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Line' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`
-<p><span>
-txt
-</span></p>
-`
-  test.equivalent( got, exp );
+  var exp = `<p><span>txt</span></p>`;
+  test.identical( got, exp );
 
   /* */
 
-  test.case = 'List';
+  test.case = 'LineEmpty';
+  var data =
+`
+- txt
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
+  test.identical( node.kind, 'LineEmpty' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp = `<p></p>`;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'List - one layer';
   var data =
 `
 - txt
@@ -91,16 +100,67 @@ txt
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
-  var exp =
-`
-<ul><li><p><span>
-txt
-</span></p></li></ul>
-`
-  test.equivalent( got, exp );
+  var exp = `<ul><li><p><span>txt</span></p></li></ul>`;
+  test.identical( got, exp );
 
   /* */
 
+  test.case = 'List - two layers';
+  var data =
+`
+- txt
+-- abc
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'List' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp =
+`<ul><li><p><span>txt</span></p></li>
+<ul><li><p><span>abc</span></p></li></ul></ul>`;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'Directive - image';
+  var data =
+`
+~ image:/file.png
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Directive' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp = `<img level="1" src="/file.png">`;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'Directive - image';
+  var data =
+`
+~~ image:/file.png
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Directive' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp = `<img level="2" src="/file.png">`;
+  test.identical( got, exp );
+
+  /* */
+
+  test.case = 'Directive - image';
+  var data =
+`
+>> edX <<- https://www.edx.org/
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Link' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp = `<a href="https://www.edx.org/">edX</a>`;
+  test.identical( got, exp );
 }
 
 // --

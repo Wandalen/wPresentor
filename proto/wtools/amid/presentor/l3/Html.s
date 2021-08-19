@@ -39,9 +39,28 @@ function exportToString( src, o )
 
   _.assert( _.html.is( src ) );
 
-  let content = self.exportToString( src.nodes, o );
-  let result = `<${src.kind}>${content}</${src.kind}>`
+  let content = '';
+  if( src.nodes )
+  content = self.exportToString( src.nodes, o );
+
+  const attrs = attrsConvert( src.attrs );
+  let result = '';
+  if( src.kind === 'img' )
+  result = `<${src.kind}${attrs}>`;
+  else
+  result = `<${src.kind}${attrs}>${src.text||''}${content}</${src.kind}>`;
   return result;
+
+  /* */
+
+  function attrsConvert( attrs )
+  {
+    let result = '';
+    if( attrs )
+    for( let key in attrs )
+    result += ` ${key}="${attrs[key]}"`;
+    return result;
+  }
 }
 
 // --
@@ -52,12 +71,14 @@ let Abstract = _.blueprint.define
 ({
   kind : 'Abstract',
   attrs : _.define.shallow( {} ),
+  text : '',
 })
 
 let AbstractBranch = _.blueprint.define
 ({
   kind : 'AbstractBranch',
   nodes : _.define.shallow( [] ),
+  text : '',
 })
 
 let Ul = _.blueprint.define
@@ -78,10 +99,22 @@ let P = _.blueprint.define
   kind : 'p',
 })
 
-let A = _.blueprint.define
+let Span = _.blueprint.define
 ({
   extension : _.define.extension( AbstractBranch ),
+  kind : 'span',
+})
+
+let A = _.blueprint.define
+({
+  extension : _.define.extension( Abstract ),
   kind : 'a',
+})
+
+let Img = _.blueprint.define
+({
+  extension : _.define.extension( Abstract ),
+  kind : 'img',
 })
 
 let Restricts =
@@ -99,7 +132,9 @@ let Extension =
   Ul,
   Li,
   P,
+  Span,
   A,
+  Img,
 
   _ : Restricts,
 
