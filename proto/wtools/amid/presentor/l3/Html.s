@@ -42,11 +42,13 @@ function exportToString( src, o )
   let content = '';
   if( src.nodes )
   content = self.exportToString( src.nodes, o );
+
+  const attrs = attrsConvert( src.attrs );
   let result = '';
   if( src.kind === 'img' )
-  result = `<${src.kind}${attrsConvert(src.attrs)}>`;
+  result = `<${src.kind}${attrs}>`;
   else
-  result = `<${src.kind}>${src.text||''}${content}</${src.kind}>`;
+  result = `<${src.kind}${attrs}>${src.text||''}${content}</${src.kind}>`;
   return result;
 
   /* */
@@ -54,6 +56,7 @@ function exportToString( src, o )
   function attrsConvert( attrs )
   {
     let result = '';
+    if( attrs )
     for( let key in attrs )
     result += ` ${key}="${attrs[key]}"`;
     return result;
@@ -68,6 +71,7 @@ let Abstract = _.blueprint.define
 ({
   kind : 'Abstract',
   attrs : _.define.shallow( {} ),
+  text : '',
 })
 
 let AbstractBranch = _.blueprint.define
@@ -103,7 +107,7 @@ let Span = _.blueprint.define
 
 let A = _.blueprint.define
 ({
-  extension : _.define.extension( AbstractBranch ),
+  extension : _.define.extension( Abstract ),
   kind : 'a',
 })
 
