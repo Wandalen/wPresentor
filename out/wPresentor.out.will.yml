@@ -178,6 +178,7 @@ module:
           - ../proto/wtools/amid/presentor/l1
           - ../proto/wtools/amid/presentor/l1/Namespace.s
           - ../proto/wtools/amid/presentor/l3
+          - ../proto/wtools/amid/presentor/l3/Dom.s
           - ../proto/wtools/amid/presentor/l3/Html.s
           - ../proto/wtools/amid/presentor/l5
           - ../proto/wtools/amid/presentor/l5/Presentor.s
