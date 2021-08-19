@@ -66,26 +66,22 @@ function _pageElementRender( test )
 
   /* */
 
-  test.case = 'LineEmpty';
+  test.case = 'Line';
   var data =
 `
-==
-
-- txt
+txt
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'LineEmpty' );
   var got = renderer._pageElementRender( node );
-  test.identical( got, '<p></p>' );
+  test.identical( got, '<p>txt</p>' );
 
   /* */
 
   test.case = 'List';
   var data =
 `
-==
-
 - txt
 `;
   var renderer = _.presentor.Renderer({ structure : data });
