@@ -56,6 +56,39 @@ function trivial( test )
   test.true( true );
 }
 
+//
+
+function _pageElementRender( test )
+{
+  const a = test.assetFor( 'basic' );
+  a.reflect();
+
+  var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
+  var parser = _.stxt.Parser({ dataStr });
+  parser.form();
+
+  const renderer = _.ghi.HiPresentor( parser );
+  const node0 = parser.document.nodes[ 0 ];
+
+  /* */
+
+  test.case = 'LineEmpty';
+  var element = node0.nodes[ 0 ];
+  test.identical( element.kind, 'LineEmpty' );
+  var got = renderer._pageElementRender( element );
+  test.identical( got, '<p></p>' );
+  test.true( true );
+
+  /* */
+
+  test.case = 'List';
+  var element = node0.nodes[ 1 ];
+  test.identical( element.kind, 'List' );
+  var got = renderer._pageElementRender( element );
+  test.identical( got, '<p></p>' );
+  test.true( true );
+}
+
 // --
 // declare
 // --
@@ -79,7 +112,8 @@ const Proto =
 
   tests :
   {
-    trivial,
+    // trivial,
+    _pageElementRender,
   },
 
 }
