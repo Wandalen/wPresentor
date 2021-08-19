@@ -38,7 +38,7 @@ function onSuiteEnd()
 // tests
 // --
 
-function trivial( test )
+function pageRender( test )
 {
   const a = test.assetFor( 'basic' );
   a.reflect();
@@ -46,12 +46,37 @@ function trivial( test )
   var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
   var renderer = _.presentor.Renderer({ structure : dataStr });
 
+  test.identical( renderer.structure.document.nodes.length, 2 );
+
   /* */
 
-  test.case = 'trivial';
+  test.case = 'node0';
   var got = renderer.pageRender( 0 );
-  console.log( got );
-  test.true( true );
+  test.identical( got.length, 3 );
+  test.identical( got[ 0 ].kind, 'p' );
+  test.identical( got[ 1 ].kind, 'ul' );
+  test.identical( got[ 2 ].kind, 'p' );
+  test.identical( _.html.exportToString( got[ 0 ] ), '<p></p>' );
+  var exp =
+`<ul><li><p><a href="https://www.edx.org/">edX</a></p></li>
+<li><p><a href="https://www.coursera.org/">Coursera</a></p></li></ul>`;
+  test.identical( _.html.exportToString( got[ 1 ] ), exp );
+  test.identical( _.html.exportToString( got[ 2 ] ), '<p></p>' );
+
+  /* */
+
+  test.case = 'node1';
+  var got = renderer.pageRender( 1 );
+  test.identical( got.length, 3 );
+  test.identical( got[ 0 ].kind, 'p' );
+  test.identical( got[ 1 ].kind, 'ul' );
+  test.identical( got[ 2 ].kind, 'p' );
+  test.identical( _.html.exportToString( got[ 0 ] ), '<p></p>' );
+  var exp =
+`<ul><li><p><a href="https://harvardx.harvard.edu/">HarvardX</a></p></li>
+<li><p><a href="https://mitprofessionalx.mit.edu/">MIT Professional Education Digital Programs</a></p></li></ul>`;
+  test.identical( _.html.exportToString( got[ 1 ] ), exp );
+  test.identical( _.html.exportToString( got[ 2 ] ), '<p></p>' );
 }
 
 //
@@ -150,7 +175,7 @@ txt
 
   /* */
 
-  test.case = 'Directive - image';
+  test.case = 'Link';
   var data =
 `
 >> edX <<- https://www.edx.org/
@@ -186,7 +211,7 @@ const Proto =
 
   tests :
   {
-    // trivial,
+    pageRender,
     _pageElmentExportHtml,
   },
 
