@@ -41,8 +41,6 @@ function form()
   self._formed = 1;
 }
 
-  // debugger; //
-  //
   // let src = 'HarvardX <<- https://harvardx.harvard.edu/';
   // let result = _.strSplit
   // ({
@@ -56,7 +54,6 @@ function form()
   //
   // console.log( src );
   // console.log( result );
-  // debugger
   //
   // return; //
 //
@@ -164,7 +161,6 @@ function pageRender( pageIndex )
 
   /* */
 
-  debugger;
   let srcPage = self.structure.document.nodes[ pageIndex ];
 
   if( !srcPage )
@@ -255,12 +251,9 @@ function _pageElmentExportHtml( srcElement, srcPage )
     }
     else if( srcElement.kind === 'Link' )
     {
-      html = [ '<a>' ];
+      html = _.html.A.make();
       if( srcElement.ref )
-      html[ 0 ] = `<a href="${ srcElement.ref }"`;
-      let dstElement = self._pageElmentExportHtml( srcElement.nodes, srcPage );
-      html.push( dstElement );
-      html.push( '</a>' );
+      html.attrs.href = srcElement.ref;
     }
     else if( srcElement.kind === 'Line' || srcElement.kind === 'LineEmpty' )
     {
@@ -269,32 +262,28 @@ function _pageElmentExportHtml( srcElement, srcPage )
     }
     else if( srcElement.kind === 'Sentiment' )
     {
-      html = $( '<span>' );
-      if( srcElement.sentiment === 'strong' )
-      html.addClass( 'strong' );
-      let dstElement = self._pageElmentExportHtml( srcElement.nodes, srcPage );
-      html.nodes.push( dstElement );
+      html = _.html.P.make();
+      html.nodes.push( self._pageElmentExportHtml( srcElement.nodes, srcPage ) );
     }
     else if( srcElement.kind === 'Directive' )
     {
 
-      if( srcElement.map.image )
+      if( srcElement.properties.image )
       {
-        if( srcElement.map.size === 'widest' )
+        if( srcElement.properties.size === 'widest' )
         {
-          html = $( '<img>' );
-          html.attr( 'level', srcElement.level );
-          html.attr( 'src', srcElement.map.image );
-          html.attr( 'background-image', 1 );
+          html = _.html.Img.make();
+          html.attrs.level = srcElement.level;
+          html.attrs.src = srcElement.properties.image;
+          html.attrs[ 'background-image' ] = 1;
         }
         else
         {
-          html = $( '<img>' );
-          html.attr( 'level', srcElement.level );
-          html.attr( 'src', srcElement.map.image );
+          html = _.html.Img.make();
+          html.attrs.level = srcElement.level;
+          html.attrs.src = srcElement.properties.image;
         }
       }
-      else debugger;
 
       // if( srcElement.map.height )
       // {
@@ -307,32 +296,22 @@ function _pageElmentExportHtml( srcElement, srcPage )
       //   html.css( 'height', 'auto' );
       // }
 
-      if( srcElement.map.halign )
+      if( srcElement.properties.halign )
       html.attr( 'halign', srcElement.map.halign );
-      if( srcElement.map.valign )
+      if( srcElement.properties.valign )
       html.attr( 'valign', srcElement.map.valign );
 
     }
     else if( srcElement.kind === 'Span' )
     {
-
-      html = [ '<span>' ];
-      html.push( srcElement.text );
-
+      html = _.html.Span.make();
+      if( srcElement.nodes )
+      html.nodes.push( self._pageElmentExportHtml( srcElement.nodes, srcPage ) );
+      debugger;
       if( srcElement.properties )
-      {
-        // if( srcElement.properties.size )
-        // {
-        //   let em = self.emFor( srcElement.properties.size );
-        //   html.css( 'line-height', em );
-        //   html.css( 'font-size', em );
-        // }
-      }
-
-      html.push( '</span>' );
-
+      html.attrs = srcElement.properties;
+      html.text = srcElement.text;
     }
-    else debugger;
 
   }
   else if( _.arrayIs( srcElement ) ) /* */
@@ -346,7 +325,6 @@ function _pageElmentExportHtml( srcElement, srcPage )
   }
   else throw _.err( '_pageElmentExportHtml : unknown type : ' + _.entity.strType( srcElement ) ); /* */
 
-  // debugger;
   // return html.join( '' );
   return html;
 }
@@ -408,7 +386,6 @@ function _pageElmentExportHtml( srcElement, srcPage )
 //         }
 //
 //       }
-//       else debugger;
 //
 //       if( srcElement.map.height )
 //       {
@@ -444,7 +421,6 @@ function _pageElmentExportHtml( srcElement, srcPage )
 //       }
 //
 //     }
-//     else debugger;
 //
 //   }
 //   else if( _.arrayIs( srcElement ) ) /* */
@@ -697,7 +673,6 @@ _pageListElementMake.defaults =
 function errorReport( err )
 {
   let self = this;
-  debugger;
   throw err;
 }
 
