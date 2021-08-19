@@ -21,7 +21,7 @@ Self.shortName = 'HiPresentor';
 function init( o )
 {
   let self = this;
-  Parent.prototype.init.call( self,o );
+  // Parent.prototype.init.call( self,o ); /* qqq : for Dmytro : investigate */
 }
 
   // debugger; //
@@ -140,7 +140,7 @@ function pageRender( pageIndex )
   //
   // self.pageIndexCurrent = self.pageIndex;
 
-  self.pageClear();
+  // self.pageClear(); /* qqq : for Dmytro : investigate */
 
   _.assert( pageIndex === undefined || _.numberIs( pageIndex ) );
   _.assert( arguments.length === 0 || arguments.length === 1 );
