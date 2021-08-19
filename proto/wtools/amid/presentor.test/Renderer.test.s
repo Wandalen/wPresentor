@@ -147,6 +147,20 @@ txt
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
   var exp = `<img level="2" src="/file.png">`;
   test.identical( got, exp );
+
+  /* */
+
+  test.case = 'Directive - image';
+  var data =
+`
+>> edX <<- https://www.edx.org/
+`;
+  var renderer = _.presentor.Renderer({ structure : data });
+  var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ].nodes[ 0 ];
+  test.identical( node.kind, 'Link' );
+  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var exp = `<a href="https://www.edx.org/">edX</a>`;
+  test.identical( got, exp );
 }
 
 // --
