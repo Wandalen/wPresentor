@@ -7,7 +7,7 @@ if( typeof module !== 'undefined' )
 {
   const _ = require( 'Tools' );
   _.include( 'wTesting' );
-  _.include( 'stxt' );
+  _.include( 'wStxt' );
   require( '../presentor/include/Mid.s' );
 }
 
@@ -40,11 +40,8 @@ function onSuiteEnd()
 
 function trivial( test )
 {
-  // var data = `txt\n`;
-  // var renderer = _.presentor.Renderer({ structure : data });
-  // debugger;
-  // var presentor = _.presentor.Presentor({ renderer });
-  test.true( true );
+  var presentor = _.presentor.Presentor({});
+  test.identical( presentor._formed, 0 );
 }
 
 // --

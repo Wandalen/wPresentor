@@ -8,6 +8,7 @@ if( typeof module !== 'undefined' )
 
   _.include( 'wProto' );
   _.include( 'wCopyable' );
+  _.include( 'wConsequence' );
 
   module.exports = _;
 }

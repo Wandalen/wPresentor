@@ -33,7 +33,7 @@ module.exports = {
         baseDir : __dirname,
         index : "Presentor.html",
         routes : {
-            "/stxt.js" : path.join( __dirname, "../../node_modules/stxt/out/stxt.browser.debug/Main.js" ),
+            // "/stxt.js" : path.join( __dirname, "../../node_modules/stxt/out/stxt.browser.debug/Main.js" ),
             "/renderer.js" : path.join( __dirname, "../../out/presentor.browser.debug/Main.js" ),
         }
     },

@@ -27,10 +27,13 @@ function init( o )
   if( o )
   self.copy( o );
 
-  _.assert( !!self.renderer );
-  _.assert( self.renderer._formed === 1 );
+  // _.assert( !!self.renderer );
+  // _.assert( self.renderer._formed === 1 );
 
-  return self.form();
+  if( self.dataStr || self.dataPath )
+  self.form();
+
+  return self;
 }
 
 // //
@@ -79,25 +82,51 @@ function init( o )
 function form()
 {
   let self = this;
+  let ready = _.take( self.dataStr );
+
+  if( self._formed )
+  return self.formReady.split();
+
+  self._formed = 1;
 
   // Parent.prototype._formAct.call( self );
 
-  if( self.renderer.structure.dataStr !== undefined )
-  self.dataStr = self.renderer.structure.dataStr;
+  if( !self.dataStr && self.dataPath )
+  ready.then( () => self.fetch( dataPath ) );
 
-  _.assert( _.strIs( self.dataStr ) );
+  ready.then( () =>
+  {
+    self._formed = 2;
 
-  debugger;
-  self.structure = self.renderer.structure;
+    _.assert( _.strIs( self.dataStr ) );
+    self.renderer = _.presentor.Renderer({ structure : self.dataStr });
+    self.domForm();
 
-  _.assert( self.targetDom.length === 1 );
+    self._formed = 3;
+    self.formReady.take( null );
+  });
+
+  return ready;
+}
+
+//
+
+function domForm()
+{
+  let self = this;
 
   /* form doms */
 
-  self._formContentDom();
-  self.contentDom[ 0 ].setAttribute( 'tabindex', '0' );
+  _.assert( self.targetDom.length === 1 );
 
-  _.domWheelOn( self.contentDom, _.routineJoin( self, _.time.rarely_functor( 1000, self.handleWheel ) ) ); /* !!! add off */
+  debugger;
+
+  return;
+
+  // self._formContentDom();
+  // self.contentDom[ 0 ].setAttribute( 'tabindex', '0' );
+
+  // _.domWheelOn( self.contentDom, _.routineJoin( self, _.time.rarely_functor( 1000, self.handleWheel ) ) ); /* !!! add off */
 
   self.menuDom = self._formConentElementDom( self.menuDomSelector );
   self.menuDom.css({ 'display' : 'none' });
@@ -199,6 +228,28 @@ function form()
   self.pageShowByCurrentAnchor();
   else
   self.pageRender();
+
+}
+
+//
+
+async function fetch( dataPath )
+{
+  let self = this;
+  debugger;
+  const response = await fetch( dataPath );
+  self.dataStr = await response.text();
+  // const renderer = _.presentor.Renderer({ structure : dataStr });
+  //
+  // const page0 = renderer.pageRender( 0 );
+  // for( let i = 0 ; i < page0.length ; i++ )
+  // page0[ i ] = _.html.exportToString( page0[ i ] );
+  //
+  // const data = page0.join( '\n' );
+  //
+  // document.body.innerHTML = data;
+  // console.log( data );
+
 }
 
 //
@@ -405,14 +456,17 @@ let symbolForValues = Symbol.for( 'values' );
 let Composes =
 {
 
-  renderer : null,
+  // parser : null,
+  // renderer : null,
+  // filePath : null,
+  // dataStr : null,
 
   dynamic : 0,
   targetIdentity : '.wpresentor',
-  // terminalCssClass : 'terminal',
 
-  dataStr : null,
-  structure : null,
+  // terminalCssClass : 'terminal',
+  // dataStr : null,
+  // structure : null,
   // data : null,
 
   pageIndex : 0,
@@ -424,6 +478,9 @@ let Composes =
 
 let Aggregates =
 {
+
+  dataStr : null,
+  dataPath : null,
 
 }
 
@@ -464,13 +521,16 @@ let Associates =
 
 let Restricts =
 {
+  _formed : 0,
+  formReady : _.define.own( new _.Consequence() ),
+  parser : null,
+  renderer : null,
 }
 
 let Statics =
 {
   // exec,
   // _exec,
-
 }
 
 // --
@@ -486,6 +546,8 @@ let Proto =
   // _exec,
 
   form,
+  domForm,
+  fetch,
 
   menuVisible,
   menuIsVisible,

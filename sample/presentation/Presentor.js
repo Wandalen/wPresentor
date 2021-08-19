@@ -1,7 +1,12 @@
 (async function()
 {
   const _ = _global_.wTools;
-  _.include( 'wFilesHttp' );
+
+  // debugger;
+  // const presentor = _.presentor.Presentor({ dataPath : _.path.current() + '/Courses.stxt' });
+  // await presentor.form();
+  // debugger;
+
   const response = await fetch( _.path.join( _.path.current(), 'Courses.stxt' ) );
   const dataStr = await response.text();
   const renderer = _.presentor.Renderer({ structure : dataStr });
@@ -14,5 +19,6 @@
 
   document.body.innerHTML = data;
   console.log( data );
+
 })()
 
