@@ -73,9 +73,9 @@ txt
 `;
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
-  test.identical( node.kind, 'LineEmpty' );
+  test.identical( node.kind, 'Line' );
   var got = renderer._pageElementRender( node );
-  test.identical( got, '<p>txt</p>' );
+  test.identical( got, '<p><span>txt</span>txt</p>' );
 
   /* */
 
