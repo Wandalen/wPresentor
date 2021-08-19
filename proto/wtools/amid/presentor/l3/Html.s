@@ -39,9 +39,25 @@ function exportToString( src, o )
 
   _.assert( _.html.is( src ) );
 
-  let content = self.exportToString( src.nodes, o );
-  let result = `<${src.kind}>${content}</${src.kind}>`
+  let content = '';
+  if( src.nodes )
+  content = self.exportToString( src.nodes, o );
+  let result = '';
+  if( src.kind === 'img' )
+  result = `<${src.kind}${attrsConvert(src.attrs)}>`;
+  else
+  result = `<${src.kind}>${content}</${src.kind}>`;
   return result;
+
+  /* */
+
+  function attrsConvert( attrs )
+  {
+    let result = '';
+    for( let key in attrs )
+    result += ` ${key}="${attrs[key]}"`;
+    return result;
+  }
 }
 
 // --
@@ -84,6 +100,12 @@ let A = _.blueprint.define
   kind : 'a',
 })
 
+let Img = _.blueprint.define
+({
+  extension : _.define.extension( Abstract ),
+  kind : 'img',
+})
+
 let Restricts =
 {
 }
@@ -100,6 +122,7 @@ let Extension =
   Li,
   P,
   A,
+  Img,
 
   _ : Restricts,
 
