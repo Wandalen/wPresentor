@@ -47,12 +47,13 @@ function trivial( test )
   var parser = _.stxt.Parser({ dataStr });
   parser.form();
 
-  const renderer = _.presentor.wRenderer( parser );
+  const renderer = _.presentor.Renderer({ structure : parser });
 
   /* */
 
   test.case = 'trivial';
   var got = renderer.pageRender( 0 );
+  console.log( got );
   test.true( true );
 }
 
@@ -66,14 +67,12 @@ function _pageElementRender( test )
   var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
   var parser = _.stxt.Parser({ dataStr });
   parser.form();
-
-  const renderer = _.presentor.wRenderer( parser );
-  const node0 = parser.document.nodes[ 0 ];
+  var renderer = _.presentor.Renderer({ structure : parser });
 
   /* */
 
   test.case = 'LineEmpty';
-  var element = node0.nodes[ 0 ];
+  var element = parser.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( element.kind, 'LineEmpty' );
   var got = renderer._pageElementRender( element );
   test.identical( got, '<p></p>' );
@@ -81,8 +80,7 @@ function _pageElementRender( test )
   /* */
 
   test.case = 'List';
-  var element = node0.nodes[ 1 ];
-  test.identical( element.kind, 'List' );
+  var element = parser.document.nodes[ 0 ].nodes[ 1 ];
   var got = renderer._pageElementRender( element );
   test.identical( got, '<ul><li><p><a href="https://www.edx.org/"<span> edX </span></a>edX</p></li><li><p><a href="https://www.coursera.org/"<span> Coursera </span></a>Coursera</p></li></ul>' );
 }
@@ -110,7 +108,7 @@ const Proto =
 
   tests :
   {
-    // trivial,
+    trivial,
     _pageElementRender,
   },
 

@@ -20,8 +20,26 @@ Self.shortName = 'Renderer';
 function init( o )
 {
   let self = this;
-  self.data = o; /* qqq : for Dmytro : bad */
-  // Parent.prototype.init.call( self,o ); /* qqq : for Dmytro : investigate */
+
+  _.workpiece.initFields( self );
+  Object.preventExtensions( self );
+
+  if( o )
+  self.copy( o );
+
+  if( self.structure )
+  self.form();
+}
+
+//
+
+function form()
+{
+  let self = this;
+  if( self._formed )
+  return;
+  self.structure.form();
+  self._formed = 1;
 }
 
   // debugger; //
@@ -147,8 +165,8 @@ function pageRender( pageIndex )
 
   /* */
 
-  // let page = self.data.page[ self.pageIndex ];
-  let page = self.data.document.nodes[ _.numberIs( pageIndex ) ? pageIndex : self.pageIndex ];
+  debugger;
+  let page = self.structure.document.nodes[ pageIndex ];
 
   if( !page )
   return self.errorReport( 'Page', pageIndex, 'not found' );
@@ -170,7 +188,7 @@ function pageRender( pageIndex )
   self.pageHeadDom.append( self._pageElementRender( page.head ) );
   self.pageHeadDom.attr( 'level', page.level );
 
-  self.pageNumberDom.text( ( self.pageIndexCurrent + 1 ) + ' / ' + self.data.page.length );
+  self.pageNumberDom.text( ( pageIndex + 1 ) + ' / ' + self.structure.document.nodes.length );
 
   // let a = _.process.anchor();
   //
@@ -680,6 +698,7 @@ let Associates =
 
 let Restricts =
 {
+  _formed : 0,
 }
 
 let Statics =
@@ -696,6 +715,7 @@ let Proto =
 {
 
   init,
+  form,
 
   pageRender,
 
@@ -729,6 +749,8 @@ _.classDeclare
   parent : Parent,
 });
 
+_.Copyable.mixin( Self );
+
 // _.Instancing.mixin( Self );
 // _.EventHandler.mixin( Self );
 
@@ -737,7 +759,7 @@ _.classDeclare
 // _.ghi = _.ghi || Object.create( null );
 // _global_[ Self.name ] = _.ghi[ Self.shortName ] = Self;
 
-_.presentor[ Self.name ] = Self;
+_.presentor[ Self.shortName ] = Self;
 
 // Self.exec();
 
