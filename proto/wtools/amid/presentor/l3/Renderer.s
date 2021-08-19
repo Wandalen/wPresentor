@@ -176,9 +176,9 @@ function pageRender( pageIndex )
     let htmlElement = self._pageElementRender( element, page );
     self.genContentDom.nodes.push( htmlElement );
   }
-  // for( let k = 0 ; k < page.elements.length ; k++ )
+  // for( let k = 0 ; k < page.nodes.length ; k++ )
   // {
-  //   let element = page.elements[ k ];
+  //   let element = page.nodes[ k ];
   //   let htmlElement = self._pageElementRender( element, page );
   //   self.genContentDom.nodes.push( htmlElement );
   // }
@@ -248,8 +248,8 @@ function _pageElementRender( element, page )
     {
       html = self._pageListRender
       ({
-        list : element,
-        page,
+        srcList : element,
+        srcPage : page,
       });
     }
     else if( element.kind === 'Link' )
@@ -371,13 +371,13 @@ function _pageElementRender( element, page )
 //     {
 //       html = $( '<a>' );
 //       html.attr( 'href', element.ref );
-//       let htmlElement = self._pageElementMake( element.elements, page );
+//       let htmlElement = self._pageElementMake( element.nodes, page );
 //       html.nodes.push( htmlElement );
 //     }
 //     else if( element.kind === 'Line' )
 //     {
 //       html = $( '<p>' );
-//       let htmlElement = self._pageElementMake( element.elements, page );
+//       let htmlElement = self._pageElementMake( element.nodes, page );
 //       html.nodes.push( htmlElement );
 //     }
 //     else if( element.kind === 'Sentiment' )
@@ -476,9 +476,9 @@ function _pageElementRender( element, page )
 //   let list = [ '<ul>' ];
 //   let level = 1;
 //
-//   for( let k = 0 ; k < o.srcNode.nodes.length ; k++ )
+//   for( let k = 0 ; k < o.srcList.nodes.length ; k++ )
 //   {
-//     let element = o.srcNode.nodes[ k ];
+//     let element = o.srcList.nodes[ k ];
 //
 //     levelSet( element.level );
 //
@@ -520,7 +520,7 @@ function _pageElementRender( element, page )
 //
 // _pageListRender.defaults =
 // {
-//   srcNode : null,
+//   srcList : null,
 //   srcPage : null,
 // }
 
@@ -539,11 +539,12 @@ function _pageListRender( o )
   let dstLists = [ dstList ];
   let level = 1;
 
-  for( let k = 0 ; k < o.srcNode.elements.length ; k++ )
+  debugger;
+  for( let k = 0 ; k < o.srcList.nodes.length ; k++ )
   {
-    let element = o.srcNode.elements[ k ];
-    levelSet( element.level );
-    o.element = element;
+    let srcItem = o.srcList.nodes[ k ];
+    levelSet( srcItem.level );
+    o.srcItem = srcItem;
     o.key = k;
     dstList.nodes.push( self._pageListElementMake( o ) );
   }
@@ -579,7 +580,7 @@ function _pageListRender( o )
 
 _pageListRender.defaults =
 {
-  srcNode : null,
+  srcList : null,
   srcPage : null,
 }
 
@@ -623,9 +624,9 @@ _pageListRender.defaults =
 //   let lists = [ list ];
 //   let level = 1;
 //
-//   for( let k = 0 ; k < o.srcNode.elements.length ; k++ )
+//   for( let k = 0 ; k < o.srcList.nodes.length ; k++ )
 //   {
-//     let element = o.srcNode.elements[ k ];
+//     let element = o.srcList.nodes[ k ];
 //
 //     levelSet( element.level );
 //
@@ -651,20 +652,20 @@ function _pageListElementMake( o )
 
   _.routine.options( _pageListElementMake, o );
 
-  let html = [ '<li>' ];
-  let htmlElement = self._pageElementRender( o.element.nodes, o.srcPage );
-  html.push( htmlElement );
-  html.push( '</li>' );
+  let html = _.presentor.HtmlLi.make();
+  html.nodes.push( self._pageElementRender( o.srcItem.nodes, o.srcPage ) );
+  // html.push( htmlElement );
+  // html.push( '</li>' );
 
   return html;
 }
 
 _pageListElementMake.defaults =
 {
-  element : null,
+  srcItem : null,
   key : null,
-  list : null,
-  page : null,
+  srcList : null,
+  srcPage : null,
 };
 
 // function _pageListElementMake( o )

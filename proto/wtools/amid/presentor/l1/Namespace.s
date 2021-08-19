@@ -23,7 +23,8 @@ let HtmlNode = _.blueprint.define
 ({
   kind : 'Node',
   text : null,
-  attributes : null,
+  attributes : _.define.shallow( {} ),
+  // attributes : null,
 })
 
 
@@ -31,7 +32,8 @@ let HtmlUl = _.blueprint.define
 ({
   extension : _.define.extension( HtmlNode ),
   kind : 'ul',
-  nodes : null,
+  nodes : _.define.shallow( [] ),
+  // nodes : null,
 })
 
 let Restricts =
