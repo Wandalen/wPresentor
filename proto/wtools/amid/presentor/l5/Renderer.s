@@ -285,21 +285,10 @@ function _pageElmentExportHtml( srcElement, srcPage )
         }
       }
 
-      // if( srcElement.map.height )
-      // {
-      //   html.css( 'max-height', self.vminFor( srcElement.map.height ) );
-      //   html.css( 'width', 'auto' );
-      // }
-      // if( srcElement.map.width )
-      // {
-      //   html.css( 'max-width', self.vminFor( srcElement.map.width ) );
-      //   html.css( 'height', 'auto' );
-      // }
-
       if( srcElement.properties.halign )
-      html.attr( 'halign', srcElement.map.halign );
+      html.attrs.halign = srcElement.properties.halign;
       if( srcElement.properties.valign )
-      html.attr( 'valign', srcElement.map.valign );
+      html.attrs.valign = srcElement.properties.valign;
 
     }
     else if( srcElement.kind === 'Span' )
@@ -307,14 +296,13 @@ function _pageElmentExportHtml( srcElement, srcPage )
       html = _.html.Span.make();
       if( srcElement.nodes )
       html.nodes.push( self._pageElmentExportHtml( srcElement.nodes, srcPage ) );
-      debugger;
       if( srcElement.properties )
       html.attrs = srcElement.properties;
       html.text = srcElement.text;
     }
 
   }
-  else if( _.arrayIs( srcElement ) ) /* */
+  else if( _.arrayIs( srcElement ) )
   {
     let result = [];
 
@@ -536,7 +524,7 @@ function _pageListRender( o )
 
     while( level < newLevel )
     {
-      let dstList = _.html.Ul.make();
+      dstList = _.html.Ul.make();
       dstLists[ dstLists.length-1 ].nodes.push( dstList );
       dstLists.push( dstList );
       level += 1;
@@ -548,6 +536,20 @@ function _pageListRender( o )
       dstList = dstLists[ dstLists.length-1 ];
       level -= 1;
     }
+    // while( level < newLevel )
+    // {
+    //   let dstList = _.html.Ul.make();
+    //   dstLists[ dstLists.length-1 ].nodes.push( dstList );
+    //   dstLists.push( dstList );
+    //   level += 1;
+    // }
+    //
+    // while( level > newLevel )
+    // {
+    //   dstLists.pop();
+    //   dstList = dstLists[ dstLists.length-1 ];
+    //   level -= 1;
+    // }
 
   }
 

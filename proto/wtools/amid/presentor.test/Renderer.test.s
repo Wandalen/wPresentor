@@ -116,12 +116,8 @@ txt
   test.identical( node.kind, 'List' );
   var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
   var exp =
-`<ul><li><p><span>
-txt
-</span></p></li>
-<ul><li><p><span>
-abc
-</span></p></li></ul></ul>`;
+`<ul><li><p><span>txt</span></p></li>
+<ul><li><p><span>abc</span></p></li></ul></ul>`;
   test.identical( got, exp );
 
   /* */
