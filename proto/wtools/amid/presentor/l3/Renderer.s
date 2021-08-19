@@ -38,6 +38,8 @@ function form()
   let self = this;
   if( self._formed )
   return;
+  if( _.strIs( self.structure ) )
+  self.structure = _.stxt.Parser({ dataStr : self.structure })
   self.structure.form();
   self._formed = 1;
 }
@@ -48,7 +50,7 @@ function form()
   // let result = _.strSplit
   // ({
   //   src,
-  //   // delimeter : [ '->>','<<-','!>>','<<!','>>','<<',' ' ],
+  //   // delimeter : [ '->>', '<<-', '!>>', '<<!', '>>', '<<', ' ' ],
   //   delimeter : [ ' ' ],
   //   preservingEmpty : 0,
   //   preservingDelimeters : 1,
@@ -213,7 +215,7 @@ function pageHeadNameChop( head )
 
   head = head.trim();
   head = head.toLowerCase();
-  head = head.replace( /\s+/g,'_' );
+  head = head.replace( /\s+/g, '_' );
 
   return head;
 }
@@ -226,7 +228,7 @@ function pagesByHead( head )
 
   head = self.pageHeadNameChop( head );
 
-  let result = _.entityFilter( self.data.page,function( e )
+  let result = _.entityFilter( self.structure.document.nodes, function( e )
   {
     // console.log( self.pageHeadNameChop( e.head ) );
     if( self.pageHeadNameChop( e.head ) === head )
@@ -238,7 +240,7 @@ function pagesByHead( head )
 
 //
 
-function _pageElementRender( element,page )
+function _pageElementRender( element, page )
 {
   let self = this;
   let html;
@@ -312,9 +314,9 @@ function _pageElementRender( element,page )
       }
 
       if( element.map.halign )
-      html.attr( 'halign',element.map.halign );
+      html.attr( 'halign', element.map.halign );
       if( element.map.valign )
-      html.attr( 'valign',element.map.valign );
+      html.attr( 'valign', element.map.valign );
 
     }
     else if( element.kind === 'Span' )
@@ -349,14 +351,14 @@ function _pageElementRender( element,page )
     // else if( element.kind === 'Link' )
     // {
     //   html = $( '<a>' );
-    //   html.attr( 'href',element.ref );
-    //   let htmlElement = self._pageElementRender( element.elements,page );
+    //   html.attr( 'href', element.ref );
+    //   let htmlElement = self._pageElementRender( element.elements, page );
     //   html.append( htmlElement );
     // }
     // else if( element.kind === 'Line' )
     // {
     //   html = $( '<p>' );
-    //   let htmlElement = self._pageElementRender( element.elements,page );
+    //   let htmlElement = self._pageElementRender( element.elements, page );
     //   html.append( htmlElement );
     // }
     // else if( element.kind === 'Sentiment' )
@@ -364,7 +366,7 @@ function _pageElementRender( element,page )
     //   html = $( '<span>' );
     //   if( element.sentiment === 'strong' )
     //   html.addClass( 'strong' );
-    //   let htmlElement = self._pageElementRender( element.element,page );
+    //   let htmlElement = self._pageElementRender( element.element, page );
     //   html.append( htmlElement );
     // }
     // else if( element.kind === 'Directive' )
@@ -401,9 +403,9 @@ function _pageElementRender( element,page )
     //   }
     //
     //   if( element.map.halign )
-    //   html.attr( 'halign',element.map.halign );
+    //   html.attr( 'halign', element.map.halign );
     //   if( element.map.valign )
-    //   html.attr( 'valign',element.map.valign );
+    //   html.attr( 'valign', element.map.valign );
     //
     // }
     // else if( element.kind === 'Span' )
@@ -503,8 +505,8 @@ _pageListMake.defaults =
 // {
 //   let self = this;
 //
-//   _.routineOptions( _pageListMake,o );
-//   o = _.mapExtend( null,o );
+//   _.routine.options( _pageListMake, o );
+//   o = _.mapExtend( null, o );
 //
 //   /* */
 //
@@ -563,7 +565,7 @@ function _pageListElementMake( o )
 {
   let self = this;
 
-  _.routine.options( _pageListElementMake,o );
+  _.routine.options( _pageListElementMake, o );
 
   let html = [ '<li>' ];
   let htmlElement = self._pageElementRender( o.element.nodes, o.page );
