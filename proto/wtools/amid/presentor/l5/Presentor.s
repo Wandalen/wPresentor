@@ -498,8 +498,7 @@ let Proto =
   Associates,
   Restricts,
   Statics,
-
-}
+};
 
 //
 
@@ -515,8 +514,7 @@ _.EventHandler.mixin( Self );
 
 //
 
-_.ghi = _.ghi || Object.create( null );
-_global_[ Self.name ] = _.ghi[ Self.shortName ] = Self;
+_global_[ Self.name ] = _.presentor[ Self.shortName ] = Self;
 
 // Self.exec();
 
