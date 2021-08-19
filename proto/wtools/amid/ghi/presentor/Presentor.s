@@ -32,7 +32,7 @@ function init( o )
   // let src = 'HarvardX <<- https://harvardx.harvard.edu/';
   // let result = _.strSplit
   // ({
-  //   src : src,
+  //   src,
   //   // delimeter : [ '->>','<<-','!>>','<<!','>>','<<',' ' ],
   //   delimeter : [ ' ' ],
   //   preservingEmpty : 0,
@@ -515,7 +515,7 @@ function _pageElementMake( element,page )
     html = self._pageListMake
     ({
       list : element,
-      page : page,
+      page,
     });
     else if( element.kind === 'Link' )
     {
@@ -836,8 +836,8 @@ let Restricts =
 
 let Statics =
 {
-  exec : exec,
-  _exec : _exec,
+  exec,
+  _exec,
 
 }
 
@@ -848,44 +848,44 @@ let Statics =
 let Proto =
 {
 
-  init : init,
+  init,
 
-  exec : exec,
-  _exec : _exec,
+  exec,
+  _exec,
 
-  _formAct : _formAct,
+  _formAct,
 
-  menuVisible : menuVisible,
-  menuIsVisible : menuIsVisible,
+  menuVisible,
+  menuIsVisible,
 
-  pageWind : pageWind,
-  pageNext : pageNext,
-  pagePrev : pagePrev,
-  pageFirst : pageFirst,
-  pageLast : pageLast,
-  pageClear : pageClear,
-  pageShow : pageShow,
-  pageShowByCurrentAnchor : pageShowByCurrentAnchor,
+  pageWind,
+  pageNext,
+  pagePrev,
+  pageFirst,
+  pageLast,
+  pageClear,
+  pageShow,
+  pageShowByCurrentAnchor,
 
-  pageHeadNameChop : pageHeadNameChop,
-  pagesByHead : pagesByHead,
+  pageHeadNameChop,
+  pagesByHead,
 
-  _pageElementMake : _pageElementMake,
-  _pageListMake : _pageListMake,
-  _pageListElementMake : _pageListElementMake,
+  _pageElementMake,
+  _pageListMake,
+  _pageListElementMake,
 
-  reportError : reportError,
-  handleWheel : handleWheel,
-  vminFor : vminFor,
-  emFor : emFor,
+  reportError,
+  handleWheel,
+  vminFor,
+  emFor,
 
   /* */
 
-  Composes : Composes,
-  Aggregates : Aggregates,
-  Associates : Associates,
-  Restricts : Restricts,
-  Statics : Statics,
+  Composes,
+  Aggregates,
+  Associates,
+  Restricts,
+  Statics,
 
 }
 
