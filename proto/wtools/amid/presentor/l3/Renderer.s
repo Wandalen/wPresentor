@@ -38,6 +38,8 @@ function form()
   let self = this;
   if( self._formed )
   return;
+  if( _.strIs( self.structure ) )
+  self.structure = _.stxt.Parser({ dataStr : self.structure })
   self.structure.form();
   self._formed = 1;
 }

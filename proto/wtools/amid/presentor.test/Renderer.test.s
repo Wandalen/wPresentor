@@ -65,25 +65,24 @@ function _pageElementRender( test )
   a.reflect();
 
   var dataStr = a.fileProvider.fileRead( a.abs( 'Courses.stxt' ) );
-  var parser = _.stxt.Parser({ dataStr });
-  var renderer = _.presentor.Renderer({ structure : parser });
+  var renderer = _.presentor.Renderer({ structure : dataStr });
 
   /* */
 
   test.case = 'LineEmpty';
-  var element = parser.document.nodes[ 0 ].nodes[ 0 ];
+  debugger;
+  var element = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( element.kind, 'LineEmpty' );
   var got = renderer._pageElementRender( element );
   test.identical( got, '<p></p>' );
-  test.true( true );
 
   /* */
 
   test.case = 'List';
-  var element = parser.document.nodes[ 0 ].nodes[ 1 ];
+  var element = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
   var got = renderer._pageElementRender( element );
   test.identical( got, '<p></p>' );
-  test.true( true );
+
 }
 
 // --
