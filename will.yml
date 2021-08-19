@@ -226,13 +226,12 @@ step:
 
   sources.join.full:
     inherit : sources.join
-    entryPath : proto/wtools/amid/ghi/presentor/entry/Presentor.s
+    entryPath : proto/node_modules/wpresentor
     inPath :
       filePath :
-        - proto/wtools/amid/ghi/presentor/entry/Presentor.s
+        - proto/wtools/amid/presentor/entry/Presentor.s
         - proto/node_modules/**
-        - proto/wtools/**/*.(s|js)
-        - node_modules/jquery/dist/jquery.js
+        - proto/wtools/amid/presentor/**/*.(s|js)
     modulesList :
       - wTools
       - wBlueprint
@@ -273,7 +272,7 @@ step:
       - wColor256
       - wColor
     interpreter : browser
-    outPath : out/debug/Main.s
+    outPath : out/presentor.browser.debug/Main.js
 
   proto.export:
     inherit: module.export
