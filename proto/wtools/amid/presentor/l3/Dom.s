@@ -95,7 +95,7 @@ function append( dstDom, insDom )
   insDom = _.dom.findAll( insDom );
   insDom.forEach( ( insDom ) => dstDom.appendChild( insDom ) );
 
-  return dstDom;
+  return insDom;
 }
 
 //

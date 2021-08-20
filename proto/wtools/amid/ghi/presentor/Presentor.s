@@ -661,7 +661,7 @@ function _pageListMake( o )
 
     o.element = element;
     o.key = k;
-    list.append( self._pageListElementMake( o ) );
+    list.append( self._pageListElementExportString( o ) );
   }
 
   return lists[ 0 ];
@@ -675,11 +675,11 @@ _pageListMake.defaults =
 
 //
 
-function _pageListElementMake( o )
+function _pageListElementExportString( o )
 {
   let self = this;
 
-  _.routineOptions( _pageListElementMake,o );
+  _.routineOptions( _pageListElementExportString,o );
 
   let html = $( '<li>' );
   let htmlElement = self._pageElmentExportHtml( o.element.element,o.page );
@@ -692,7 +692,7 @@ function _pageListElementMake( o )
   return html;
 }
 
-_pageListElementMake.defaults =
+_pageListElementExportString.defaults =
 {
   element : null,
   key : null,
@@ -872,7 +872,7 @@ let Proto =
 
   _pageElmentExportHtml,
   _pageListMake,
-  _pageListElementMake,
+  _pageListElementExportString,
 
   reportError,
   handleWheel,

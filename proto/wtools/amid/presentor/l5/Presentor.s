@@ -104,6 +104,7 @@ function form()
 
     self._formed = 3;
     self.formReady.take( null );
+    return null;
   });
 
   return ready;
@@ -130,9 +131,9 @@ function _domForm()
   // self.menuDom.html( viewPresentor() );
 
   self.subContentDom = self._formConentElementDom( self.subContentDomSelector );
-  self.pageHeadDom = _.dom.append( self.subContentDom, self._formConentElementDom( self.pageHeadDomSelector ) );
-  self.genContentDom = _.dom.append( self.subContentDom, self._formConentElementDom( self.genContentDomSelector ) );
-  self.pageNumberDom = _.dom.append( self.subContentDom, self._formConentElementDom( self.pageNumberDomSelector ) );
+  self.pageHeadDom = _.dom.findSingle( _.dom.append( self.subContentDom, self._formConentElementDom( self.pageHeadDomSelector ) ) );
+  self.genContentDom = _.dom.findSingle( _.dom.append( self.subContentDom, self._formConentElementDom( self.genContentDomSelector ) ) );
+  self.pageNumberDom = _.dom.findSingle( _.dom.append( self.subContentDom, self._formConentElementDom( self.pageNumberDomSelector ) ) );
 
   // self.ellipsisDom = self.contentDom.find( self.ellipsisDomSelector );
   self.ellipsisDom = _.dom.findAll( self.contentDom, self.ellipsisDomSelector );
@@ -181,11 +182,11 @@ function _domForm()
     return false;
   });
 
-  self.ellipsisDom
-  .on( _.dom.eventName( 'click' ), function( e )
-  {
-    self.menuVisible();
-  });
+  // self.ellipsisDom
+  // .on( _.dom.eventName( 'click' ), function( e )
+  // {
+  //   self.menuVisible();
+  // });
 
   /* */
 
@@ -227,9 +228,8 @@ function _domForm()
   // if( self.usingAnchorOnMake )
   // self.pageShowByCurrentAnchor();
   // else
-  // self.pageShow();
+  self.pageShow();
 
-  debugger;
 }
 
 //
@@ -243,7 +243,7 @@ async function _fetch( dataPath )
   //
   // const page0 = renderer.pageShow( 0 );
   // for( let i = 0 ; i < page0.length ; i++ )
-  // page0[ i ] = _.html.exportToString( page0[ i ] );
+  // page0[ i ] = _.html.exportString( page0[ i ] );
   //
   // const data = page0.join( '\n' );
   //
@@ -373,7 +373,9 @@ function pageClear()
 {
   let self = this;
 
-  self.genContentDom.empty();
+  // debugger;
+  // self.genContentDom.empty();
+  self.genContentDom.innerHTML = '';
 
 }
 
@@ -383,6 +385,7 @@ function pageShow( pageIndex )
 {
   let self = this;
 
+  // debugger;
   if( _.numberIs( pageIndex ) )
   self.pageIndex = pageIndex;
 
@@ -398,6 +401,15 @@ function pageShow( pageIndex )
 
   /* */
 
+  let interval = [ 0, self.renderer.structure.document.nodes.length ];
+  if( !_.cinterval.has( interval, self.pageIndexCurrent ) )
+  return self.errorReport( `Page ${self.pageIndexCurrent} not found. It should be in the interval ${_.cinterval.exportString( interval )}` );
+
+  let page = self.renderer.structure.document.nodes[ self.pageIndexCurrent ];
+  let bodyHtml = self.renderer.pageRender( page );
+
+  self.genContentDom.innerHTML = _.html.exportString( bodyHtml );
+
   // let page = self.data.page[ self.pageIndex ];
   //
   // if( !page )
@@ -410,20 +422,24 @@ function pageShow( pageIndex )
   //   self.genContentDom.append( htmlElement );
   // }
 
-  self.pageHeadDom.empty();
-  self.pageHeadDom.append( self._pageElementMake( page.head ) );
-  self.pageHeadDom.attr( 'level',page.level );
+  // self.pageHeadDom.empty();
+  // debugger;
+  // self.pageHeadDom.innerHTML = '';
+  let headHtml = self.renderer._pageElmentExportHtml( page.head );
+  self.pageHeadDom.innerHTML = _.html.exportString( headHtml );
+  // self.pageHeadDom.attr( 'level', page.level );
+  self.pageHeadDom.setAttribute( 'level', page.level );
 
-  self.pageNumberDom.text( ( self.pageIndexCurrent + 1 ) + ' / ' + self.data.page.length );
+  self.pageNumberDom.innerHTML = ( self.pageIndexCurrent + 1 ) + ' / ' + self.renderer.structure.document.nodes.length;
 
-  let a = _.process.anchor();
-
-  _.process.anchor
-  ({
-    extend : { page : self.pageIndexCurrent + 1 },
-    del : { head : 1 },
-    replacing : a.head ? 1 : 0,
-  });
+  // let a = _.process.anchor();
+  //
+  // _.process.anchor
+  // ({
+  //   extend : { page : self.pageIndexCurrent + 1 },
+  //   del : { head : 1 },
+  //   replacing : a.head ? 1 : 0,
+  // });
 
 }
 

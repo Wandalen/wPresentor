@@ -24,13 +24,13 @@ function is( src )
 
 //
 
-function exportToString( src, o )
+function exportString( src, o )
 {
   let self = this;
 
   if( _.array.like( src ) )
   {
-    src = src.map( ( e ) => self.exportToString( e, o ) );
+    src = src.map( ( e ) => self.exportString( e, o ) );
     return src.join( '\n' );
   }
 
@@ -39,28 +39,13 @@ function exportToString( src, o )
 
   _.assert( _.html.is( src ) );
 
-  let content = '';
-  if( src.nodes )
-  content = self.exportToString( src.nodes, o );
+  let content = self.exportString( src.nodes, o );
 
-  const attrs = attrsConvert( src.attrs );
-  let result = '';
-  if( src.kind === 'img' )
-  result = `<${src.kind}${attrs}>`;
-  else
-  result = `<${src.kind}${attrs}>${src.text||''}${content}</${src.kind}>`;
+  if( _.strIs( src.text ) )
+  content += src.text;
+
+  let result = `<${src.kind}>${content}</${src.kind}>`;
   return result;
-
-  /* */
-
-  function attrsConvert( attrs )
-  {
-    let result = '';
-    if( attrs )
-    for( let key in attrs )
-    result += ` ${key}="${attrs[key]}"`;
-    return result;
-  }
 }
 
 // --
@@ -71,14 +56,13 @@ let Abstract = _.blueprint.define
 ({
   kind : 'Abstract',
   attrs : _.define.shallow( {} ),
-  text : '',
 })
 
 let AbstractBranch = _.blueprint.define
 ({
+  extension : _.define.extension( Abstract ),
   kind : 'AbstractBranch',
   nodes : _.define.shallow( [] ),
-  text : '',
 })
 
 let Ul = _.blueprint.define
@@ -99,22 +83,17 @@ let P = _.blueprint.define
   kind : 'p',
 })
 
+let A = _.blueprint.define
+({
+  extension : _.define.extension( AbstractBranch ),
+  kind : 'a',
+})
+
 let Span = _.blueprint.define
 ({
   extension : _.define.extension( AbstractBranch ),
   kind : 'span',
-})
-
-let A = _.blueprint.define
-({
-  extension : _.define.extension( Abstract ),
-  kind : 'a',
-})
-
-let Img = _.blueprint.define
-({
-  extension : _.define.extension( Abstract ),
-  kind : 'img',
+  text : '',
 })
 
 let Restricts =
@@ -125,16 +104,15 @@ let Extension =
 {
 
   is,
-  exportToString,
+  exportString,
 
   Abstract,
   AbstractBranch,
   Ul,
   Li,
   P,
-  Span,
   A,
-  Img,
+  Span,
 
   _ : Restricts,
 

@@ -142,29 +142,23 @@ function form()
 // - Pipeline<<!: series of transformations applied with tools<<! to a source to produce a destination
 // `
 
-function pageRender( pageIndex )
+function pageRender( srcPage )
 {
   let self = this;
 
-  // if( _.numberIs( pageIndex ) )
-  // self.pageIndex = pageIndex;
-  //
-  // if( self.pageIndex === self.pageIndexCurrent )
-  // return;
-  //
-  // self.pageIndexCurrent = self.pageIndex;
-
-  // self.pageClear(); /* qqq : for Dmytro : investigate */
-
-  _.assert( pageIndex === undefined || _.numberIs( pageIndex ) );
+  _.assert( _.object.is( srcPage ) || _.numberIs( srcPage ) );
   _.assert( arguments.length === 0 || arguments.length === 1 );
 
-  /* */
-
-  let srcPage = self.structure.document.nodes[ pageIndex ];
+  if( _.numberIs( srcPage ) )
+  {
+    let interval = [ 0, self.structure.document.nodes.length ];
+    if( !_.cinterval.has( interval, srcPage ) )
+    return self.errorReport( `Page ${srcPage} not found. It should be in the interval ${_.cinterval.exportString( interval )}` );
+    srcPage = self.structure.document.nodes[ srcPage ];
+  }
 
   if( !srcPage )
-  return self.errorReport( 'Page', pageIndex, 'not found' );
+  return self.errorReport( `Page ${srcPage} not found` );
 
   const result = [];
   for( let k = 0 ; k < srcPage.nodes.length ; k++ )
@@ -172,32 +166,9 @@ function pageRender( pageIndex )
     let srcElement = srcPage.nodes[ k ];
     let dstElement = self._pageElmentExportHtml( srcElement, srcPage );
     result.push( dstElement );
-    // self.genContentDom.nodes.push( dstElement );
   }
+
   return result;
-
-  // for( let k = 0 ; k < srcPage.nodes.length ; k++ )
-  // {
-  //   let srcElement = srcPage.nodes[ k ];
-  //   let dstElement = self._pageElmentExportHtml( srcElement, srcPage );
-  //   self.genContentDom.nodes.push( dstElement );
-  // }
-
-  self.pageHeadDom.empty();
-  self.pageHeadDom.nodes.push( self._pageElmentExportHtml( srcPage.head ) );
-  self.pageHeadDom.attr( 'level', srcPage.level );
-
-  self.pageNumberDom.text( ( pageIndex + 1 ) + ' / ' + self.structure.document.nodes.length );
-
-  // let a = _.process.anchor();
-  //
-  // _.process.anchor
-  // ({
-  //   extend : { srcPage : self.pageIndexCurrent + 1 },
-  //   del : { head : 1 },
-  //   replacing : a.head ? 1 : 0,
-  // });
-
 }
 
 //
@@ -246,7 +217,7 @@ function _pageElmentExportHtml( srcElement, srcPage )
   {
     if( srcElement.kind === 'List' )
     {
-      html = self._pageListRender
+      html = self._pageListExportHtml
       ({
         srcList : srcElement,
         srcPage : srcPage,
@@ -257,7 +228,8 @@ function _pageElmentExportHtml( srcElement, srcPage )
       html = _.html.A.make();
       if( srcElement.ref )
       html.attrs.href = srcElement.ref;
-      html.text = srcElement.text;
+      // html.text = srcElement.text;
+      html.nodes.push( self._pageElmentExportHtml( srcElement.text, srcPage ) );
     }
     else if( srcElement.kind === 'Line' || srcElement.kind === 'LineEmpty' )
     {
@@ -315,6 +287,11 @@ function _pageElmentExportHtml( srcElement, srcPage )
 
     return result;
   }
+  else if( _.strIs( srcElement ) )
+  {
+    html = _.html.Span.make();
+    html.text = srcElement;
+  }
   else throw _.err( '_pageElmentExportHtml : unknown type : ' + _.entity.strType( srcElement ) ); /* */
 
   // return html.join( '' );
@@ -332,7 +309,7 @@ function _pageElmentExportHtml( srcElement, srcPage )
 //   {
 //
 //     if( srcElement.kind === 'List' )
-//     html = self._pageListRender
+//     html = self._pageListExportHtml
 //     ({
 //       list : srcElement,
 //       srcPage,
@@ -433,11 +410,11 @@ function _pageElmentExportHtml( srcElement, srcPage )
 
 // //
 //
-// function _pageListRender( o )
+// function _pageListExportHtml( o )
 // {
 //   let self = this;
 //
-//   _.routine.options( _pageListRender, o );
+//   _.routine.options( _pageListExportHtml, o );
 //
 //   /* */
 //
@@ -452,7 +429,7 @@ function _pageElmentExportHtml( srcElement, srcPage )
 //
 //     o.srcElement = srcElement;
 //     o.key = k;
-//     list.push( self._pageListElementMake( o ) );
+//     list.push( self._pageListElementExportString( o ) );
 //   }
 //
 //   list.push( '</ul>' );
@@ -486,7 +463,7 @@ function _pageElmentExportHtml( srcElement, srcPage )
 //
 // }
 //
-// _pageListRender.defaults =
+// _pageListExportHtml.defaults =
 // {
 //   srcList : null,
 //   srcPage : null,
@@ -494,11 +471,11 @@ function _pageElmentExportHtml( srcElement, srcPage )
 
 //
 
-function _pageListRender( o )
+function _pageListExportHtml( o )
 {
   let self = this;
 
-  _.routine.options( _pageListRender, o );
+  _.routine.options( _pageListExportHtml, o );
   o = _.mapExtend( null, o );
 
   /* */
@@ -513,7 +490,7 @@ function _pageListRender( o )
     levelSet( srcItem.level );
     o.srcItem = srcItem;
     o.key = k;
-    dstList.nodes.push( self._pageListElementMake( o ) );
+    dstList.nodes.push( self._pageListElementExportString( o ) );
   }
 
   return dstLists[ 0 ];
@@ -559,7 +536,7 @@ function _pageListRender( o )
 
 }
 
-_pageListRender.defaults =
+_pageListExportHtml.defaults =
 {
   srcList : null,
   srcPage : null,
@@ -567,11 +544,11 @@ _pageListRender.defaults =
 
 // //
 //
-// function _pageListRender( o )
+// function _pageListExportHtml( o )
 // {
 //   let self = this;
 //
-//   _.routine.options( _pageListRender, o );
+//   _.routine.options( _pageListExportHtml, o );
 //   o = _.mapExtend( null, o );
 //
 //   /* */
@@ -613,13 +590,13 @@ _pageListRender.defaults =
 //
 //     o.srcElement = srcElement;
 //     o.key = k;
-//     list.nodes.push( self._pageListElementMake( o ) );
+//     list.nodes.push( self._pageListElementExportString( o ) );
 //   }
 //
 //   return lists[ 0 ];
 // }
 //
-// _pageListRender.defaults =
+// _pageListExportHtml.defaults =
 // {
 //   list : null,
 //   srcPage : null,
@@ -627,11 +604,11 @@ _pageListRender.defaults =
 
 //
 
-function _pageListElementMake( o )
+function _pageListElementExportString( o )
 {
   let self = this;
 
-  _.routine.options( _pageListElementMake, o );
+  _.routine.options( _pageListElementExportString, o );
 
   let html = _.html.Li.make();
   html.nodes.push( self._pageElmentExportHtml( o.srcItem.nodes, o.srcPage ) );
@@ -641,7 +618,7 @@ function _pageListElementMake( o )
   return html;
 }
 
-_pageListElementMake.defaults =
+_pageListElementExportString.defaults =
 {
   srcItem : null,
   key : null,
@@ -649,11 +626,11 @@ _pageListElementMake.defaults =
   srcPage : null,
 };
 
-// function _pageListElementMake( o )
+// function _pageListElementExportString( o )
 // {
 //   let self = this;
 //
-//   _.routine.options( _pageListElementMake, o );
+//   _.routine.options( _pageListElementExportString, o );
 //
 //   let html = $( '<li>' );
 //   let dstElement = self._pageElmentExportHtml( o.srcElement.srcElement, o.srcPage );
@@ -666,7 +643,7 @@ _pageListElementMake.defaults =
 //   return html;
 // }
 //
-// _pageListElementMake.defaults =
+// _pageListElementExportString.defaults =
 // {
 //   srcElement : null,
 //   key : null,
@@ -714,20 +691,7 @@ let symbolForValues = Symbol.for( 'values' );
 
 let Composes =
 {
-
-
-  // dynamic : 0,
-  // targetIdentity : '.wpresentor',
-  // terminalCssClass : 'terminal',
-
-  // rawData : null,
   structure : null,
-
-  // pageIndex : 0,
-  // pageIndexCurrent : -1,
-  //
-  // usingAnchorOnMake : 1,
-
 }
 
 let Aggregates =
@@ -738,29 +702,6 @@ let Aggregates =
 let Associates =
 {
 
-  // targetDom : '.wpresentor',
-  //
-  // contentDomSelector : '{{targetDom}} > .content',
-  // contentDom : null,
-  //
-  // menuDomSelector : '{{contentDomSelector}} > .presentor-menu',
-  // menuDom : null,
-  //
-  // subContentDomSelector : '{{contentDomSelector}} > .sub-content',
-  // subContentDom : null,
-  //
-  // genContentDomSelector : '{{contentDomSelector}} > .gen-content',
-  // genContentDom : null,
-  //
-  // pageHeadDomSelector : '{{subContentDomSelector}} > .srcPage-head',
-  // pageHeadDom : null,
-  //
-  // pageNumberDomSelector : '{{subContentDomSelector}} > .srcPage-number',
-  // pageNumberDom : null,
-  //
-  // ellipsisDomSelector : '{{subContentDomSelector}} > .presentor-ellipsis',
-  // ellipsisDom : null,
-
 }
 
 let Restricts =
@@ -770,8 +711,6 @@ let Restricts =
 
 let Statics =
 {
-  // exec,
-  // _exec,
 }
 
 // --
@@ -790,8 +729,8 @@ let Proto =
   pagesByHead,
 
   _pageElmentExportHtml,
-  _pageListRender,
-  _pageListElementMake,
+  _pageListExportHtml,
+  _pageListElementExportString,
 
   errorReport,
   vminFor,

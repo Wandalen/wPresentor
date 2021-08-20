@@ -56,12 +56,12 @@ function pageRender( test )
   test.identical( got[ 0 ].kind, 'p' );
   test.identical( got[ 1 ].kind, 'ul' );
   test.identical( got[ 2 ].kind, 'p' );
-  test.identical( _.html.exportToString( got[ 0 ] ), '<p></p>' );
+  test.identical( _.html.exportString( got[ 0 ] ), '<p></p>' );
   var exp =
 `<ul><li><p><a href="https://www.edx.org/">edX</a></p></li>
 <li><p><a href="https://www.coursera.org/">Coursera</a></p></li></ul>`;
-  test.identical( _.html.exportToString( got[ 1 ] ), exp );
-  test.identical( _.html.exportToString( got[ 2 ] ), '<p></p>' );
+  test.identical( _.html.exportString( got[ 1 ] ), exp );
+  test.identical( _.html.exportString( got[ 2 ] ), '<p></p>' );
 
   /* */
 
@@ -71,12 +71,12 @@ function pageRender( test )
   test.identical( got[ 0 ].kind, 'p' );
   test.identical( got[ 1 ].kind, 'ul' );
   test.identical( got[ 2 ].kind, 'p' );
-  test.identical( _.html.exportToString( got[ 0 ] ), '<p></p>' );
+  test.identical( _.html.exportString( got[ 0 ] ), '<p></p>' );
   var exp =
 `<ul><li><p><a href="https://harvardx.harvard.edu/">HarvardX</a></p></li>
 <li><p><a href="https://mitprofessionalx.mit.edu/">MIT Professional Education Digital Programs</a></p></li></ul>`;
-  test.identical( _.html.exportToString( got[ 1 ] ), exp );
-  test.identical( _.html.exportToString( got[ 2 ] ), '<p></p>' );
+  test.identical( _.html.exportString( got[ 1 ] ), exp );
+  test.identical( _.html.exportString( got[ 2 ] ), '<p></p>' );
 
   /* */
 
@@ -99,7 +99,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Line' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp = `<p><span>txt</span></p>`;
   test.identical( got, exp );
 
@@ -113,7 +113,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 1 ];
   test.identical( node.kind, 'LineEmpty' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp = `<p></p>`;
   test.identical( got, exp );
 
@@ -127,7 +127,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp = `<ul><li><p><span>txt</span></p></li></ul>`;
   test.identical( got, exp );
 
@@ -142,7 +142,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'List' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp =
 `<ul><li><p><span>txt</span></p></li>
 <ul><li><p><span>abc</span></p></li></ul></ul>`;
@@ -158,7 +158,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Directive' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp = `<img level="1" src="/file.png">`;
   test.identical( got, exp );
 
@@ -172,7 +172,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Directive' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp = `<img level="2" src="/file.png">`;
   test.identical( got, exp );
 
@@ -186,7 +186,7 @@ txt
   var renderer = _.presentor.Renderer({ structure : data });
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Link' );
-  var got = _.html.exportToString( renderer._pageElmentExportHtml( node ) );
+  var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
   var exp = `<a href="https://www.edx.org/">edX</a>`;
   test.identical( got, exp );
 }
