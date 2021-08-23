@@ -58,8 +58,8 @@ function pageRender( test )
   test.identical( got[ 2 ].kind, 'p' );
   test.identical( _.html.exportString( got[ 0 ] ), '<p></p>' );
   var exp =
-`<ul><li><p><a href="https://www.edx.org/">edX</a></p></li>
-<li><p><a href="https://www.coursera.org/">Coursera</a></p></li></ul>`;
+`<ul><li><p><a href="https://www.edx.org/"><span>edX</span></a></p></li>
+<li><p><a href="https://www.coursera.org/"><span>Coursera</span></a></p></li></ul>`;
   test.identical( _.html.exportString( got[ 1 ] ), exp );
   test.identical( _.html.exportString( got[ 2 ] ), '<p></p>' );
 
@@ -73,8 +73,8 @@ function pageRender( test )
   test.identical( got[ 2 ].kind, 'p' );
   test.identical( _.html.exportString( got[ 0 ] ), '<p></p>' );
   var exp =
-`<ul><li><p><a href="https://harvardx.harvard.edu/">HarvardX</a></p></li>
-<li><p><a href="https://mitprofessionalx.mit.edu/">MIT Professional Education Digital Programs</a></p></li></ul>`;
+`<ul><li><p><a href="https://harvardx.harvard.edu/"><span>HarvardX</span></a></p></li>
+<li><p><a href="https://mitprofessionalx.mit.edu/"><span>MIT Professional Education Digital Programs</span></a></p></li></ul>`;
   test.identical( _.html.exportString( got[ 1 ] ), exp );
   test.identical( _.html.exportString( got[ 2 ] ), '<p></p>' );
 
@@ -187,7 +187,7 @@ txt
   var node = renderer.structure.document.nodes[ 0 ].nodes[ 0 ].nodes[ 0 ];
   test.identical( node.kind, 'Link' );
   var got = _.html.exportString( renderer._pageElmentExportHtml( node ) );
-  var exp = `<a href="https://www.edx.org/">edX</a>`;
+  var exp = `<a href="https://www.edx.org/"><span>edX</span></a>`;
   test.identical( got, exp );
 }
 
