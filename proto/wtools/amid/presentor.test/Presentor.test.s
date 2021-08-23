@@ -7,7 +7,7 @@ if( typeof module !== 'undefined' )
 {
   const _ = require( 'Tools' );
   _.include( 'wTesting' );
-  _.include( 'wStxt' );
+  _.include( 'stxt' );
   require( '../presentor/include/Mid.s' );
 }
 
