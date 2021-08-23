@@ -1,4 +1,5 @@
-( function _Namespace_s_( ) {
+( function _Html_s_()
+{
 
 'use strict';
 
@@ -39,13 +40,28 @@ function exportString( src, o )
 
   _.assert( _.html.is( src ) );
 
-  let content = self.exportString( src.nodes, o );
+  let content = '';
+  if( src.nodes )
+  content = self.exportString( src.nodes, o );
 
-  if( _.strIs( src.text ) )
-  content += src.text;
-
-  let result = `<${src.kind}>${content}</${src.kind}>`;
+  const attrs = attrsConvert( src.attrs );
+  let result = '';
+  if( src.kind === 'img' )
+  result = `<${src.kind}${attrs}>`;
+  else
+  result = `<${src.kind}${attrs}>${src.text||''}${content}</${src.kind}>`;
   return result;
+
+  /* */
+
+  function attrsConvert( attrs )
+  {
+    let result = '';
+    if( attrs )
+    for( let key in attrs )
+    result += ` ${key}="${attrs[key]}"`;
+    return result;
+  }
 }
 
 // --
@@ -56,13 +72,15 @@ let Abstract = _.blueprint.define
 ({
   kind : 'Abstract',
   attrs : _.define.shallow( {} ),
+  nodes : _.define.shallow( [] ),
+  text : '',
 })
 
 let AbstractBranch = _.blueprint.define
 ({
-  extension : _.define.extension( Abstract ),
   kind : 'AbstractBranch',
   nodes : _.define.shallow( [] ),
+  text : '',
 })
 
 let Ul = _.blueprint.define
@@ -83,17 +101,22 @@ let P = _.blueprint.define
   kind : 'p',
 })
 
-let A = _.blueprint.define
-({
-  extension : _.define.extension( AbstractBranch ),
-  kind : 'a',
-})
-
 let Span = _.blueprint.define
 ({
   extension : _.define.extension( AbstractBranch ),
   kind : 'span',
-  text : '',
+})
+
+let A = _.blueprint.define
+({
+  extension : _.define.extension( Abstract ),
+  kind : 'a',
+})
+
+let Img = _.blueprint.define
+({
+  extension : _.define.extension( Abstract ),
+  kind : 'img',
 })
 
 let Restricts =
@@ -111,8 +134,9 @@ let Extension =
   Ul,
   Li,
   P,
-  A,
   Span,
+  A,
+  Img,
 
   _ : Restricts,
 
@@ -126,3 +150,4 @@ if( typeof module !== 'undefined' )
 module[ 'exports' ] = _global_.wTools;
 
 })();
+
