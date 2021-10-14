@@ -3,8 +3,8 @@ root:
   - wPresentor.out
 consistency:
   ../will.yml: &ref_0
-    hash: e7b267ade43d09218b7d1ed9ac49120e
-    size: 7784
+    hash: 59344ecb8ebb56f3eeec551fbb60ea5b
+    size: 7785
 module:
   wPresentor.out:
     about:
@@ -1614,5 +1614,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: e7b267ade43d09218b7d1ed9ac49120e
-        size: 7784
+        hash: 59344ecb8ebb56f3eeec551fbb60ea5b
+        size: 7785
