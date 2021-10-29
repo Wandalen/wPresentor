@@ -1,7 +1,6 @@
 about:
   name: wPresentor
-  description: >-
-    Presentation on your page.
+  description: Presentation on your page.
   version: 0.4.169
   enabled: 1
   license: MIT
@@ -18,13 +17,10 @@ about:
   npm.scripts:
     test: wtest .run proto/**
     docgen: wdocgen .build proto
-
 build:
-
   sources.join:
     steps:
       - sources.join.full
-
   proto.export:
     criterion:
       content: proto
@@ -37,12 +33,6 @@ build:
       export: 1
     steps:
       - 'step::doc.export'
-  npm.export:
-    criterion:
-      content: npm
-      export: 1
-    steps:
-      - 'step::npm.publish'
   export:
     criterion:
       default: 1
@@ -223,16 +213,15 @@ reflector:
       '**.test*': 1
       'path::proto': '{path::out.*=1}/Tests.test.s'
 step:
-
   sources.join.full:
-    inherit : sources.join
-    entryPath : proto/node_modules/wpresentor
-    inPath :
-      filePath :
+    inherit: sources.join
+    entryPath: proto/node_modules/wpresentor
+    inPath:
+      filePath:
         - proto/wtools/amid/presentor/entry/Presentor.s
         - proto/node_modules/**
         - proto/wtools/amid/presentor/**/*.(s|js)
-    modulesList :
+    modulesList:
       - wTools
       - wBlueprint
       - wCopyable
@@ -271,9 +260,8 @@ step:
       - wLogger
       - wColor256
       - wColor
-    interpreter : browser
-    outPath : out/presentor.browser.debug/Main.js
-
+    interpreter: browser
+    outPath: out/presentor.browser.debug/Main.js
   proto.export:
     inherit: module.export
     export: 'path::export'
@@ -292,8 +280,6 @@ step:
     tar: 0
     criterion:
       content: npm
-  npm.publish:
-    shell: npm publish
   npm.generate:
     inherit: npm.generate
     entryPath: 'path::entry.out.*=1'
