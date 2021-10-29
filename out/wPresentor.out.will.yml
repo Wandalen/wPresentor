@@ -3,8 +3,8 @@ root:
   - wPresentor.out
 consistency:
   ../will.yml: &ref_0
-    hash: 59344ecb8ebb56f3eeec551fbb60ea5b
-    size: 7785
+    hash: 141190904345c148d7d51d1cda4e24ba
+    size: 7625
 module:
   wPresentor.out:
     about:
@@ -454,9 +454,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -795,12 +792,6 @@ module:
           - 'step::doc.export'
         criterion:
           content: doc
-          export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
           export: 1
       export:
         steps:
@@ -1209,9 +1200,6 @@ module:
           content: npm
         inherit:
           - module.export
-      npm.publish:
-        opts:
-          shell: npm publish
       npm.generate.debug.raw:
         opts:
           entryPath: 'path::entry.out.*=1'
@@ -1551,12 +1539,6 @@ module:
         criterion:
           content: doc
           export: 1
-      npm.export:
-        steps:
-          - 'step::npm.publish'
-        criterion:
-          content: npm
-          export: 1
       export:
         steps:
           - 'build::proto.export'
@@ -1614,5 +1596,5 @@ module:
           - 'build::npm'
     consistency:
       ../will.yml:
-        hash: 59344ecb8ebb56f3eeec551fbb60ea5b
-        size: 7785
+        hash: 141190904345c148d7d51d1cda4e24ba
+        size: 7625
