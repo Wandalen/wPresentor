@@ -1,6 +1,6 @@
 {
   "name": "wpresentor",
-  "version": "0.3.22",
+  "version": "0.3.23",
   "engine": "node >= 10.0.0",
   "description": "Presentation on your page.",
   "author": "Kostiantyn Wandalen <wandalen@obox.systems>",
